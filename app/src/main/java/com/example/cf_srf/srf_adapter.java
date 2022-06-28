@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -121,9 +122,10 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         holder.srf_prob.setText(Html.fromHtml("REPORTED PROBLEM:  <br><br><font color='red'>"+srf.getSRF_Problem().trim()+"<br></font>"), TextView.BufferType.SPANNABLE);
         holder.srfstatus.setText(Html.fromHtml("SRF STATUS:  <font color='#005eb8'>"+srf.getSRF_Status().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         if(srf.getSRF_attach().trim().equals("FALSE")){
-            holder.srfattach.setText(Html.fromHtml("IMAGE ATTACHMENT/S:  <font color='#323332'>NO ATTACHMENTS</font>"), TextView.BufferType.SPANNABLE);
+            //holder.srfattach.setText(Html.fromHtml("IMAGE ATTACHMENT/S:  <font color='#323332'>NO ATTACHMENTS</font>"), TextView.BufferType.SPANNABLE);
+            holder.hideimage.setVisibility(View.GONE);
         }else if(srf.getSRF_attach().trim().equals("TRUE")){
-            holder.srfattach.setText(Html.fromHtml("IMAGE ATTACHMENT/S:  <font color='#323332'>WITH ATTACHMENTS</font>"), TextView.BufferType.SPANNABLE);
+            holder.srfattach.setText(Html.fromHtml(" <font color='#323332'>WITH IMAGE ATTACHMENT/S</font>"), TextView.BufferType.SPANNABLE);
         }
         holder.srfupdateby.setText(Html.fromHtml("LAST UPDATE BY:  <font color='#323332'>"+srf.getSRF_updated_by().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         if (srf.getSRF_actions().trim().equals("FALSE")){
@@ -147,6 +149,7 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
     public class MyView extends RecyclerView.ViewHolder{
         TextView srfdate, srfuser, srfstn, srfcat, srf_prob,srfstatus,srfattach,srfupdateby, srfaction, closed_date;
         CardView srf_Card;
+        LinearLayout hideimage;
         public MyView(@NonNull View itemView) {
             super(itemView);
             srf_Card = itemView.findViewById(R.id.srfcard);
@@ -160,6 +163,7 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             srfupdateby = (TextView) itemView.findViewById(R.id.updated_by);
             srfaction = (TextView) itemView.findViewById(R.id.sr_action);
             closed_date = (TextView) itemView.findViewById(R.id.sr_close_date);
+            hideimage = (LinearLayout) itemView.findViewById(R.id.hide_image);
             srf_Card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
