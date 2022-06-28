@@ -49,6 +49,8 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private static String dept;
     private static String dept_desc;
     private static CheckBox for_am;
+    private static FloatingActionButton logout_float;
 
     public static String getDept() {
         return dept;
@@ -224,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // BUTTON HERE
-
+        logout_float = findViewById(R.id.fab);
         srf_login = findViewById(R.id.srf_login_button);
         srf_cancel = findViewById(R.id.srf_cancel_button);
         con_details = findViewById(R.id.confirm_details);
@@ -235,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
 
         srf_edit = findViewById(R.id.edit_srf);
         srf_add = findViewById(R.id.add_srf);
-        logout = findViewById(R.id.login_out);
         back_to_stnlist = findViewById(R.id.back_to_stn);
         srflist_back = findViewById(R.id.srf_back);
         back_add_menu = findViewById(R.id.add_back_menu);
@@ -472,23 +474,7 @@ public class MainActivity extends AppCompatActivity {
                 to_dept();
             }
         });
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                to_login();
-                srf_user_id.setText("");
-                srf_user_pass.setText("");
-                Toast.makeText(MainActivity.this, "LOG OUT SUCCESSFULLY", Toast.LENGTH_SHORT).show();
 
-                stnList = null;
-
-                catList = null;
-
-                srfList = null;
-
-                img_locList = null;
-            }
-        });
         srflist_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -755,7 +741,15 @@ public class MainActivity extends AppCompatActivity {
                 to_menuform();
             }
         });
+
+        logout_float.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+            }
+        });
     }
+
 
     public void checkPermissions(String[] permissionRequests) {
         final ArrayList<String> permissionRequestList = new ArrayList<String>();
@@ -863,7 +857,7 @@ public class MainActivity extends AppCompatActivity {
             MediaType mediaType = MediaType.parse("image/jpg");
             RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
             Request request = new Request.Builder()
-                    .url("http://192.168.1.45:4545/CF_SRF_SERVICE.svc/FileUpload")
+                    .url(Domain+"FileUpload")
                     .method("POST", body)
                     .addHeader("Content-Type", "image/jpg")
                     .build();
@@ -913,6 +907,7 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.GONE);
         acc_details.setText("Branch : " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + " \nAndroid ID :" + getAndroid_id().trim());
 
     }
@@ -932,6 +927,12 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        if(getRegistration().equals(false)){
+            logout_float.setVisibility(View.VISIBLE);
+        }else{
+            logout_float.setVisibility(View.GONE);
+        }
+
     }
     public void to_dept(){
         srf_login_form.setVisibility(View.GONE);
@@ -948,6 +949,7 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.VISIBLE);
+        logout_float.setVisibility(View.VISIBLE);
     }
     public void to_status_class() {
 
@@ -970,6 +972,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.VISIBLE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
+
     }
     public void to_login() {
 
@@ -993,6 +997,8 @@ public class MainActivity extends AppCompatActivity {
         registration = false;
         add_androidID.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.GONE);
+
 
     }
 
@@ -1014,6 +1020,7 @@ public class MainActivity extends AppCompatActivity {
             status_class_form.setVisibility(View.GONE);
             attach_textdisplay.setVisibility(View.VISIBLE);
             select_cat.setVisibility(View.GONE);
+            logout_float.setVisibility(View.VISIBLE);
             String srf_status;
             if(getStatus_for_Srf().equals("8888")){
                 srf_status = "FOR AM APPROVAL";
@@ -1068,7 +1075,9 @@ public class MainActivity extends AppCompatActivity {
             actions_for_srf.setVisibility(View.GONE);
             status_class_form.setVisibility(View.GONE);
             attach_textdisplay.setVisibility(View.GONE);
+            select_cat.setVisibility(View.VISIBLE);
             select_cat.setVisibility(View.GONE);
+            logout_float.setVisibility(View.VISIBLE);
             user_check.setText(Html.fromHtml("SRF NO : <font color='blue'>" + srf_adapter.getUni_srfcode() +"</font> <br>"+
                     "ENCODED BY: <font color='blue'>" + srf_adapter.getUni_date().trim() + "<br></font>" +
                     "ENCODED BY: <font color='blue'>" + srf_adapter.getUni_user().trim() + "<br></font>" +
@@ -1108,6 +1117,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
 
     }
 
@@ -1126,6 +1137,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
         if (getUser_Trigger() == true) {
             headcheck.setText("USERNAME: " + request_name_holder.trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
         } else if (getUser_Trigger() == false) {
@@ -1164,6 +1177,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
     }
 
     public void to_menuform() {
@@ -1213,6 +1228,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
 
     }
 
@@ -1231,6 +1248,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
         editheader.setTextColor(Color.parseColor("#0000FF"));
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
 
@@ -1254,6 +1273,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
     }
 
     public void to_viewing() {
@@ -1273,6 +1294,8 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         view_action.setVisibility(View.VISIBLE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
         edit_srf.setText("");
         String att = "";
         String content;
@@ -1341,6 +1364,8 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.VISIBLE);
         select_cat.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        logout_float.setVisibility(View.VISIBLE);
     }
 
     public void adaptergetter() {
@@ -1486,6 +1511,21 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         to_menuform();
                         editreq.setText("");
+                        break;
+
+                    case 3:
+                        to_login();
+                        srf_user_id.setText("");
+                        srf_user_pass.setText("");
+                        Toast.makeText(MainActivity.this, "LOG OUT SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+
+                        stnList = null;
+
+                        catList = null;
+
+                        srfList = null;
+
+                        img_locList = null;
                         break;
                 }
             }
