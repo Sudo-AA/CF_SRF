@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     // for in active handler
     private static Handler idle_handler;
     private static Runnable idle_runnable;
-    private static int sec_for_idle = 5;
+    private static int sec_for_idle = 300;
     //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
 
