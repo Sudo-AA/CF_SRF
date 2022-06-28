@@ -28,7 +28,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,11 +54,12 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -191,7 +192,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -214,11 +215,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -302,7 +304,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -325,11 +327,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:id="@+id/cat_branch_notifier"
@@ -413,11 +416,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:id="@+id/headerstatus"
@@ -732,7 +736,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -761,11 +765,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:id="@+id/menutext_stnnotifier"
@@ -858,11 +863,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:id="@+id/srflist_branch_notifier"
@@ -984,11 +990,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="270dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:id="@+id/edit_headerstatus"
@@ -1132,12 +1139,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
-
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
                     <TextView
                         android:id="@+id/image_branch_notifier"
                         android:layout_width="match_parent"
@@ -1318,7 +1325,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="30dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -1340,11 +1347,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -1506,11 +1514,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -1610,7 +1619,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -1633,11 +1642,12 @@
                 android:paddingBottom="10dp">
 
                 <ImageView
-                    android:layout_width="289dp"
-                    android:layout_height="73dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                    app:srcCompat="@drawable/new_logo3_06_border_1080"
+                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -1722,11 +1732,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -1797,7 +1808,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="40dp"
+        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -1826,11 +1837,12 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
-                        android:layout_width="270dp"
-                        android:layout_height="73dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080" />
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:layout_width="match_parent"
