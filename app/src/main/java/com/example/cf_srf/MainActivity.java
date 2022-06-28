@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private static Handler idle_handler;
     private static Runnable idle_runnable;
     private static int sec_for_idle = 300;
-    //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
-    private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
+    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
 
     // init for objects----------------------------------------
     private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private static String dept_desc;
     private static CheckBox for_am;
     private static FloatingActionButton logout_float;
+    private static AlertDialog.Builder builder1, builder2, builder3;
 
     public static String getDept() {
         return dept;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.status_trigger = status_trigger;
     }
 
-    private static AlertDialog.Builder builder1, builder2;
+
     // status class holder
     private static String status_class = "";
 
@@ -351,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
         cat_return= (Button) findViewById(R.id.cat_return) ;
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
+        builder3 = new AlertDialog.Builder(MainActivity.this);
         String[] permissionRequest = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
@@ -459,19 +461,9 @@ public class MainActivity extends AppCompatActivity {
         con_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prog_details.setVisibility(View.VISIBLE);
-                con_details.setEnabled(false);
-                if (getMenutrigger() == true) {
-                    //addd
-                    if (getUser_Trigger() == true) {
-                        new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + request_name_holder+"/"+getStatus_for_Srf().trim()));
-                    } else if (getUser_Trigger() == false) {
-                        new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + reusable_variables.getStation_code() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + reusable_variables.getUser_firstname().trim()+"/"+getStatus_for_Srf().trim()));
-                    }
-                } else {
-                    //update
-                    new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+"/"+status_class_adapter.getStatus_code().trim()));
-                }
+
+                dialog_to_exit("PROCEED AND CONTINUE?", 4);
+
             }
         });
 
@@ -1555,6 +1547,21 @@ public class MainActivity extends AppCompatActivity {
 
                         img_locList = null;
                         break;
+                    case 4:
+                        prog_details.setVisibility(View.VISIBLE);
+                        con_details.setEnabled(false);
+                        if (getMenutrigger() == true) {
+                            //addd
+                            if (getUser_Trigger() == true) {
+                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + request_name_holder+"/"+getStatus_for_Srf().trim()));
+                            } else if (getUser_Trigger() == false) {
+                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + reusable_variables.getStation_code() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + reusable_variables.getUser_firstname().trim()+"/"+getStatus_for_Srf().trim()));
+                            }
+                        } else {
+                            /// action
+                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+"/"+status_class_adapter.getStatus_code().trim()));
+                        }
+                        break;
                 }
             }
         });
@@ -1568,10 +1575,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void dialog_idle(String msg, boolean status) {
 
-        builder2.setTitle("SRF notification");
-        builder2.setMessage(msg);
+        builder3.setTitle("SRF notification");
+        builder3.setMessage(msg);
         if (status == true){
-            builder2.setPositiveButton("RE LOGIN", new DialogInterface.OnClickListener() {
+            builder3.setPositiveButton("RE LOGIN", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
                     to_login();
@@ -1589,7 +1596,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else if (status == false){
-            builder2.setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+            builder3.setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 finish();
                 }
@@ -1597,7 +1604,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        AlertDialog dialog = builder2.create();
+        AlertDialog dialog = builder3.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
