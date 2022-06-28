@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
+    // for in active handler
+    private static Handler idle_handler;
+    private static Runnable idle_runnable;
+    private static int sec_for_idle = 300;
     //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
 
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private static Boolean details_viewing_trigger = false;
     private static Boolean upload_trigger = null;
     private static Boolean status_trigger = false;
+    private static Boolean idle_trigger;
     private static String android_id;
     private static String status_holder;
     private static String status_holder_name;
@@ -226,6 +231,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        idle_trigger = false;
+        //idle calling
+        idle_handler = new Handler();
+        idle_runnable = new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                dialog_idle("SESSION EXPIRED ", idle_trigger);
+            }
+        };
+        startHandler();
         // BUTTON HERE
         logout_float = findViewById(R.id.fab);
         srf_login = findViewById(R.id.srf_login_button);
@@ -893,6 +909,7 @@ public class MainActivity extends AppCompatActivity {
     // radio button
 
     public void to_newacc() {
+        idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
         detailscon.setVisibility(View.GONE);
@@ -929,12 +946,15 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         if(getRegistration().equals(false)){
             logout_float.setVisibility(View.VISIBLE);
+            idle_trigger = true;
         }else{
             logout_float.setVisibility(View.GONE);
+            idle_trigger = false;
         }
 
     }
     public void to_dept(){
+        idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -952,7 +972,7 @@ public class MainActivity extends AppCompatActivity {
         logout_float.setVisibility(View.VISIBLE);
     }
     public void to_status_class() {
-
+        idle_trigger = true;
 
         if (status_list == null){
             new getstatus_class(MainActivity.this).execute(Domain.concat("status"));
@@ -976,7 +996,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void to_login() {
-
+        idle_trigger = false;
         srf_login_form.setVisibility(View.VISIBLE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1003,6 +1023,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_details() {
+        idle_trigger = true;
         req.setTextSize(18);
         if (getMenutrigger() == true) {
             srf_login_form.setVisibility(View.GONE);
@@ -1103,6 +1124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_catselect() {
+        idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1123,6 +1145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_request() {
+        idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1147,6 +1170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_srflist() {
+        idle_trigger = true;
             srfrec.setVisibility(View.GONE);
             no_records.setVisibility(View.GONE);
         if (getUser_Trigger() == true) {
@@ -1182,6 +1206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_menuform() {
+        idle_trigger = true;
         status_trigger = false;
         srfList = null;
         if (img_locList != null) {
@@ -1234,6 +1259,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_editform() {
+        idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1257,7 +1283,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_upload_img() {
-
+        idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1278,6 +1304,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_viewing() {
+        idle_trigger = false;
         setDetails_viewing_trigger(true);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1349,6 +1376,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_view_actions() {
+        idle_trigger = false;
         new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
@@ -1536,6 +1564,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         AlertDialog dialog = builder2.create();
+        dialog.show();
+    }
+    public void dialog_idle(String msg, boolean status) {
+
+        builder2.setTitle("SRF notification");
+        builder2.setMessage(msg);
+        if (status == true){
+            builder2.setPositiveButton("RE LOGIN", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    to_login();
+                    srf_user_id.setText("");
+                    srf_user_pass.setText("");
+                    Toast.makeText(MainActivity.this, "LOG OUT SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+
+                    stnList = null;
+
+                    catList = null;
+
+                    srfList = null;
+
+                    img_locList = null;
+                }
+            });
+        }else if (status == false){
+            builder2.setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                finish();
+                }
+            });
+        }
+
+
+        AlertDialog dialog = builder2.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
@@ -2661,5 +2724,17 @@ public class MainActivity extends AppCompatActivity {
         // Return result
         return result;
     }
-
+    @Override
+    public void onUserInteraction() {
+        // TODO Auto-generated method stub
+        super.onUserInteraction();
+        stopHandler();
+        startHandler();
+    }
+    public void stopHandler() {
+        idle_handler.removeCallbacks(idle_runnable);
+    }
+    public void startHandler() {
+        idle_handler.postDelayed(idle_runnable, sec_for_idle*1000);
+    }
 }
