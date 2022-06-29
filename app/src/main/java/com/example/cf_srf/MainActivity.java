@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<img_loc> img_locList;
     // init for info holder variables--------------------------
     private static String request_name_holder;
+    private static String request_lname_holder;
     private static String request_area_holder;
     private static String img_stn_code;
     private static Boolean menutrigger = null;
@@ -128,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
     private static CheckBox for_am;
     private static FloatingActionButton logout_float;
     private static AlertDialog.Builder builder1, builder2, builder3;
+
+    public static String getRequest_name_holder() {
+        return request_name_holder;
+    }
+
+    public static String getRequest_lname_holder() {
+        return request_lname_holder;
+    }
 
     public static String getDept() {
         return dept;
@@ -1100,11 +1109,16 @@ public class MainActivity extends AppCompatActivity {
                     "REQUEST:<br><font color='red'>"+srf_adapter.getUni_problem()+"</font>"
 
             ), TextView.BufferType.SPANNABLE);
-
+            String tech_replace = null;
+            if (technician_adapter.getEmpname().trim().equals("")){
+                tech_replace = "NO DATA";
+            }else{
+                tech_replace = "<br>"+technician_adapter.getEmpname().trim();
+            }
             stn_check.setText(Html.fromHtml(
                     "<br>TO UPDATE BY: <font color='blue'>"+request_name_holder.trim()+"</font><br>"+
                     "<br>UPDATE STATUS TO: <font color='blue'>" + status_class_adapter.getStatus_desc()+ "</font><br>"+
-                    "<br>TECHNICIAN: <font color='blue'>"+technician_adapter.getEmpname()+"</font>"), TextView.BufferType.SPANNABLE);
+                    "<br>TECHNICIAN: <font color='blue'>"+tech_replace+"</font>"), TextView.BufferType.SPANNABLE);
             cat.setText("ACTION TAKEN:" );
             req.setTextColor(Color.parseColor("#FF0000"));
 
@@ -1559,7 +1573,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else {
                             /// action
-                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+"/"+status_class_adapter.getStatus_code().trim()));
+                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
                         }
                         break;
                 }
@@ -1956,6 +1970,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         request_name_holder = object.getString("Firstname").trim();
+                        request_lname_holder = object.getString("Lastname").trim();
                         request_area_holder = object.getString("Ops_area").trim();
                     }
 
