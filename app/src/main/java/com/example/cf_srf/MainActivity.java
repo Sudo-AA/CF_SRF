@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private static Handler idle_handler;
     private static Runnable idle_runnable;
     private static int sec_for_idle = 300;
-    //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
-    private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
+    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
 
     // init for objects----------------------------------------
     private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
@@ -1100,11 +1100,16 @@ public class MainActivity extends AppCompatActivity {
                     "REQUEST:<br><font color='red'>"+srf_adapter.getUni_problem()+"</font>"
 
             ), TextView.BufferType.SPANNABLE);
-
+            String tech_replace = null;
+            if (technician_adapter.getEmpname().trim().equals("")){
+                tech_replace = "NO DATA";
+            }else{
+                tech_replace = "<br>"+technician_adapter.getEmpname().trim();
+            }
             stn_check.setText(Html.fromHtml(
                     "<br>TO UPDATE BY: <font color='blue'>"+request_name_holder.trim()+"</font><br>"+
                     "<br>UPDATE STATUS TO: <font color='blue'>" + status_class_adapter.getStatus_desc()+ "</font><br>"+
-                    "<br>TECHNICIAN: <font color='blue'>"+technician_adapter.getEmpname()+"</font>"), TextView.BufferType.SPANNABLE);
+                    "<br>TECHNICIAN: <font color='blue'>"+tech_replace+"</font>"), TextView.BufferType.SPANNABLE);
             cat.setText("ACTION TAKEN:" );
             req.setTextColor(Color.parseColor("#FF0000"));
 
@@ -1559,7 +1564,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else {
                             /// action
-                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+"/"+status_class_adapter.getStatus_code().trim()));
+                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
                         }
                         break;
                 }

@@ -42,7 +42,7 @@ public class sra_adapter extends RecyclerView.Adapter<sra_adapter.MyView>{
         holder.date.setText(Html.fromHtml("DATE:  <font color='#323332'>"+sra.getSraDate().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.by.setText(Html.fromHtml("ACTION BY:  <font color='#323332'>"+sra.getSraUserID().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.act.setText(Html.fromHtml("ACTION TAKEN:  <br><br><font color='red'>"+sra.getAction().trim()+"<br></font>"), TextView.BufferType.SPANNABLE);
-        holder.tech.setText(Html.fromHtml("TECHNICIAN:  <font color='#323332'>"+sra.getSraTechID().trim()+"</font>"), TextView.BufferType.SPANNABLE);
+        holder.tech.setText(Html.fromHtml("TECHNICIAN:  <font color='#323332'>"+sra.getSraTechID().toString().trim().replaceAll("\\;", "<br>")+"</font>"), TextView.BufferType.SPANNABLE);
         holder.status.setText(Html.fromHtml("STATUS:  <font color='#005eb8'>"+sra.getStatus().trim()+"</font>"), TextView.BufferType.SPANNABLE);
     }
 

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class technician_adapter extends RecyclerView.Adapter<technician_adapter.MyView> {
 
 
-    private static String empcode;
-    private static String empname;
+    private static String empcode = null;
+    private static String empname = null;
     private Context context;
     private ArrayList<technician> tech;
     private ArrayList<Integer> selectCheck = new ArrayList<>();
@@ -66,29 +66,6 @@ public class technician_adapter extends RecyclerView.Adapter<technician_adapter.
         technician t = tech.get(position);
         holder.itemView.setTag(t.get(position));
         holder.name.setText(t.getEmpname().trim());
-        if (selectCheck.get(position) == 1) {
-            holder.name.setChecked(true);
-        }else{
-            holder.name.setChecked(false);
-        }
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int k = 0; k < selectCheck.size(); k++) {
-                    if (k == position) {
-                        if (selectCheck.get(k).equals(1)){
-                            selectCheck.set(k, 0);
-                        }else{
-                            selectCheck.set(k, 1);
-                        }
-                    } else {
-                        selectCheck.set(k, 0);
-                }
-                notifyDataSetChanged();
-                }
-            }
-        });
-
 
     }
 
@@ -107,12 +84,18 @@ public class technician_adapter extends RecyclerView.Adapter<technician_adapter.
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int position = getAdapterPosition();
                     technician te = tech.get(position);
-                    if(isChecked==true){
-                        empcode = te.getEmpcode().trim();
-                        empname = te.getEmpname();
+                    if(isChecked){
+                        if (empcode==null&&empname==null){
+                            empcode = te.getEmpcode().trim()+" ";
+                            empname = te.getEmpname().trim()+"<br>";
+                        }else{
+                            empcode = empcode + te.getEmpcode().trim()+" ";
+                            empname = empname +te.getEmpname().trim()+"<br>";
+                        }
+
                     }else{
-                        empcode = " ";
-                        empname = "NO DATA";
+                        empcode = empcode.replaceAll(te.getEmpcode().trim()+" ", "");
+                        empname = empname.replaceAll(te.getEmpname().trim()+"<br>", "");
                     }
                 }
             });
