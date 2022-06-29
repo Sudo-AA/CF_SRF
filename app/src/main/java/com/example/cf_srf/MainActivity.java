@@ -1577,7 +1577,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder3.setTitle("SRF notification");
         builder3.setMessage(msg);
-        if (status == true){
+        if (status){
             builder3.setPositiveButton("RE LOGIN", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
@@ -1595,7 +1595,7 @@ public class MainActivity extends AppCompatActivity {
                     img_locList = null;
                 }
             });
-        }else if (status == false){
+        }else {
             builder3.setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 finish();
