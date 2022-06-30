@@ -925,6 +925,7 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         logout_float.setVisibility(View.GONE);
         acc_details.setText("Branch : " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + " \nAndroid ID :" + getAndroid_id().trim());
@@ -945,6 +946,7 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         if(getRegistration().equals(false)){
             logout_float.setVisibility(View.VISIBLE);
@@ -970,6 +972,7 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.VISIBLE);
         logout_float.setVisibility(View.VISIBLE);
     }
@@ -994,6 +997,7 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.VISIBLE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
     }
@@ -1011,6 +1015,7 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         reusable_variables.setStation_code(null);
         reusable_variables.setStation_code(null);
         reusable_variables.setUser_firstname(null);
@@ -1025,6 +1030,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_details() {
+        image_viewer_form.setVisibility(View.GONE);
         idle_trigger = true;
         req.setTextSize(18);
         if (getMenutrigger() == true) {
@@ -1042,6 +1048,7 @@ public class MainActivity extends AppCompatActivity {
             actions_for_srf.setVisibility(View.GONE);
             status_class_form.setVisibility(View.GONE);
             attach_textdisplay.setVisibility(View.VISIBLE);
+            image_viewer_form.setVisibility(View.GONE);
             select_cat.setVisibility(View.GONE);
             logout_float.setVisibility(View.VISIBLE);
             String srf_status;
@@ -1150,6 +1157,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
     }
@@ -1171,6 +1179,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
         if (getUser_Trigger() == true) {
             headcheck.setText("USERNAME: " + request_name_holder.trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
@@ -1212,6 +1221,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
     }
 
@@ -1264,6 +1274,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
     }
@@ -1285,6 +1296,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
         editheader.setTextColor(Color.parseColor("#0000FF"));
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
@@ -1310,6 +1322,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
     }
 
@@ -1332,6 +1345,7 @@ public class MainActivity extends AppCompatActivity {
         view_action.setVisibility(View.VISIBLE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
         edit_srf.setText("");
         String att = "";
@@ -1403,6 +1417,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.VISIBLE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
     }
 
