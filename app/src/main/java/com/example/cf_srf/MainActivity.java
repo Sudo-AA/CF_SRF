@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         startHandler();
+
         // BUTTON HERE
         logout_float = findViewById(R.id.fab);
         srf_login = findViewById(R.id.srf_login_button);

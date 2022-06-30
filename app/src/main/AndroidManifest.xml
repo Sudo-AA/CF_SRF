@@ -43,6 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name="com.example.cf_srf.MainActivity"
+            android:stopWithTask="true" />
     </application>
 
 </manifest>
