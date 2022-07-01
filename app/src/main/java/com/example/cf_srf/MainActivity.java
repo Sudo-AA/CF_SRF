@@ -79,9 +79,12 @@ import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static String APP_UPDATE_SERVER_URL;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
+    private static final String version = "1.0.1";
+    private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
     private static Runnable idle_runnable;
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
-    private static TextView iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, menutext_stnnotifier, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
+    private static TextView vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, menutext_stnnotifier, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
@@ -252,8 +255,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         startHandler();
-
+        new update_checker(MainActivity.this).execute("https://raw.githubusercontent.com/V-for-velascoDMY23/CLEAN-FUEL-SRF-APPLICATION-RELEASE/main/updater_caller.json");
         // BUTTON HERE
+        vercode = (TextView) findViewById(R.id.vercode);
+        vercode.setText("Version : "+version);
         logout_float = findViewById(R.id.fab);
         srf_login = findViewById(R.id.srf_login_button);
         srf_cancel = findViewById(R.id.srf_cancel_button);
@@ -2790,5 +2795,77 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startHandler() {
         idle_handler.postDelayed(idle_runnable, sec_for_idle*1000);
+    }
+
+
+    class update_checker extends AsyncTask<String, Void, String> {
+        String status = null;
+        Activity context;
+
+        public update_checker(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            if (result != null) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        versioncontrol= object.getString("versionCode").trim();
+                        APP_UPDATE_SERVER_URL= object.getString("url").trim();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(versioncontrol != null){
+                    if(versioncontrol.trim().equals(version)){
+
+                    }else{
+                        dialog("THEIR IS NEWER VERSION \n version : "+ versioncontrol);
+                        String url = APP_UPDATE_SERVER_URL.trim();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);;
+                    }
+                }
+
+            } else {
+                dialog("NO INTERNET CONNECTION");
+            }
+        }
     }
 }
