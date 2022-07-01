@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
-    private static final String version = "1.0.1";
+    private static final String version = "1.0.0";
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -132,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
     private static CheckBox for_am;
     private static FloatingActionButton logout_float;
     private static AlertDialog.Builder builder1, builder2, builder3;
+    private static int call_back =9999;
+    private static Boolean enabler = true;
 
     public static String getRequest_name_holder() {
         return request_name_holder;
@@ -390,6 +393,39 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
+
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                switch (call_back) {
+
+                    case 9999:
+                        finish();
+                        break;
+                    case 0:
+                        dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+                        break;
+                    case 1:
+                        to_station();
+                        break;
+                    case 2:
+                        to_menuform();
+                        break;
+                    case 3:
+                        to_dept();
+                        break;
+                    case 4:
+                        to_srflist();
+                        break;
+                    case 5:
+                        to_viewing();
+                        break;
+
+                }
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         srf_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -963,6 +999,7 @@ public class MainActivity extends AppCompatActivity {
                     "<font color='#1100FF'> (IT) </font>" +
                     "<font color='#FF9F12'> (ME) </font>" +
                     "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+            call_back = 0;
             iden_dept.setVisibility(View.VISIBLE);
             logout_float.setVisibility(View.VISIBLE);
             idle_trigger = true;
@@ -1246,6 +1283,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_menuform() {
+        call_back =1 ;
         idle_trigger = true;
         status_trigger = false;
         srfList = null;
@@ -2855,7 +2893,7 @@ public class MainActivity extends AppCompatActivity {
                     if(versioncontrol.trim().equals(version)){
 
                     }else{
-                        dialog("THEIR IS NEWER VERSION \n version : "+ versioncontrol);
+                        dialog("THERE IS NEWER VERSION \n version : "+ versioncontrol);
                         String url = APP_UPDATE_SERVER_URL.trim();
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
