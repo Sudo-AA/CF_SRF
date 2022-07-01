@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
     private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
-    private static TextView attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, menutext_stnnotifier, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
+    private static TextView iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, menutext_stnnotifier, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
-    private static ProgressBar log_in_prog, prog_details;
+    private static ProgressBar log_in_prog, prog_details, search_prog;
     private static RecyclerView.Adapter mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter;
     private static RecyclerView.LayoutManager layoutManager;
     private static ArrayList<station> stnList;
@@ -354,11 +354,14 @@ public class MainActivity extends AppCompatActivity {
         attach_textdisplay =(TextView) findViewById(R.id.attach_textdisplay);
         prog_details = (ProgressBar) findViewById(R.id.prog_for_details);
         for_am = (CheckBox) findViewById(R.id.checkBox_am);
+
         // for cat select
         select_cat = (RelativeLayout) findViewById(R.id.select_cat) ;
         it = (Button) findViewById(R.id.it) ;
         me = (Button) findViewById(R.id.me) ;
         mt = (Button) findViewById(R.id.mt) ;
+        search_prog = (ProgressBar) findViewById(R.id.search_prog);
+        iden_dept = (TextView) findViewById(R.id.identifier_dept);
         cat_return= (Button) findViewById(R.id.cat_return) ;
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
@@ -933,6 +936,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_station() {
+        search_prog.setVisibility(View.VISIBLE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
         detailscon.setVisibility(View.GONE);
@@ -949,9 +953,17 @@ public class MainActivity extends AppCompatActivity {
         image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         if(getRegistration().equals(false)){
+            new getstation_method(MainActivity.this).execute(Domain + "getstation_method/" + request_area_holder);
+            iden_dept.setText(Html.fromHtml("WITH PENDING : " +
+                    "<font color='#1100FF'> (IT) </font>" +
+                    "<font color='#FF9F12'> (ME) </font>" +
+                    "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+            iden_dept.setVisibility(View.VISIBLE);
             logout_float.setVisibility(View.VISIBLE);
             idle_trigger = true;
         }else{
+            new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
+            iden_dept.setVisibility(View.GONE);
             logout_float.setVisibility(View.GONE);
             idle_trigger = false;
         }
@@ -979,9 +991,11 @@ public class MainActivity extends AppCompatActivity {
     public void to_status_class() {
         idle_trigger = true;
 
-        if (status_list == null){
-            new getstatus_class(MainActivity.this).execute(Domain.concat("status"));
-        }
+            if(getStatus_trigger().equals(false)){
+                new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
+            }else{
+                new getstatus_class(MainActivity.this).execute(Domain.concat("status/0000/0000"));
+            }
 
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1141,6 +1155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void to_catselect() {
+        new getcat_method(MainActivity.this).execute(Domain + "cat_method");
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1798,10 +1813,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        String stn_code = object.getString("SRF_stnCode");
-                        String stn_name = object.getString("SRF_station_name");
-                        stnList.add(new station(stn_code, stn_name));
+                        stnList.add(new station(object.getString("SRF_stnCode"), object.getString("SRF_station_name"), object.getString("SRF_penIT"), object.getString("SRF_penME"), object.getString("SRF_penMT"), object.getString("SRF_penTotal")));
                     }
+                    search_prog.setVisibility(View.GONE);
                     adaptergetter();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1926,7 +1940,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject object = jsonArray.getJSONObject(i);
                         String status_code = object.getString("Status_code");
                         String status_name = object.getString("Status_desc");
-                        status_list.add(new status_class(status_code.trim(), status_name.trim()));
+                        String number = object.getString("Number");
+                        status_list.add(new status_class(status_code.trim(), status_name.trim(),number));
                     }
                     status_adapter = new status_class_adapter(MainActivity.this, status_list);
                     status_classlist.setAdapter(status_adapter);
@@ -1997,8 +2012,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 dialog("WELCOME : " + request_name_holder);
-                new getstation_method(MainActivity.this).execute(Domain + "getstation_method/" + request_area_holder);
-                new getcat_method(MainActivity.this).execute(Domain + "cat_method");
+
                 srf_login.setEnabled(true);
                 log_in_prog.setVisibility(View.GONE);
                 setUser_Trigger(true);
@@ -2449,7 +2463,6 @@ public class MainActivity extends AppCompatActivity {
                     log_in_prog.setVisibility(View.GONE);
                     setUser_Trigger(false);
                     to_menuform();
-                    new getcat_method(MainActivity.this).execute(Domain + "cat_method");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -2459,7 +2472,7 @@ public class MainActivity extends AppCompatActivity {
                 log_in_prog.setVisibility(View.GONE);
             } else {
                 dialog("THIS ANDROID DEVICE IS NOT YET REGISTERED TO THE SYSTEM PLEASE SETUP AN ACCOUNT FOR IT");
-                new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
+
                 setRegistration(true);
                 to_station();
                 login_as_branch_oic.setEnabled(true);

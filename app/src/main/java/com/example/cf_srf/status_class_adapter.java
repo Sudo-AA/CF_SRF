@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class status_class_adapter extends RecyclerView.Adapter<status_class_adapter.MyView>{
@@ -57,6 +59,12 @@ public class status_class_adapter extends RecyclerView.Adapter<status_class_adap
         status_class status =  status_list.get(position);
         holder.itemView.setTag(cat.get(position));
         holder.status_name.setText(status.getStatus_desc());
+        holder.number.setText(status.getNumber());
+        if (status.getNumber().trim().equals("0")){
+            holder.red_dot.setVisibility(View.GONE);
+        }else{
+            holder.red_dot.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -66,13 +74,15 @@ public class status_class_adapter extends RecyclerView.Adapter<status_class_adap
     }
 
     public class MyView extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView status_name;
-        CardView edit;
+        TextView status_name, number;
+        CardView edit, red_dot;
         public MyView(@NonNull View itemView) {
             super(itemView);
             edit = itemView.findViewById(R.id.reqcard);
             edit.setOnClickListener(this);
             status_name = (TextView) itemView.findViewById(R.id.status_name);
+            red_dot = (CardView) itemView.findViewById(R.id.card_number);
+            number = (TextView) itemView.findViewById(R.id.number);
         }
         @Override
         public void onClick(View v) {

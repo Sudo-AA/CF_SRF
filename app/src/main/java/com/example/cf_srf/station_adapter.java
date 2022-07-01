@@ -58,6 +58,37 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
         holder.stn_code.setText(station.getStn_code());
         holder.stn_name.setText(station.getStn_name());
 
+        if (MainActivity.getRegistration().equals(true)){
+            holder.IT.setVisibility(View.GONE);
+            holder.ME.setVisibility(View.GONE);
+            holder.MT.setVisibility(View.GONE);
+        }else{
+            holder.IT.setVisibility(View.VISIBLE);
+            holder.ME.setVisibility(View.VISIBLE);
+            holder.MT.setVisibility(View.VISIBLE);
+            holder.text_it.setText(station.getPenIT());
+            holder.text_me.setText(station.getPenME());
+            holder.text_mt.setText(station.getPenMT());
+            if(station.getPenIT().equals("")){
+                holder.IT.setVisibility(View.GONE);
+            }else{
+                holder.IT.setVisibility(View.VISIBLE);
+            }
+            if(station.getPenME().equals("")){
+                holder.ME.setVisibility(View.GONE);
+            }else{
+                holder.ME.setVisibility(View.VISIBLE);
+            }if(station.getPenMT().equals("")){
+                holder.MT.setVisibility(View.GONE);
+            }else{
+                holder.MT.setVisibility(View.VISIBLE);
+            }
+
+
+
+
+        }
+
     }
 
     @Override
@@ -70,12 +101,24 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
     public class MyView extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView stn_code, stn_name;
         CardView edit;
+        CardView IT, ME, MT;
+        TextView text_it, text_me, text_mt;
         public MyView(@NonNull View itemView) {
             super(itemView);
             edit = itemView.findViewById(R.id.stncard);
             edit.setOnClickListener(this);
             stn_code = (TextView) itemView.findViewById(R.id.station_code);
             stn_name = (TextView) itemView.findViewById(R.id.station_name);
+
+            // notifier
+
+            text_it = (TextView) itemView.findViewById(R.id.up_pending_IT);
+            text_me = (TextView) itemView.findViewById(R.id.up_pending_ME);
+            text_mt = (TextView) itemView.findViewById(R.id.up_pending_MT);
+
+            IT = (CardView) itemView.findViewById(R.id.card_IT);
+            ME = (CardView) itemView.findViewById(R.id.card_ME);
+            MT = (CardView) itemView.findViewById(R.id.card_MT);
 
         }
         @Override
