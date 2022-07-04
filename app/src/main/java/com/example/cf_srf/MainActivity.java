@@ -41,10 +41,13 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -54,6 +57,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
-    private static final String version = "1.0.1";
+    private static final String version = "1.0.2";
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -95,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
     private static int sec_for_idle = 300;
     //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
-
+    private static ImageView actmenu;
+    private static TextView acttitle;
+    private static NavigationView menulayout;
     // init for objects----------------------------------------
     private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
@@ -138,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
     private static AlertDialog.Builder builder1, builder2, builder3;
     private static int call_back =9999;
     private static Boolean enabler = true;
+    private static View actview;
+    private static Boolean actionbartrigger = false;
 
     public static String getRequest_name_holder() {
         return request_name_holder;
@@ -250,8 +258,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // idle --------------------------------------------------------------------------------
         idle_trigger = false;
-        //idle calling
+        //idle calling--------------------------------------------------------------------------------
         idle_handler = new Handler();
         idle_runnable = new Runnable() {
             @Override
@@ -262,7 +271,20 @@ public class MainActivity extends AppCompatActivity {
         };
         startHandler();
         new update_checker(MainActivity.this).execute("https://raw.githubusercontent.com/V-for-velascoDMY23/CLEAN-FUEL-SRF-APPLICATION-RELEASE/main/updater_caller.json");
-        // BUTTON HERE
+
+        // ACTIONBAR--------------------------------------------------------------------------------
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+        getSupportActionBar().setElevation(0);
+        actview = getSupportActionBar().getCustomView();
+        getSupportActionBar().setCustomView(actview);
+        actmenu = actview.findViewById(R.id.menu);
+        acttitle = actview.findViewById(R.id.action_bar_title);
+        actmenu.setVisibility(View.GONE);
+        actmenu.setBackgroundResource(R.drawable.actbar);
+        menulayout = (NavigationView) findViewById(R.id.menulayout);
+        // BUTTON HERE--------------------------------------------------------------------------------
         vercode = (TextView) findViewById(R.id.vercode);
         vercode.setText("Version : "+version);
         logout_float = findViewById(R.id.fab);
@@ -406,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
         searchbar.setOnFocusChangeListener(ofcListener);
         acc_firstname.setOnFocusChangeListener(ofcListener);
         acc_surname.setOnFocusChangeListener(ofcListener);
+
 
         OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
             @Override
@@ -857,6 +880,24 @@ public class MainActivity extends AppCompatActivity {
                 dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
             }
         });
+
+// menu action bar show ---------------------------------------------------------------------------------------------------
+        actmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (actionbartrigger.equals(false)){
+                    menulayout.setVisibility(View.VISIBLE);
+                    actionbartrigger =  true;
+                    actmenu.setBackgroundResource(R.drawable.xmenu);
+                }else{
+                    menulayout.setVisibility(View.GONE);
+                    actionbartrigger =  false;
+                    actmenu.setBackgroundResource(R.drawable.actbar);
+                }
+
+            }
+        });
+// menu action bar show ---------------------------------------------------------------------------------------------------
     }
 
 
@@ -1025,6 +1066,7 @@ public class MainActivity extends AppCompatActivity {
     } //12
 
     public void to_station() {
+        actmenu.setVisibility(View.VISIBLE);
         search_prog.setVisibility(View.VISIBLE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
@@ -1061,6 +1103,7 @@ public class MainActivity extends AppCompatActivity {
 
     }//1
     public void to_dept(){
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 2;
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
@@ -1081,6 +1124,7 @@ public class MainActivity extends AppCompatActivity {
         logout_float.setVisibility(View.VISIBLE);
     } //3
     public void to_status_class() {
+        actmenu.setVisibility(View.VISIBLE);
         idle_trigger = true;
 
             if(getStatus_trigger().equals(false)){
@@ -1110,6 +1154,7 @@ public class MainActivity extends AppCompatActivity {
 
     }// 10
     public void to_login() {
+        actmenu.setVisibility(View.GONE);
         call_back = 9999;
         idle_trigger = false;
         srf_login_form.setVisibility(View.VISIBLE);
@@ -1139,7 +1184,7 @@ public class MainActivity extends AppCompatActivity {
     } // 8888
 
     public void to_details() {
-
+        actmenu.setVisibility(View.VISIBLE);
         image_viewer_form.setVisibility(View.GONE);
         idle_trigger = true;
         req.setTextSize(18);
@@ -1252,7 +1297,9 @@ public class MainActivity extends AppCompatActivity {
         }
     } // 13
 
-    public void to_catselect() {
+    public void to_catselect()
+    {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 16;
         new getcat_method(MainActivity.this).execute(Domain + "cat_method");
         idle_trigger = true;
@@ -1277,6 +1324,7 @@ public class MainActivity extends AppCompatActivity {
     } // 11
 
     public void to_request() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 11;
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
@@ -1304,6 +1352,7 @@ public class MainActivity extends AppCompatActivity {
     } // 8
 
     public void to_srflist() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 10;
         idle_trigger = true;
             srfrec.setVisibility(View.GONE);
@@ -1342,6 +1391,7 @@ public class MainActivity extends AppCompatActivity {
     }// 4
 
     public void to_menuform() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back =1 ;
         idle_trigger = true;
         status_trigger = false;
@@ -1397,6 +1447,7 @@ public class MainActivity extends AppCompatActivity {
     } // 2
 
     public void to_editform() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 15;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
@@ -1423,6 +1474,7 @@ public class MainActivity extends AppCompatActivity {
     }// 7
 
     public void to_upload_img() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 8;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
@@ -1446,6 +1498,7 @@ public class MainActivity extends AppCompatActivity {
     }// 9
 
     public void to_viewing() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 4;
         idle_trigger = false;
         setDetails_viewing_trigger(true);
@@ -1520,6 +1573,7 @@ public class MainActivity extends AppCompatActivity {
     }// 5
 
     public void to_view_actions() {
+        actmenu.setVisibility(View.VISIBLE);
         call_back = 5;
         idle_trigger = false;
         new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());

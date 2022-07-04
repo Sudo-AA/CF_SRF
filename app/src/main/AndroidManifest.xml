@@ -18,10 +18,10 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/cf_logo"
-        android:label="@string/app_name"
+        android:label="CF SRF"
         android:roundIcon="@drawable/cf_logo_new"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar"
+        android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="31"
         android:usesCleartextTraffic= "true">
         <provider android:authorities="com.example.cf_srf.fileprovider"
