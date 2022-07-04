@@ -27,7 +27,10 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
-    private static final String version = "1.0.0";
+    private static final String version = "1.0.1";
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -394,12 +397,24 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
 
+        View.OnFocusChangeListener ofcListener = new MyFocusChangeListener();
+
+        srf_user_id.setOnFocusChangeListener(ofcListener);
+        srf_user_pass.setOnFocusChangeListener(ofcListener);
+        editreq.setOnFocusChangeListener(ofcListener);
+        edit_srf.setOnFocusChangeListener(ofcListener);
+        searchbar.setOnFocusChangeListener(ofcListener);
+        acc_firstname.setOnFocusChangeListener(ofcListener);
+        acc_surname.setOnFocusChangeListener(ofcListener);
 
         OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 switch (call_back) {
 
+                    case 8888:
+                        to_login();
+                        break;
                     case 9999:
                         finish();
                         break;
@@ -421,7 +436,39 @@ public class MainActivity extends AppCompatActivity {
                     case 5:
                         to_viewing();
                         break;
-
+                    case 6:
+                        to_view_actions();
+                        break;
+                    case 7:
+                        to_editform();
+                        break;
+                    case 8:
+                        to_request();
+                        break;
+                    case 9:
+                        to_upload_img();
+                        break;
+                    case 10:
+                        to_status_class();
+                        break;
+                    case 11:
+                        to_catselect();
+                        break;
+                    case 12:
+                        to_newacc();
+                        break;
+                    case 13:
+                        to_details();
+                        break;
+                    case 14:
+                        to_newacc();
+                        break;
+                    case 15:
+                        dialog_to_exit("DISCARD YOUR WORK ?", 1); // to back viewer;
+                        break;
+                    case 16:
+                        dialog_to_exit("DISCARD YOUR WORK ?", 2);; // for request back to menu from cat;
+                        break;
                 }
             }
         };
@@ -955,6 +1002,7 @@ public class MainActivity extends AppCompatActivity {
     // radio button
 
     public void to_newacc() {
+        call_back = 1;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
@@ -974,7 +1022,7 @@ public class MainActivity extends AppCompatActivity {
         logout_float.setVisibility(View.GONE);
         acc_details.setText("Branch : " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + " \nAndroid ID :" + getAndroid_id().trim());
 
-    }
+    } //12
 
     public void to_station() {
         search_prog.setVisibility(View.VISIBLE);
@@ -1004,14 +1052,16 @@ public class MainActivity extends AppCompatActivity {
             logout_float.setVisibility(View.VISIBLE);
             idle_trigger = true;
         }else{
+            call_back = 8888;
             new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
             iden_dept.setVisibility(View.GONE);
             logout_float.setVisibility(View.GONE);
             idle_trigger = false;
         }
 
-    }
+    }//1
     public void to_dept(){
+        call_back = 2;
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1029,13 +1079,15 @@ public class MainActivity extends AppCompatActivity {
         image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.VISIBLE);
         logout_float.setVisibility(View.VISIBLE);
-    }
+    } //3
     public void to_status_class() {
         idle_trigger = true;
 
             if(getStatus_trigger().equals(false)){
+                call_back = 3;
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
             }else{
+                call_back = 7;
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/0000/0000"));
             }
 
@@ -1056,8 +1108,9 @@ public class MainActivity extends AppCompatActivity {
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
-    }
+    }// 10
     public void to_login() {
+        call_back = 9999;
         idle_trigger = false;
         srf_login_form.setVisibility(View.VISIBLE);
         srf_station_form.setVisibility(View.GONE);
@@ -1083,13 +1136,15 @@ public class MainActivity extends AppCompatActivity {
         logout_float.setVisibility(View.GONE);
 
 
-    }
+    } // 8888
 
     public void to_details() {
+
         image_viewer_form.setVisibility(View.GONE);
         idle_trigger = true;
         req.setTextSize(18);
         if (getMenutrigger() == true) {
+            call_back = 9;
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
             srf_station_form.setVisibility(View.GONE);
@@ -1148,6 +1203,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (getMenutrigger() == false) {
+            call_back = 10;
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
             srf_station_form.setVisibility(View.GONE);
@@ -1194,9 +1250,10 @@ public class MainActivity extends AppCompatActivity {
             noimage_attach.setVisibility(View.GONE);
             review_images.setVisibility(View.GONE);
         }
-    }
+    } // 13
 
     public void to_catselect() {
+        call_back = 16;
         new getcat_method(MainActivity.this).execute(Domain + "cat_method");
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
@@ -1217,9 +1274,10 @@ public class MainActivity extends AppCompatActivity {
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
-    }
+    } // 11
 
     public void to_request() {
+        call_back = 11;
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1243,9 +1301,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (getUser_Trigger() == false) {
             headcheck.setText("USERNAME: " + reusable_variables.getUser_firstname().trim() + "\n" + "STATION NAME: " + reusable_variables.getStation_name().trim() + " (" + reusable_variables.getStation_code().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
         }
-    }
+    } // 8
 
     public void to_srflist() {
+        call_back = 10;
         idle_trigger = true;
             srfrec.setVisibility(View.GONE);
             no_records.setVisibility(View.GONE);
@@ -1280,7 +1339,7 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
-    }
+    }// 4
 
     public void to_menuform() {
         call_back =1 ;
@@ -1335,9 +1394,10 @@ public class MainActivity extends AppCompatActivity {
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
 
-    }
+    } // 2
 
     public void to_editform() {
+        call_back = 15;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1360,9 +1420,10 @@ public class MainActivity extends AppCompatActivity {
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
 
 
-    }
+    }// 7
 
     public void to_upload_img() {
+        call_back = 8;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1382,9 +1443,10 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
-    }
+    }// 9
 
     public void to_viewing() {
+        call_back = 4;
         idle_trigger = false;
         setDetails_viewing_trigger(true);
         srf_login_form.setVisibility(View.GONE);
@@ -1455,9 +1517,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }// 5
 
     public void to_view_actions() {
+        call_back = 5;
         idle_trigger = false;
         new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());
         srf_login_form.setVisibility(View.GONE);
@@ -1477,7 +1540,8 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         logout_float.setVisibility(View.VISIBLE);
-    }
+    }// 6
+    // end for layout init
 
     public void adaptergetter() {
 
@@ -2134,6 +2198,7 @@ public class MainActivity extends AppCompatActivity {
                 attach_d.setVisibility(View.GONE);
                 gg.setText(result + "\n" + "THANKYOU");
                 con_details.setEnabled(true);
+                call_back = 2;
             } else {
                 con_details.setEnabled(true);
                 dialog("ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
@@ -2199,6 +2264,7 @@ public class MainActivity extends AppCompatActivity {
                 attach_d.setVisibility(View.GONE);
                 gg.setText(result + "\n" + "THANKYOU");
                 con_details.setEnabled(true);
+                call_back = 2;
             } else {
                 con_details.setEnabled(true);
                 dialog("ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
@@ -2906,4 +2972,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    private class MyFocusChangeListener implements View.OnFocusChangeListener {
+
+        public void onFocusChange(View v, boolean hasFocus){
+
+            if(!hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+        }
+    }
+
 }
