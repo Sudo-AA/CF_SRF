@@ -59,6 +59,17 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/home"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="right"
+                    app:srcCompat="@drawable/home" />
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

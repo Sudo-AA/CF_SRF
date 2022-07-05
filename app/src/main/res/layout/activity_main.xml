@@ -7,116 +7,7 @@
     tools:context=".MainActivity">
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/logoutbot"
-        android:visibility="gone"
-        app:backgroundTint="@color/bloe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/white"
-        tools:ignore="ContentDescription" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/menulayout"
-        android:layout_width="281dp"
-        android:layout_height="725dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@color/cf"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/abstract_blurred_nature_background_bokeh_260nw_1422478343"
-                    app:civ_border_color="@color/cf"
-                    app:civ_border_width="2dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="left"
-                    android:paddingLeft="5dp"
-                    android:text="LASTNAME,FIRSTNAME\nsamplesample23@gmail.com"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="MENU"
-                android:textColor="@color/black"
-                android:textSize="14dp" />
-
-
-            <Button
-                android:id="@+id/new_add_srf"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@color/cf"
-                android:backgroundTint="@color/cf"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="ADD SRF"
-                android:textColor="@color/white"
-                android:textSize="14dp" />
-
-            <Button
-                android:id="@+id/new_edit_srf"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@color/cf"
-                android:backgroundTint="@color/cf"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="VIEW BRANCH SERVICE REQUESTS"
-                android:textColor="@color/white"
-                android:textSize="14dp" />
-
-            <Button
-                android:id="@+id/new_back_to_stn"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@color/cf"
-                android:backgroundTint="@color/cf"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="LOG OUT"
-                android:textColor="@color/white"
-                android:textSize="14dp" />
-
-
-        </LinearLayout>
-    </com.google.android.material.navigation.NavigationView>
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -125,7 +16,7 @@
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
         android:padding="20dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -286,15 +177,7 @@
 
 
     </RelativeLayout>
-    <TextView
-        android:id="@+id/vercode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <RelativeLayout
         android:id="@+id/station_form"
@@ -866,7 +749,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+<!-- new HOME PAGE  -->
     <RelativeLayout
         android:id="@+id/menuform"
         android:layout_width="match_parent"
@@ -911,60 +794,36 @@
                         tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
-                        android:id="@+id/menutext_stnnotifier"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="SERVICE REQUEST FORM MENU"
+                        android:text="TOTAL PENDINGS AND ONPROCESS"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
 
-                    <Button
-                        android:id="@+id/add_srf"
-                        style="@style/Widget.AppCompat.Button.Colored"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@color/cf"
-                        android:backgroundTint="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:padding="10dp"
-                        android:text="ADD SRF"
-                        android:textColor="@color/white"
-                        android:textSize="18dp" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/edit_srf"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@color/cf"
-                        android:backgroundTint="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:padding="10dp"
-                        android:text="VIEW BRANCH SERVICE REQUESTS"
-                        android:textColor="@color/white"
-                        android:textSize="18dp" />
+                        <!--Pie chart to display the data-->
 
-                    <Button
-                        android:id="@+id/back_to_stn"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@color/cf"
-                        android:backgroundTint="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:padding="10dp"
-                        android:text="RE-CHOOSE BRANCH"
-                        android:textColor="@color/white"
-                        android:textSize="18dp" />
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/piechart"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_gravity="center_horizontal">
 
+                        </com.github.mikephil.charting.charts.PieChart>
+
+
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
             </ScrollView>
@@ -2059,5 +1918,109 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/menulayout"
+        android:layout_width="281dp"
+        android:layout_height="725dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@color/cf"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/abstract_blurred_nature_background_bokeh_260nw_1422478343"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="left"
+                    android:paddingLeft="5dp"
+                    android:text="LASTNAME,FIRSTNAME\nsamplesample23@gmail.com"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="MENU"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+
+            <Button
+                android:id="@+id/new_add_srf"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@color/cf"
+                android:backgroundTint="@color/cf"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="ADD SRF"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/new_edit_srf"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@color/cf"
+                android:backgroundTint="@color/cf"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="VIEW BRANCH SERVICE REQUESTS"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/new_log_in"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@color/cf"
+                android:backgroundTint="@color/cf"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="LOG OUT"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+    <TextView
+        android:id="@+id/vercode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

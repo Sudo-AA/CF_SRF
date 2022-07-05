@@ -130,9 +130,16 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
         uni_stncode = code;
         uni_stnname = name;
         if(MainActivity.getRegistration().equals(false)){
-            ma = new MainActivity();
-            ma.to_menuform();
-            ma.emptysearchbar();
+            if(MainActivity.getMenutrigger().equals(false)){
+                ma = new MainActivity();
+                ma.to_catselect();
+                ma.emptysearchbar();
+            }else{
+                ma = new MainActivity();
+                ma.to_dept();
+                ma.emptysearchbar();
+            }
+
         }else if(MainActivity.getRegistration().equals(true))
         {
             ma = new MainActivity();

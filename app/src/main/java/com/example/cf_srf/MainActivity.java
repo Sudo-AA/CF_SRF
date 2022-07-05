@@ -56,6 +56,10 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -76,8 +80,10 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -100,13 +106,14 @@ public class MainActivity extends AppCompatActivity {
     //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
     private static ImageView actmenu;
+    private static ImageView acthome;
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_to_stnlist, logout, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
-    private static TextView vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, menutext_stnnotifier, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
+    private static TextView vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
@@ -140,12 +147,13 @@ public class MainActivity extends AppCompatActivity {
     private static String dept;
     private static String dept_desc;
     private static CheckBox for_am;
-    private static FloatingActionButton logout_float;
+    private static Button logout_float;
     private static AlertDialog.Builder builder1, builder2, builder3;
     private static int call_back =9999;
     private static Boolean enabler = true;
     private static View actview;
     private static Boolean actionbartrigger = false;
+    private static PieChart pieChart;
 
     public static String getRequest_name_holder() {
         return request_name_holder;
@@ -258,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // PIE CHART -----------------------------------------------------------------------------
+        pieChart = findViewById(R.id.piechart);
         // idle --------------------------------------------------------------------------------
         idle_trigger = false;
         //idle calling--------------------------------------------------------------------------------
@@ -279,15 +289,20 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         actview = getSupportActionBar().getCustomView();
         getSupportActionBar().setCustomView(actview);
+        getSupportActionBar().hide();
         actmenu = actview.findViewById(R.id.menu);
+        acthome = actview.findViewById(R.id.home);
         acttitle = actview.findViewById(R.id.action_bar_title);
         actmenu.setVisibility(View.GONE);
-        actmenu.setBackgroundResource(R.drawable.actbar);
+        actmenu.setBackgroundResource(R.drawable.new_menu);
         menulayout = (NavigationView) findViewById(R.id.menulayout);
+        logout_float = (Button) findViewById(R.id.new_log_in);
+
+        srf_edit = (Button) findViewById(R.id.new_edit_srf);
+        srf_add = (Button) findViewById(R.id.new_add_srf);
         // BUTTON HERE--------------------------------------------------------------------------------
         vercode = (TextView) findViewById(R.id.vercode);
         vercode.setText("Version : "+version);
-        logout_float = findViewById(R.id.fab);
         srf_login = findViewById(R.id.srf_login_button);
         srf_cancel = findViewById(R.id.srf_cancel_button);
         con_details = findViewById(R.id.confirm_details);
@@ -295,10 +310,6 @@ public class MainActivity extends AppCompatActivity {
         req_con = findViewById(R.id.confirm_request);
         req_back = findViewById(R.id.back_request);
         cat_back = findViewById(R.id.cat_back);
-
-        srf_edit = findViewById(R.id.edit_srf);
-        srf_add = findViewById(R.id.add_srf);
-        back_to_stnlist = findViewById(R.id.back_to_stn);
         srflist_back = findViewById(R.id.srf_back);
         back_add_menu = findViewById(R.id.add_back_menu);
 
@@ -342,7 +353,6 @@ public class MainActivity extends AppCompatActivity {
         noimage_attach = findViewById(R.id.no_image);
         attach_d = findViewById(R.id.attach_textdisplay);
         no_records = findViewById(R.id.norecord);
-        menutext_stnnotifier = findViewById(R.id.menutext_stnnotifier);
         cat_branch_notifier = findViewById(R.id.cat_branch_notifier);
         srflist_branch_notifier = findViewById(R.id.srflist_branch_notifier);
         image_branch_notifier = findViewById(R.id.image_branch_notifier);
@@ -375,6 +385,7 @@ public class MainActivity extends AppCompatActivity {
         status_class_form =  (RelativeLayout) findViewById(R.id.status_class_form);
         status_classback = (Button) findViewById(R.id.back_to_menu_from_status);
         status_classlist=(RecyclerView) findViewById(R.id.status_class_list);
+        catrec = (RecyclerView) findViewById(R.id.requestor_list);
         //action
         add_action =  (Button) findViewById(R.id.add_action);
         view_action = (Button) findViewById(R.id.view_action);
@@ -591,21 +602,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        srf_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menutrigger = true;
-                to_catselect();
-            }
-        });
 
-        srf_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menutrigger = false;
-                to_dept();
-            }
-        });
 
         srflist_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -757,12 +754,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        back_to_stnlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                to_station();
-            }
-        });
+
         login_as_branch_oic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -888,13 +880,49 @@ public class MainActivity extends AppCompatActivity {
                 if (actionbartrigger.equals(false)){
                     menulayout.setVisibility(View.VISIBLE);
                     actionbartrigger =  true;
-                    actmenu.setBackgroundResource(R.drawable.xmenu);
+                    actmenu.setBackgroundResource(R.drawable.new_back);
                 }else{
                     menulayout.setVisibility(View.GONE);
                     actionbartrigger =  false;
-                    actmenu.setBackgroundResource(R.drawable.actbar);
+                    actmenu.setBackgroundResource(R.drawable.new_menu);
                 }
 
+            }
+        });
+        acthome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                to_menuform();
+                srf_add.setEnabled(true);
+                srf_edit.setEnabled(true);
+                srf_add.setBackgroundResource(R.color.cf);
+                srf_edit.setBackgroundResource(R.color.cf);
+                acttitle.setText("SERVICE REQUEST FORM");
+            }
+        });
+        srf_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menutrigger = true;
+                to_station();
+                srf_add.setEnabled(false);
+                srf_edit.setEnabled(true);
+                srf_add.setBackgroundResource(R.color.white);
+                srf_edit.setBackgroundResource(R.color.cf);
+                acttitle.setText("ADD SRF");
+            }
+        });
+
+        srf_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menutrigger = false;
+                to_station();
+                srf_add.setEnabled(true);
+                srf_edit.setEnabled(false);
+                srf_add.setBackgroundResource(R.color.cf);
+                srf_edit.setBackgroundResource(R.color.white);
+                acttitle.setText("VIEW SRF");
             }
         });
 // menu action bar show ---------------------------------------------------------------------------------------------------
@@ -1066,6 +1094,7 @@ public class MainActivity extends AppCompatActivity {
     } //12
 
     public void to_station() {
+
         actmenu.setVisibility(View.VISIBLE);
         search_prog.setVisibility(View.VISIBLE);
         srf_login_form.setVisibility(View.GONE);
@@ -1154,6 +1183,8 @@ public class MainActivity extends AppCompatActivity {
 
     }// 10
     public void to_login() {
+        menulayout.setVisibility(View.GONE);
+        getSupportActionBar().hide();
         actmenu.setVisibility(View.GONE);
         call_back = 9999;
         idle_trigger = false;
@@ -1299,6 +1330,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_catselect()
     {
+        if (getUser_Trigger() == true) {
+            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
+
+            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
+
+        } else if (getUser_Trigger() == false) {
+            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + reusable_variables.getStation_name().trim());
+
+            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + reusable_variables.getStation_name().trim() + "\n note: no image attachments? click confirm to continue");
+
+        }
         actmenu.setVisibility(View.VISIBLE);
         call_back = 16;
         new getcat_method(MainActivity.this).execute(Domain + "cat_method");
@@ -1391,6 +1433,8 @@ public class MainActivity extends AppCompatActivity {
     }// 4
 
     public void to_menuform() {
+        GRAPHData();
+        getSupportActionBar().show();
         actmenu.setVisibility(View.VISIBLE);
         call_back =1 ;
         idle_trigger = true;
@@ -1401,22 +1445,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             img_locList = null;
         }
-        back_to_stnlist.setVisibility(View.GONE);
 
-        if (getUser_Trigger() == true) {
-            menutext_stnnotifier.setText("SERVICE REQUEST FORM MENU \n BRANCH: " + station_adapter.getUni_stnname().trim() + "\n USER: " + request_name_holder.trim());
-            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
 
-            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
-            back_to_stnlist.setVisibility(View.VISIBLE);
-
-        } else if (getUser_Trigger() == false) {
-            menutext_stnnotifier.setText("SERVICE REQUEST FORM MENU \n BRANCH: " + reusable_variables.getStation_name().trim() + "\n USER: " + reusable_variables.getUser_firstname().trim());
-            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + reusable_variables.getStation_name().trim());
-
-            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + reusable_variables.getStation_name().trim() + "\n note: no image attachments? click confirm to continue");
-
-        }
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -2028,7 +2058,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if (result != null) {
                 try {
-                    catrec = findViewById(R.id.requestor_list);
+
                     catrec.setHasFixedSize(true);
                     layoutManager = new LinearLayoutManager(MainActivity.this);
                     catrec.setLayoutManager(layoutManager);
@@ -2177,7 +2207,7 @@ public class MainActivity extends AppCompatActivity {
                 srf_login.setEnabled(true);
                 log_in_prog.setVisibility(View.GONE);
                 setUser_Trigger(true);
-                to_station();
+                to_menuform();
 
             }else if(result != null && result.equals("SS")){
                 dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
@@ -3038,5 +3068,36 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    private void GRAPHData()
+    {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        String label = "type";
+        ArrayList<Integer> colors = new ArrayList<>();
+
+
+        pieEntries.add(new PieEntry(40f, "IT DEPARTMENT"));
+        colors.add(Color.parseColor("#1100ff"));
+        pieEntries.add(new PieEntry(66f, "MECHANICAL"));
+        colors.add(Color.parseColor("#ffae00"));
+        pieEntries.add(new PieEntry(70f, "MAINTENANCE"));
+        colors.add(Color.parseColor("#f44336"));
+
+        //collecting the entries with label name
+        PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+
+        //setting text size of the value
+        pieDataSet.setValueTextSize(12f);
+        //providing color list for coloring different entries
+        pieDataSet.setColors(colors);
+        pieChart.setContentDescription("PENDING AND ON-PROCESS SRF");
+        //grouping the data set from entry to chart
+        PieData pieData = new PieData(pieDataSet);
+        //showing the value of the entries, default true if not set
+        pieData.setDrawValues(true);
+
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+    }
+
 
 }
