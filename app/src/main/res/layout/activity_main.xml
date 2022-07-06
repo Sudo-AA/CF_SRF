@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
@@ -155,6 +155,32 @@
                     android:progressTint="@color/cf"
                     android:visibility="gone" />
 
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="12dp"
+                        android:text="---------OPTIONAL LOGIN---------"
+                        android:textColor="@color/cf"/>
+
+                    <ImageView
+                        android:id="@+id/fingerprint"
+                        android:layout_width="110dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/fingerprint_scan" />
+
+
+                </LinearLayout>
+
+
+
                 <TextView
                     android:id="@+id/login_as_branch_oic"
                     android:layout_width="match_parent"
@@ -166,7 +192,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="0dp"
-                    android:text="Log in as Branch OIC via Android ID"
+                    android:text="Sign up and Register"
                     android:textColor="@color/purple_700"
                     android:textSize="15dp" />
 
@@ -1323,158 +1349,493 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:padding="5dp"
-            app:cardCornerRadius="15dp">
+            android:layout_height="match_parent"
+            android:padding="10dp">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    app:srcCompat="@drawable/new_logo3_06_border_1080"
-                    tools:srcCompat="@drawable/new_logo3_06_border_1080" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="ANDROID DEVICE ACCOUNT REGISTRATION"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/new_acc_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="left"
-                    android:paddingLeft="30dp"
-                    android:text="Branch : LUBANG \nAndroid ID :gawyyy1yf23y13g"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/firstname"
-                    style="@android:style/Widget.DeviceDefault.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:backgroundTint="@color/cf"
-                    android:capitalize="characters"
-                    android:ems="10"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="center"
-                    android:hint="Enter your First Name"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPersonName"
-                    android:outlineSpotShadowColor="@color/black"
-                    android:padding="10dp"
-                    android:shadowColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/cf"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/surname"
-                    style="@android:style/Widget.DeviceDefault.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:backgroundTint="@color/cf"
-                    android:capitalize="characters"
-                    android:ems="10"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="center"
-                    android:hint="Enter your Surname"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPersonName"
-                    android:outlineSpotShadowColor="@color/black"
-                    android:padding="10dp"
-                    android:shadowColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/cf"
-                    android:textSize="15dp" />
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
-                    <Button
-                        android:id="@+id/add_user_back"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@color/cf"
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="ACCOUNT REGISTRATION"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/new_profile_image"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/abstract_blurred_nature_background_bokeh_260nw_1422478343"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="3dp" />
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="120dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="2dp"
+                            android:background="@color/cf"
+                            android:fontFamily="monospace"
+                            android:gravity="center"
+                            android:padding="0dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="browse from files"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/new_acc_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:text="EMPLOYEEE NO: 99999999"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+                    <!--FULLNAME-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/black"
                         android:backgroundTint="@color/cf"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:text="BACK"
-                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Note: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textColor="@color/black"
+                        android:textSize="14dp" />
+
+                    <EditText
+                        android:id="@+id/firstname"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:capitalize="characters"
+                        android:enabled="false"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Enter your First Name"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp"
+                        tools:ignore="Deprecated" />
+
+                    <EditText
+                        android:id="@+id/surname"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:capitalize="characters"
+                        android:enabled="false"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Enter your Surname"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp"
+                        tools:ignore="Deprecated" />
+                    <!--USERNAME AND PASSWORD-->
+
+
+                    <EditText
+                        android:id="@+id/new_username"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Enter your Username"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
                         android:textSize="15dp" />
 
+                    <EditText
+                        android:id="@+id/new_password"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="New Password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/con_password"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Confirm Password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="0dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/add_user_back"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="BACK"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/add_user_con"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="REGISTER"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/for_approval"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cf"
+        android:backgroundTint="@color/cf"
+        android:gravity="center_vertical"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                app:cardCornerRadius="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/cf"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="WAITING FOR ADMIN APPROVAL"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        app:srcCompat="@drawable/for_approval" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/cf"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="WAITING FOR ADMIN APPROVAL"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
                     <Button
-                        android:id="@+id/add_user_con"
+                        android:id="@+id/goto_login"
                         style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:background="@color/cf"
                         android:backgroundTint="@color/cf"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:text="REGISTER"
+                        android:text="BACK TO LOG IN"
                         android:textColor="@color/white"
                         android:textSize="15dp" />
 
 
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <TextView
+
+        </ScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/get_emp_code_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cf"
+        android:backgroundTint="@color/cf"
+        android:gravity="center_vertical"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                app:cardCornerRadius="15dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/black"
-                    android:backgroundTint="@color/cf"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Note: After this registration, this device will automatically login itself using a unique code id, and one Android device for an OIC is only allowed per branch."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="ACCOUNT REGISTRATION\n\nKindly Enter Your Employee Number"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+
+                    <EditText
+                        android:id="@+id/emp_number"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Enter Your Employee Number"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="0dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/emp_back"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="BACK"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/emp_next"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="NEXT"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
     </RelativeLayout>
 
     <RelativeLayout

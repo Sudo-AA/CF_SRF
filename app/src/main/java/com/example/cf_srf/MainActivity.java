@@ -12,14 +12,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -27,24 +25,18 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -61,15 +53,12 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -77,16 +66,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -113,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
-    private static TextView srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
+    private static Button emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static TextView goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
     private static TextView vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
-    private static RelativeLayout add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
+    private static RelativeLayout for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
     private static ProgressBar log_in_prog, prog_details, search_prog;
@@ -361,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         cat_branch_notifier = findViewById(R.id.cat_branch_notifier);
         srflist_branch_notifier = findViewById(R.id.srflist_branch_notifier);
         image_branch_notifier = findViewById(R.id.image_branch_notifier);
+
         // new acc registration
         acc_details = findViewById(R.id.new_acc_details);
         login_as_branch_oic = findViewById(R.id.login_as_branch_oic);
@@ -369,6 +358,21 @@ public class MainActivity extends AppCompatActivity {
         acc_firstname = findViewById(R.id.firstname);
         acc_surname = findViewById(R.id.surname);
         back_to_login = findViewById(R.id.back_to_login);
+        // relative layout
+        get_emp_code_layout = findViewById(R.id.get_emp_code_layout);
+        //buttons
+        emp_back = findViewById(R.id.emp_back);
+        emp_next = findViewById(R.id.emp_next);
+        // textboxes
+        emp_number = findViewById(R.id.emp_number);
+        new_username = findViewById(R.id.new_username);
+        new_password = findViewById(R.id.new_password);
+        con_password = findViewById(R.id.con_password);
+
+        // for aproval
+        goto_login = findViewById(R.id.goto_login);
+        for_approval = findViewById(R.id.for_approval);
+
         //header
         headcheck = findViewById(R.id.headerstatus);
         editheader = findViewById(R.id.edit_headerstatus);
@@ -1101,7 +1105,7 @@ public class MainActivity extends AppCompatActivity {
         call_back = 1;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
-        srf_station_form.setVisibility(View.VISIBLE);
+        srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
         selectcat.setVisibility(View.GONE);
         request.setVisibility(View.GONE);
@@ -1115,7 +1119,9 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
-        logout_float.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
         acc_details.setText("Branch : " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + " \nAndroid ID :" + getAndroid_id().trim());
 
     } //12
@@ -1133,12 +1139,16 @@ public class MainActivity extends AppCompatActivity {
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
+
         if(getRegistration().equals(false)){
             new getstation_method(MainActivity.this).execute(Domain + "getstation_method/" + request_area_holder);
             iden_dept.setText(Html.fromHtml("WITH PENDING : " +
@@ -1171,13 +1181,15 @@ public class MainActivity extends AppCompatActivity {
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         select_cat.setVisibility(View.VISIBLE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
     } //3
     public void to_status_class() {
         actmenu.setVisibility(View.VISIBLE);
@@ -1200,13 +1212,15 @@ public class MainActivity extends AppCompatActivity {
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.VISIBLE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
 
     }// 10
     public void to_login() {
@@ -1234,9 +1248,11 @@ public class MainActivity extends AppCompatActivity {
         request_name_holder = null;
         request_area_holder = null;
         registration = false;
-        add_androidID.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
-        logout_float.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
 
 
     } // 8888
@@ -1264,7 +1280,10 @@ public class MainActivity extends AppCompatActivity {
             attach_textdisplay.setVisibility(View.VISIBLE);
             image_viewer_form.setVisibility(View.GONE);
             select_cat.setVisibility(View.GONE);
-            logout_float.setVisibility(View.VISIBLE);
+            for_approval.setVisibility(View.GONE);
+            add_androidID.setVisibility(View.GONE);
+            get_emp_code_layout.setVisibility(View.GONE);
+
             String srf_status;
             if(getStatus_for_Srf().equals("8888")){
                 srf_status = "FOR AM APPROVAL";
@@ -1381,14 +1400,16 @@ public class MainActivity extends AppCompatActivity {
         attach_img_form.setVisibility(View.GONE);
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
 
     } // 11
 
@@ -1405,14 +1426,16 @@ public class MainActivity extends AppCompatActivity {
         attach_img_form.setVisibility(View.GONE);
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
         if (getUser_Trigger() == true) {
             headcheck.setText("USERNAME: " + request_name_holder.trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
         } else if (getUser_Trigger() == false) {
@@ -1449,14 +1472,16 @@ public class MainActivity extends AppCompatActivity {
         attach_img_form.setVisibility(View.GONE);
         srf_list_form.setVisibility(View.VISIBLE);
         srf_editform.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
     }// 4
 
     public void to_menuform() {
@@ -1504,7 +1529,6 @@ public class MainActivity extends AppCompatActivity {
         back_add_menu.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_d.setVisibility(View.VISIBLE);
-        add_androidID.setVisibility(View.GONE);
         hidebutton.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
@@ -1512,7 +1536,10 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
 
     } // 2
 
@@ -1529,14 +1556,16 @@ public class MainActivity extends AppCompatActivity {
         srf_list_form.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.VISIBLE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
         editheader.setTextColor(Color.parseColor("#0000FF"));
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
 
@@ -1557,14 +1586,16 @@ public class MainActivity extends AppCompatActivity {
         srf_editform.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.VISIBLE);
         imagelist_imgform.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
     }// 9
 
     public void to_viewing() {
@@ -1581,7 +1612,6 @@ public class MainActivity extends AppCompatActivity {
         srf_list_form.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_img_form.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.VISIBLE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
@@ -1589,7 +1619,10 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
         edit_srf.setText("");
         String att = "";
         String content;
@@ -1663,8 +1696,55 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        logout_float.setVisibility(View.VISIBLE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
     }// 6
+
+    public void to_be_approved(){
+        actmenu.setVisibility(View.GONE);
+        srf_login_form.setVisibility(View.GONE);
+        srf_station_form.setVisibility(View.GONE);
+        detailscon.setVisibility(View.GONE);
+        selectcat.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
+        menu_form.setVisibility(View.GONE);
+        srf_list_form.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_img_form.setVisibility(View.GONE);
+        view_srf_details_form.setVisibility(View.GONE);
+        status_class_form.setVisibility(View.GONE);
+        actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.VISIBLE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+
+    }
+    public void to_get_empcode(){
+        actmenu.setVisibility(View.GONE);
+        srf_login_form.setVisibility(View.GONE);
+        srf_station_form.setVisibility(View.GONE);
+        detailscon.setVisibility(View.GONE);
+        selectcat.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
+        menu_form.setVisibility(View.GONE);
+        srf_list_form.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_img_form.setVisibility(View.GONE);
+        view_srf_details_form.setVisibility(View.GONE);
+        status_class_form.setVisibility(View.GONE);
+        actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.VISIBLE);
+
+    }
+
     // end for layout init
 
     public void adaptergetter() {
@@ -3188,25 +3268,28 @@ public class MainActivity extends AppCompatActivity {
     {
 
         Legend legend = pieChart.getLegend();
+        legend.setFormSize(12f);
+        legend.setDrawInside(false);
+        legend.setStackSpace(30f);
         legend.setWordWrapEnabled(true);
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
 
 
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItPending()), "IT DEPT PENDING SRF"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItPending()), "IT DEPT PENDING"));
         colors.add(Color.parseColor("#1100ff"));
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItOngoing()), "IT DEPT ONGOING SRF"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItOngoing()), "IT DEPT ONGOING"));
         colors.add(Color.parseColor("#09e8d9"));
 
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMePending()), "MECHANICAL PENDING SRF"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMePending()), "MECHANICAL PENDING"));
         colors.add(Color.parseColor("#ffae00"));
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMeOngoing()), "MECHANICAL ONGOING SRF"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMeOngoing()), "MECHANICAL ONGOING"));
         colors.add(Color.parseColor("#fffb00"));
 
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtPending()), "MAINTENANCE PENDING SRF" ));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtPending()), "MAINTENANCE PENDING" ));
         colors.add(Color.parseColor("#f44336"));
-        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtOngoing()), "MAINTENANCE ONGOING SRF"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtOngoing()), "MAINTENANCE ONGOING"));
         colors.add(Color.parseColor("#e809b0"));
 
         //collecting the entries with label name
@@ -3226,15 +3309,17 @@ public class MainActivity extends AppCompatActivity {
 
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
+        pieDataSet.setHighlightEnabled(true);
         pieDataSet.setSliceSpace(0.5f);
+
         //providing color list for coloring different entries
         pieDataSet.setColors(colors);
-        pieDataSet.setValueLinePart1OffsetPercentage(1f
-        );
+        pieDataSet.setValueLinePart1OffsetPercentage(1f);
         pieChart.getDescription().setText("PENDING AND ONGOING");
         pieChart.setExtraBottomOffset(5f);
         pieChart.setEntryLabelTextSize(8f);
-        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setDrawEntryLabels(false);
+        pieChart.setCenterText("SERVICE REQUEST FORM");
         //grouping the data set from entry to chart
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set
@@ -3242,6 +3327,32 @@ public class MainActivity extends AppCompatActivity {
 
         pieChart.setData(pieData);
         pieChart.invalidate();
+    }
+
+    // MD5 HASHING
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte[] messageDigest = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 
