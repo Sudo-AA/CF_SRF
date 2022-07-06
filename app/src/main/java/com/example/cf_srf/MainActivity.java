@@ -3226,11 +3226,13 @@ public class MainActivity extends AppCompatActivity {
 
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
-        pieDataSet.setSliceSpace(1f);
+        pieDataSet.setSliceSpace(0.5f);
         //providing color list for coloring different entries
         pieDataSet.setColors(colors);
+        pieDataSet.setValueLinePart1OffsetPercentage(1f
+        );
         pieChart.getDescription().setText("PENDING AND ONGOING");
-        pieChart.setExtraBottomOffset(10f);
+        pieChart.setExtraBottomOffset(5f);
         pieChart.setEntryLabelTextSize(8f);
         pieChart.setEntryLabelColor(Color.BLACK);
         //grouping the data set from entry to chart

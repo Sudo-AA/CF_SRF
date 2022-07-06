@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:gravity="left|center_vertical"
                 android:weightSum="10"
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="1dp"
@@ -31,13 +31,14 @@
 
                 <ImageView
                     android:id="@+id/menu"
-                    android:layout_width="60dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="1dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foregroundGravity="center_vertical"
-                    android:gravity="left" />
+                    android:gravity="left"
+                    android:padding="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
