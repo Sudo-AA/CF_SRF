@@ -57,9 +57,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.StackedValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -103,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
     private static Handler idle_handler;
     private static Runnable idle_runnable;
     private static int sec_for_idle = 300;
-    //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
-    private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
+    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
     private static ImageView actmenu;
-    private static ImageView acthome;
+    private static Button acthome;
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
@@ -291,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(actview);
         getSupportActionBar().hide();
         actmenu = actview.findViewById(R.id.menu);
-        acthome = actview.findViewById(R.id.home);
+
         acttitle = actview.findViewById(R.id.action_bar_title);
         actmenu.setVisibility(View.GONE);
         actmenu.setBackgroundResource(R.drawable.new_menu);
@@ -300,6 +303,8 @@ public class MainActivity extends AppCompatActivity {
 
         srf_edit = (Button) findViewById(R.id.new_edit_srf);
         srf_add = (Button) findViewById(R.id.new_add_srf);
+        acthome = (Button) findViewById(R.id.new_home);
+
         // BUTTON HERE--------------------------------------------------------------------------------
         vercode = (TextView) findViewById(R.id.vercode);
         vercode.setText("Version : "+version);
@@ -862,7 +867,7 @@ public class MainActivity extends AppCompatActivity {
         cat_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                to_menuform();
+                to_station();
             }
         });
 
@@ -893,22 +898,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 to_menuform();
+                menulayout.setVisibility(View.GONE);
+                actmenu.setBackgroundResource(R.drawable.new_menu);
+                acthome.setEnabled(false);
                 srf_add.setEnabled(true);
                 srf_edit.setEnabled(true);
+
+                acthome.setBackgroundResource(R.color.white);
                 srf_add.setBackgroundResource(R.color.cf);
                 srf_edit.setBackgroundResource(R.color.cf);
+                acthome.setTextColor(Color.BLACK);
+                srf_add.setTextColor(Color.WHITE);
+                srf_edit.setTextColor(Color.WHITE);
                 acttitle.setText("SERVICE REQUEST FORM");
             }
         });
         srf_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                menulayout.setVisibility(View.GONE);
+                actmenu.setBackgroundResource(R.drawable.new_menu);
                 menutrigger = true;
                 to_station();
+                acthome.setEnabled(true);
                 srf_add.setEnabled(false);
                 srf_edit.setEnabled(true);
+                acthome.setBackgroundResource(R.color.cf);
                 srf_add.setBackgroundResource(R.color.white);
                 srf_edit.setBackgroundResource(R.color.cf);
+                acthome.setTextColor(Color.WHITE);
+                srf_add.setTextColor(Color.BLACK);
+                srf_edit.setTextColor(Color.WHITE);
                 acttitle.setText("ADD SRF");
             }
         });
@@ -916,12 +936,19 @@ public class MainActivity extends AppCompatActivity {
         srf_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                menulayout.setVisibility(View.GONE);
+                actmenu.setBackgroundResource(R.drawable.new_menu);
                 menutrigger = false;
                 to_station();
+                acthome.setEnabled(true);
                 srf_add.setEnabled(true);
                 srf_edit.setEnabled(false);
+                acthome.setBackgroundResource(R.color.cf);
                 srf_add.setBackgroundResource(R.color.cf);
                 srf_edit.setBackgroundResource(R.color.white);
+                acthome.setTextColor(Color.WHITE);
+                srf_add.setTextColor(Color.WHITE);
+                srf_edit.setTextColor(Color.BLACK);
                 acttitle.setText("VIEW SRF");
             }
         });
@@ -1118,7 +1145,7 @@ public class MainActivity extends AppCompatActivity {
                     "<font color='#1100FF'> (IT) </font>" +
                     "<font color='#FF9F12'> (ME) </font>" +
                     "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
-            call_back = 0;
+            call_back = 2;
             iden_dept.setVisibility(View.VISIBLE);
             logout_float.setVisibility(View.VISIBLE);
             idle_trigger = true;
@@ -1133,7 +1160,7 @@ public class MainActivity extends AppCompatActivity {
     }//1
     public void to_dept(){
         actmenu.setVisibility(View.VISIBLE);
-        call_back = 2;
+        call_back = 1;
         idle_trigger = true;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1433,10 +1460,23 @@ public class MainActivity extends AppCompatActivity {
     }// 4
 
     public void to_menuform() {
-        GRAPHData();
+        new pie_data_getter(MainActivity.this).execute(Domain.concat("totals"));
         getSupportActionBar().show();
+        menulayout.setVisibility(View.GONE);
+        actmenu.setBackgroundResource(R.drawable.new_menu);
+        acthome.setEnabled(false);
+        srf_add.setEnabled(true);
+        srf_edit.setEnabled(true);
+
+        acthome.setBackgroundResource(R.color.white);
+        srf_add.setBackgroundResource(R.color.cf);
+        srf_edit.setBackgroundResource(R.color.cf);
+        acthome.setTextColor(Color.BLACK);
+        srf_add.setTextColor(Color.WHITE);
+        srf_edit.setTextColor(Color.WHITE);
+        acttitle.setText("SERVICE REQUEST FORM");
         actmenu.setVisibility(View.VISIBLE);
-        call_back =1 ;
+        call_back = 0;
         idle_trigger = true;
         status_trigger = false;
         srfList = null;
@@ -1766,9 +1806,10 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         to_viewing();
                         setStatus_trigger(false);
+                        edit_srf.setText("");
                         break;
                     case 2:
-                        to_menuform();
+                        to_station();
                         editreq.setText("");
                         break;
 
@@ -3056,6 +3097,80 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // for total pie chart
+
+    class pie_data_getter extends AsyncTask<String, Void, String> {
+        String status = null;
+        Activity context;
+
+        public pie_data_getter(Activity context) {
+            this.context = context;
+
+        }
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+
+            BufferedReader reader;
+            try {
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+
+                    while ((line = reader.readLine()) != null) {
+                        status = line;
+                    }
+                } else {
+                    status = "SS";
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                status = "SS";
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null && !result.equals("SS")) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        //it
+                        pie_variables.setItPending(object.getString("IT_pen").trim());
+                        pie_variables.setItOngoing(object.getString("IT_on").trim());
+                        //me
+                        pie_variables.setMePending(object.getString("ME_pen").trim());
+                        pie_variables.setMeOngoing(object.getString("ME_on").trim());
+                        //mt
+                        pie_variables.setMtPending(object.getString("MT_pen").trim());
+                        pie_variables.setMtOngoing(object.getString("MT_on").trim());
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                GRAPHData();
+            } else {
+                dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
+                finish();
+            }
+        }
+    }
+
     private class MyFocusChangeListener implements View.OnFocusChangeListener {
 
         public void onFocusChange(View v, boolean hasFocus){
@@ -3068,28 +3183,56 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void GRAPHData()
     {
+
+        Legend legend = pieChart.getLegend();
+        legend.setWordWrapEnabled(true);
+
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        String label = "type";
         ArrayList<Integer> colors = new ArrayList<>();
 
 
-        pieEntries.add(new PieEntry(40f, "IT DEPARTMENT"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItPending()), "IT DEPT PENDING SRF"));
         colors.add(Color.parseColor("#1100ff"));
-        pieEntries.add(new PieEntry(66f, "MECHANICAL"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItOngoing()), "IT DEPT ONGOING SRF"));
+        colors.add(Color.parseColor("#09e8d9"));
+
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMePending()), "MECHANICAL PENDING SRF"));
         colors.add(Color.parseColor("#ffae00"));
-        pieEntries.add(new PieEntry(70f, "MAINTENANCE"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMeOngoing()), "MECHANICAL ONGOING SRF"));
+        colors.add(Color.parseColor("#fffb00"));
+
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtPending()), "MAINTENANCE PENDING SRF" ));
         colors.add(Color.parseColor("#f44336"));
+        pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getMtOngoing()), "MAINTENANCE ONGOING SRF"));
+        colors.add(Color.parseColor("#e809b0"));
 
         //collecting the entries with label name
-        PieDataSet pieDataSet = new PieDataSet(pieEntries,label);
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntries,"");
+
+
+        pieDataSet.setValueFormatter(new ValueFormatter() {
+        @Override
+        public String getFormattedValue(float value) {
+            return String.valueOf((int) Math.floor(value));
+        }
+    });
+
+        // trialials
+
 
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
+        pieDataSet.setSliceSpace(1f);
         //providing color list for coloring different entries
         pieDataSet.setColors(colors);
-        pieChart.setContentDescription("PENDING AND ON-PROCESS SRF");
+        pieChart.getDescription().setText("PENDING AND ONGOING");
+        pieChart.setExtraBottomOffset(10f);
+        pieChart.setEntryLabelTextSize(8f);
+        pieChart.setEntryLabelColor(Color.BLACK);
         //grouping the data set from entry to chart
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set
