@@ -1150,7 +1150,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(getRegistration().equals(false)){
-            new getstation_method(MainActivity.this).execute(Domain + "getstation_method/" + request_area_holder);
+            new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + request_area_holder));
             iden_dept.setText(Html.fromHtml("WITH PENDING : " +
                     "<font color='#1100FF'> (IT) </font>" +
                     "<font color='#FF9F12'> (ME) </font>" +
