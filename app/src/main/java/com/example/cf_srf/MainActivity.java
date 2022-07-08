@@ -82,8 +82,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
+// ENCAPSULATE EVERYTHING
 public class MainActivity extends AppCompatActivity {
+    private static RelativeLayout PARENT;
     private static String APP_UPDATE_SERVER_URL;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private static Button emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
-    private static TextView vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
+    private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
@@ -257,6 +258,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // PARENT LAYOUT
+        PARENT = (RelativeLayout) findViewById(R.id.parent) ;
+
         // PIE CHART -----------------------------------------------------------------------------
         pieChart = findViewById(R.id.piechart);
         // idle --------------------------------------------------------------------------------
@@ -407,6 +411,8 @@ public class MainActivity extends AppCompatActivity {
         attach_textdisplay =(TextView) findViewById(R.id.attach_textdisplay);
         prog_details = (ProgressBar) findViewById(R.id.prog_for_details);
         for_am = (CheckBox) findViewById(R.id.checkBox_am);
+        statrec = findViewById(R.id.station_list);
+        status_header = findViewById(R.id.status_header);
 
         // for cat select
         select_cat = (RelativeLayout) findViewById(R.id.select_cat) ;
@@ -883,17 +889,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 // menu action bar show ---------------------------------------------------------------------------------------------------
+        // close menu anywhere ----------------------------------------------------------------------------------------------
+
+        PARENT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nav_closer();
+            }
+        });
+
         actmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (actionbartrigger.equals(false)){
-                    menulayout.setVisibility(View.VISIBLE);
-                    actionbartrigger =  true;
-                    actmenu.setBackgroundResource(R.drawable.new_back);
+                    nav_opener();
                 }else{
-                    menulayout.setVisibility(View.GONE);
-                    actionbartrigger =  false;
-                    actmenu.setBackgroundResource(R.drawable.new_menu);
+                    nav_closer();
                 }
 
             }
@@ -902,8 +913,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 to_menuform();
-                menulayout.setVisibility(View.GONE);
-                actmenu.setBackgroundResource(R.drawable.new_menu);
+                nav_closer();
                 acthome.setEnabled(false);
                 srf_add.setEnabled(true);
                 srf_edit.setEnabled(true);
@@ -920,8 +930,7 @@ public class MainActivity extends AppCompatActivity {
         srf_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menulayout.setVisibility(View.GONE);
-                actmenu.setBackgroundResource(R.drawable.new_menu);
+                nav_closer();
                 menutrigger = true;
                 to_station();
                 acthome.setEnabled(true);
@@ -940,8 +949,7 @@ public class MainActivity extends AppCompatActivity {
         srf_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menulayout.setVisibility(View.GONE);
-                actmenu.setBackgroundResource(R.drawable.new_menu);
+                nav_closer();
                 menutrigger = false;
                 to_station();
                 acthome.setEnabled(true);
@@ -957,6 +965,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 // menu action bar show ---------------------------------------------------------------------------------------------------
+
+
     }
 
 
@@ -1127,7 +1137,7 @@ public class MainActivity extends AppCompatActivity {
     } //12
 
     public void to_station() {
-
+        statrec.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         search_prog.setVisibility(View.VISIBLE);
         srf_login_form.setVisibility(View.GONE);
@@ -1150,15 +1160,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(getRegistration().equals(false)){
-            new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + request_area_holder));
-            iden_dept.setText(Html.fromHtml("WITH PENDING : " +
-                    "<font color='#1100FF'> (IT) </font>" +
-                    "<font color='#FF9F12'> (ME) </font>" +
-                    "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
-            call_back = 2;
-            iden_dept.setVisibility(View.VISIBLE);
-            logout_float.setVisibility(View.VISIBLE);
-            idle_trigger = true;
+           if( getMenutrigger().equals(false)){
+               new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + request_area_holder));
+               iden_dept.setText(Html.fromHtml("WITH PENDING : " +
+                       "<font color='#1100FF'> (IT) </font>" +
+                       "<font color='#FF9F12'> (ME) </font>" +
+                       "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+               call_back = 2;
+               iden_dept.setVisibility(View.VISIBLE);
+
+               idle_trigger = true;
+           }else{
+               new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
+               iden_dept.setVisibility(View.GONE);
+               call_back = 2;
+               idle_trigger = true;
+           }
+
         }else{
             call_back = 8888;
             new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
@@ -1198,8 +1216,17 @@ public class MainActivity extends AppCompatActivity {
             if(getStatus_trigger().equals(false)){
                 call_back = 3;
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
+
+                if (status_list != null) {
+                    if (status_list.size() == 0) {
+                        status_header.setText("SELECT STATUS TO VIEW");
+                    } else {
+                        status_header.setText("NO DATA");
+                    }
+                }
             }else{
                 call_back = 7;
+                status_header.setText("SELECT STATUS TO BE APPLIED");
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/0000/0000"));
             }
 
@@ -1749,7 +1776,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void adaptergetter() {
 
-        statrec = findViewById(R.id.station_list);
+
         statrec.setVisibility(View.VISIBLE);
         statrec.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -3278,7 +3305,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItPending()), "IT DEPT PENDING"));
-        colors.add(Color.parseColor("#1100ff"));
+        colors.add(Color.parseColor("#3590ae"));
         pieEntries.add(new PieEntry(Float.parseFloat(pie_variables.getItOngoing()), "IT DEPT ONGOING"));
         colors.add(Color.parseColor("#09e8d9"));
 
@@ -3320,7 +3347,7 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setEntryLabelTextSize(8f);
         pieChart.setDrawEntryLabels(false);
         pieChart.setCenterText("SERVICE REQUEST FORM");
-        //grouping the data set from entry to chart
+        //grouping the data set from entry to chartW
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set
         pieData.setDrawValues(true);
@@ -3353,6 +3380,20 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static void nav_closer(){
+        menulayout.setVisibility(View.GONE);
+        actionbartrigger =  false;
+        actmenu.setBackgroundResource(R.drawable.new_menu);
+        PARENT.setVisibility(View.GONE);
+
+    }
+    public static void nav_opener(){
+        menulayout.setVisibility(View.VISIBLE);
+        actionbartrigger =  true;
+        actmenu.setBackgroundResource(R.drawable.new_back);
+        PARENT.setVisibility(View.VISIBLE);
     }
 
 

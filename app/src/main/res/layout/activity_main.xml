@@ -8,6 +8,7 @@
 
 
 
+
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -254,6 +255,18 @@
                     android:textSize="20dp" />
 
 
+                <TextView
+                    android:id="@+id/identifier_dept"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:text="SELECT YOUR BRANCH"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
                 <EditText
                     android:id="@+id/srf_searchstn"
                     android:layout_width="match_parent"
@@ -295,21 +308,10 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/station_list"
                         android:layout_width="match_parent"
-                        android:layout_height="388dp"
+                        android:layout_height="match_parent"
                         android:layout_margin="20dp"
                         android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/identifier_dept"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="SELECT YOUR BRANCH"
-                        android:textColor="@color/black"
-                        android:textSize="14dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1341,7 +1343,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+<!-- FOR NEW USER-->
     <RelativeLayout
         android:id="@+id/add_androidID"
         android:layout_width="match_parent"
@@ -1349,7 +1351,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -1407,7 +1409,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/abstract_blurred_nature_background_bokeh_260nw_1422478343"
+                            android:src="@drawable/upload_image"
                             app:civ_border_color="@color/black"
                             app:civ_border_width="3dp" />
 
@@ -1451,10 +1453,10 @@
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Note: "
+                        android:text="Note: \nAFTER ACCOUNT REGISTRATION, YOUR NEWLY MADE ACCOUNT NEEDS TO BE APPROVED BY THE ADMIN BEFORE YOU CAN FULLY USE IT."
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                         android:textColor="@color/black"
-                        android:textSize="14dp" />
+                        android:textSize="11dp" />
 
                     <EditText
                         android:id="@+id/firstname"
@@ -1465,11 +1467,11 @@
                         android:layout_marginRight="30dp"
                         android:backgroundTint="@color/cf"
                         android:capitalize="characters"
-                        android:enabled="false"
                         android:ems="10"
+                        android:enabled="false"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
-                        android:hint="Enter your First Name"
+                        android:hint="Firstname"
                         android:imeOptions="actionDone"
                         android:inputType="textPersonName"
                         android:outlineSpotShadowColor="@color/black"
@@ -1490,11 +1492,11 @@
                         android:layout_marginRight="30dp"
                         android:backgroundTint="@color/cf"
                         android:capitalize="characters"
-                        android:enabled="false"
                         android:ems="10"
+                        android:enabled="false"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
-                        android:hint="Enter your Surname"
+                        android:hint="Surname"
                         android:imeOptions="actionDone"
                         android:inputType="textPersonName"
                         android:outlineSpotShadowColor="@color/black"
@@ -1541,7 +1543,7 @@
                         android:ems="10"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
-                        android:hint="New Password"
+                        android:hint="Set Password"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:outlineSpotShadowColor="@color/black"
@@ -1620,7 +1622,7 @@
 
         </ScrollView>
     </RelativeLayout>
-
+    <!-- LAYOUT APPROVAL-->
     <RelativeLayout
         android:id="@+id/for_approval"
         android:layout_width="match_parent"
@@ -1671,7 +1673,7 @@
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
                         android:padding="2dp"
-                        android:text="WAITING FOR ADMIN APPROVAL"
+                        android:text="WAIT FOR ADMIN APPROVAL"
                         android:textColor="@color/white"
                         android:textSize="18dp" />
 
@@ -2011,6 +2013,7 @@
                     tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                 <TextView
+                    android:id="@+id/status_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -2279,6 +2282,18 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+<!--navigaion with parent-->
+    <RelativeLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/menulayout"
         android:layout_width="250dp"
@@ -2386,6 +2401,7 @@
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
+</RelativeLayout>
     <TextView
         android:id="@+id/vercode"
         android:layout_width="wrap_content"

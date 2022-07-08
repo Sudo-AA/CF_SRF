@@ -83,10 +83,6 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
             }else{
                 holder.MT.setVisibility(View.VISIBLE);
             }
-
-
-
-
         }
 
     }
