@@ -1218,11 +1218,13 @@ public class MainActivity extends AppCompatActivity {
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
 
                 if (status_list != null) {
-                    if (status_list.size() == 0) {
+                    if (status_list.size() != 0) {
                         status_header.setText("SELECT STATUS TO VIEW");
                     } else {
                         status_header.setText("NO DATA");
                     }
+                }else{
+                    status_header.setText("NO DATA");
                 }
             }else{
                 call_back = 7;
