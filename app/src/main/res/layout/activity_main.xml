@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
+    <!--Login form-->
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -204,7 +204,7 @@
 
     </RelativeLayout>
 
-
+    <!--station list-->
     <RelativeLayout
         android:id="@+id/station_form"
         android:layout_width="match_parent"
@@ -343,7 +343,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--category list-->
     <RelativeLayout
         android:id="@+id/requestfor_form"
         android:layout_width="match_parent"
@@ -427,7 +427,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--SRF add-->
     <RelativeLayout
         android:id="@+id/requestform"
         android:layout_width="match_parent"
@@ -554,7 +554,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--final details-->
     <RelativeLayout
         android:id="@+id/checkform"
         android:layout_width="match_parent"
@@ -765,7 +765,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-<!-- new HOME PAGE  -->
+    <!-- new HOME PAGE  -->
     <RelativeLayout
         android:id="@+id/menuform"
         android:layout_width="match_parent"
@@ -845,7 +845,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--srf list viewer-->
     <RelativeLayout
         android:id="@+id/srf_form"
         android:layout_width="match_parent"
@@ -945,7 +945,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--add action per srf-->
     <RelativeLayout
         android:id="@+id/edit_form"
         android:layout_width="match_parent"
@@ -1088,7 +1088,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--ATTACH IMAGE LAYOUT-->
     <RelativeLayout
         android:id="@+id/attachingform"
         android:layout_width="match_parent"
@@ -1229,7 +1229,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!-- IMAGE VIEWER LAYOUT-->
     <RelativeLayout
         android:id="@+id/imageViewer_form"
         android:layout_width="match_parent"
@@ -1303,7 +1303,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-<!-- FOR NEW USER-->
+    <!-- FOR NEW USER-->
     <RelativeLayout
         android:id="@+id/add_androidID"
         android:layout_width="match_parent"
@@ -1678,7 +1678,7 @@
 
         </ScrollView>
     </RelativeLayout>
-
+    <!--NEW USER EMPLOYEE NO. GETTER-->
     <RelativeLayout
         android:id="@+id/get_emp_code_layout"
         android:layout_width="match_parent"
@@ -1799,7 +1799,7 @@
 
         </ScrollView>
     </RelativeLayout>
-
+    <!--DETAILS VIEWER FROM SRF LIST-->
     <RelativeLayout
         android:id="@+id/view_full_details"
         android:layout_width="match_parent"
@@ -1934,7 +1934,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--STATUS CLASS LIST-->
     <RelativeLayout
         android:id="@+id/status_class_form"
         android:layout_width="match_parent"
@@ -2018,7 +2018,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--ACTION VIEWER PER SRF-->
     <RelativeLayout
         android:id="@+id/actions_for_srf"
         android:layout_width="match_parent"
@@ -2124,7 +2124,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-
+    <!--SELECT DEPARTMENT-->
     <RelativeLayout
         android:id="@+id/select_cat"
         android:layout_width="match_parent"
@@ -2253,7 +2253,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
-
+        <!--NAVIGATION LAYOUT-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/menulayout"
         android:layout_width="250dp"
@@ -2362,6 +2362,7 @@
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
 </RelativeLayout>
+    <!--VERSION INDICATOR-->
     <TextView
         android:id="@+id/vercode"
         android:layout_width="wrap_content"
