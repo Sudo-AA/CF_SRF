@@ -66,7 +66,7 @@ public class technician_adapter extends RecyclerView.Adapter<technician_adapter.
         technician t = tech.get(position);
         holder.itemView.setTag(t.get(position));
         holder.name.setText(t.getEmpname().trim());
-        if (t.getEmpname().trim().equals(MainActivity.getRequest_name_holder().trim()+" "+MainActivity.getRequest_lname_holder().trim())){
+        if (t.getEmpcode().trim().equals(user.getEmpcode().trim())){
             holder.name.setChecked(true);
         }
     }

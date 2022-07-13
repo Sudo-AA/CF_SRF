@@ -7,8 +7,6 @@
     tools:context=".MainActivity">
 
 
-
-
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -157,10 +155,11 @@
                     android:visibility="gone" />
 
                 <LinearLayout
-
+                    android:id="@+id/fingerlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
@@ -510,17 +509,6 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/cf"
                         android:textSize="14dp" />
-
-                    <CheckBox
-                        android:id="@+id/checkBox_am"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:buttonTint="@color/black"
-                        android:text="FOR AM APPROVAL( leave uncheck if not )"
-                        android:textColor="@color/black"
-                        android:textSize="13dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -885,7 +873,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:paddingBottom="5dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -908,17 +896,13 @@
                     android:textSize="14dp" />
 
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="0dp"
                         android:orientation="horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
 
                         <TextView
                             android:id="@+id/norecord"
@@ -937,7 +921,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/srf_list"
                             android:layout_width="match_parent"
-                            android:layout_height="430dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="20dp"
                             android:visibility="gone" />
 
@@ -952,36 +936,12 @@
                             android:progressDrawable="@color/black"
                             android:progressTint="@color/black" />
                     </LinearLayout>
-                </ScrollView>
 
                 <androidx.constraintlayout.widget.Barrier
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:barrierDirection="left" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <Button
-                        android:id="@+id/srf_back"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@color/cf"
-                        android:backgroundTint="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="BACK"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        app:iconPadding="1dp" />
-                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
@@ -1786,7 +1746,7 @@
                         android:gravity="center"
                         android:hint="Enter Your Employee Number"
                         android:imeOptions="actionDone"
-                        android:inputType="textPassword"
+                        android:inputType="number"
                         android:outlineSpotShadowColor="@color/black"
                         android:padding="10dp"
                         android:shadowColor="@color/black"
@@ -2316,7 +2276,7 @@
                 android:weightSum="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
+                    android:id="@+id/profile_image_nav"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/abstract_blurred_nature_background_bokeh_260nw_1422478343"
@@ -2324,7 +2284,7 @@
                     app:civ_border_width="2dp" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/user_textnav"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

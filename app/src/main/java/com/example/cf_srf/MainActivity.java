@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, srflist_back, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static Button emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
-    private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,login_as_branch_oic, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
+    private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,new_registration, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
@@ -119,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
     private static List<sra> sraList;
     private static ArrayList<technician> tech_list;
     private static ArrayList<img_loc> img_locList;
+    // temporary variables
+    private static String regemp;
+    private static String regfname;
+    private static String reglname;
     // init for info holder variables--------------------------
-    private static String request_name_holder;
-    private static String request_lname_holder;
-    private static String request_area_holder;
     private static String img_stn_code;
     private static Boolean menutrigger = null;
     private static Boolean triger = null;
-    private static Boolean User_Trigger = null;
     private static Boolean registration = null;
     private static Boolean details_viewing_trigger = false;
     private static Boolean upload_trigger = null;
@@ -135,10 +135,8 @@ public class MainActivity extends AppCompatActivity {
     private static String android_id;
     private static String status_holder;
     private static String status_holder_name;
-    private static String status_for_Srf;
     private static String dept;
     private static String dept_desc;
-    private static CheckBox for_am;
     private static Button logout_float;
     private static AlertDialog.Builder builder1, builder2, builder3;
     private static int call_back =9999;
@@ -147,13 +145,6 @@ public class MainActivity extends AppCompatActivity {
     private static Boolean actionbartrigger = false;
     private static PieChart pieChart;
 
-    public static String getRequest_name_holder() {
-        return request_name_holder;
-    }
-
-    public static String getRequest_lname_holder() {
-        return request_lname_holder;
-    }
 
     public static String getDept() {
         return dept;
@@ -171,13 +162,6 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.dept_desc = dept_desc;
     }
 
-    public static String getStatus_for_Srf() {
-        return status_for_Srf;
-    }
-
-    public static void setStatus_for_Srf(String status_for_Srf) {
-        MainActivity.status_for_Srf = status_for_Srf;
-    }
 
     public static String getStatus_holder_name() {
         return status_holder_name;
@@ -246,13 +230,6 @@ public class MainActivity extends AppCompatActivity {
         return menutrigger;
     }
 
-    public static Boolean getUser_Trigger() {
-        return User_Trigger;
-    }
-
-    public static void setUser_Trigger(Boolean user_Trigger) {
-        User_Trigger = user_Trigger;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,7 +284,6 @@ public class MainActivity extends AppCompatActivity {
         req_con = findViewById(R.id.confirm_request);
         req_back = findViewById(R.id.back_request);
         cat_back = findViewById(R.id.cat_back);
-        srflist_back = findViewById(R.id.srf_back);
         back_add_menu = findViewById(R.id.add_back_menu);
 
         // button for edit srf
@@ -356,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
 
         // new acc registration
         acc_details = findViewById(R.id.new_acc_details);
-        login_as_branch_oic = findViewById(R.id.login_as_branch_oic);
+        new_registration = findViewById(R.id.login_as_branch_oic);
         add_user_back = findViewById(R.id.add_user_back);
         add_user_con = findViewById(R.id.add_user_con);
         acc_firstname = findViewById(R.id.firstname);
@@ -410,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
         tech_listview = (RecyclerView) findViewById(R.id.tech_list);
         attach_textdisplay =(TextView) findViewById(R.id.attach_textdisplay);
         prog_details = (ProgressBar) findViewById(R.id.prog_for_details);
-        for_am = (CheckBox) findViewById(R.id.checkBox_am);
         statrec = findViewById(R.id.station_list);
         status_header = findViewById(R.id.status_header);
 
@@ -518,6 +493,9 @@ public class MainActivity extends AppCompatActivity {
                     case 16:
                         dialog_to_exit("DISCARD YOUR WORK ?", 2);; // for request back to menu from cat;
                         break;
+                    case 17:
+                        to_get_empcode();
+                        break;
                 }
             }
         };
@@ -531,17 +509,13 @@ public class MainActivity extends AppCompatActivity {
                 String pass = srf_user_pass.getText().toString();
 
                 if (isEmpty(user) || isEmpty(pass)) {
-                    Toast.makeText(getApplicationContext(), "PLEASE FILL THE EMPTY TEXT BOXES", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "PLEASE FILL EMPTY TEXT BOXES", Toast.LENGTH_SHORT).show();
                     log_in_prog.setVisibility(View.GONE);
                 } else {
                     srf_login.setEnabled(false);
                     log_in_prog.setVisibility(View.VISIBLE);
-
-                    new getlogin_method(MainActivity.this).execute(Domain.concat("check_login/"+user+"/" + pass));
+                    new getlogin_method(MainActivity.this).execute(Domain.concat("check_login/"+user+"/" + md5(pass.trim()).trim()));
                     setRegistration(false);
-
-
-
                 }
             }
 
@@ -581,11 +555,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog("THE REQUEST IS EMPTY");
                 }
 
-                if (for_am.isChecked()){
-                    setStatus_for_Srf("8888");
-                }else{
-                    setStatus_for_Srf("9999");
-                }
+
             }
         });
 
@@ -617,14 +587,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        srflist_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                to_status_class();
-            }
-        });
 
         back_add_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -770,14 +732,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        login_as_branch_oic.setOnClickListener(new View.OnClickListener() {
+        new_registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // to_new acc as first login
-                log_in_prog.setVisibility(View.VISIBLE);
-                login_as_branch_oic.setEnabled(false);
-                new branch_login(MainActivity.this).execute(Domain.concat("oic_login/" + getAndroid_id().trim()));
-
+                to_get_empcode();
             }
         });
         back_to_login.setOnClickListener(new View.OnClickListener() {
@@ -786,21 +745,6 @@ public class MainActivity extends AppCompatActivity {
                 setRegistration(false);
                 to_login();
                 hidebutton.setVisibility(View.GONE);
-            }
-        });
-        add_user_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                to_station();
-                hidebutton.setVisibility(View.VISIBLE);
-
-            }
-        });
-        add_user_con.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                acc_firstname.getText();
-                new add_acc(MainActivity.this).execute(Domain.concat("add_oic_device/" + acc_firstname.getText().toString().trim() + "/" + acc_surname.getText().toString().trim() + "/" + getAndroid_id().trim() + "/" + station_adapter.getUni_stncode()));
             }
         });
         back_view_details.setOnClickListener(new View.OnClickListener() {
@@ -897,7 +841,6 @@ public class MainActivity extends AppCompatActivity {
                 nav_closer();
             }
         });
-
         actmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -945,7 +888,6 @@ public class MainActivity extends AppCompatActivity {
                 acttitle.setText("ADD SRF");
             }
         });
-
         srf_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -965,7 +907,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 // menu action bar show ---------------------------------------------------------------------------------------------------
+// for registration
 
+        emp_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                to_login();
+            }
+        });
+        emp_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emp = emp_number.getText().toString();
+                if (isEmpty(emp)){
+                    dialog("PLEASE ENTER YOUR EMPLOYEE NUMBER ");
+                }else{
+                    new get_techinfo(MainActivity.this).execute(Domain.concat("get_emp/"+emp.trim()));
+                }
+
+            }
+        });
+        add_user_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                to_get_empcode();
+                hidebutton.setVisibility(View.VISIBLE);
+            }
+        });
+        add_user_con.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usern =  new_username.getText().toString();
+                String newpass = new_password.getText().toString();
+                String conpass = con_password.getText().toString();
+
+                if (isEmpty(usern) || isEmpty(newpass) || isEmpty(conpass)) {
+                    if (conpass.equals(newpass)){
+                        new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/"+regemp.trim()+"/"+regfname.trim()+"/"+reglname.trim()+"/"+usern+"/"+ newpass ));
+                    }else{
+                        dialog("TWO PASSWORDS DOES NOT MATCH, PLEASE CHECK AND RETYPE");
+                    }
+                }else{
+                    dialog("PLEASE FILL EMPTY TEXT BOXES");
+                }
+
+
+            }
+        });
 
     }
 
@@ -1032,11 +1020,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             if (getMenutrigger() == true) {
-                if (getUser_Trigger() == true) {
-                    new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
-                } else if (getUser_Trigger() == false) {
-                    new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + reusable_variables.getStation_code().trim()));
-                }
+                new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
             }
         } else if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 
@@ -1044,11 +1028,8 @@ public class MainActivity extends AppCompatActivity {
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
             currentPhotoPath = path;
             if (getMenutrigger() == true) {
-                if (getUser_Trigger() == true) {
                     new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
-                } else if (getUser_Trigger() == false) {
-                    new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + reusable_variables.getStation_code().trim()));
-                }
+
             }
         }
     }
@@ -1090,11 +1071,9 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (getMenutrigger() == true) {
-                        if (getUser_Trigger() == true) {
-                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// get image list oic access
-                        } else if (getUser_Trigger() == false) {
-                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + reusable_variables.getStation_code() + "/" + img_stn_code.trim()));// get image list by basic user
-                        }
+
+                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
+
 
                     }
                 }
@@ -1112,7 +1091,7 @@ public class MainActivity extends AppCompatActivity {
     // radio button
 
     public void to_newacc() {
-        call_back = 1;
+        call_back = 17;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1131,8 +1110,6 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         for_approval.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
-
-        acc_details.setText("Branch : " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + " \nAndroid ID :" + getAndroid_id().trim());
 
     } //12
 
@@ -1159,9 +1136,8 @@ public class MainActivity extends AppCompatActivity {
         get_emp_code_layout.setVisibility(View.GONE);
 
 
-        if(getRegistration().equals(false)){
            if( getMenutrigger().equals(false)){
-               new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + request_area_holder));
+               new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + user.getOps_area().trim()));
                iden_dept.setText(Html.fromHtml("WITH PENDING : " +
                        "<font color='#1100FF'> (IT) </font>" +
                        "<font color='#FF9F12'> (ME) </font>" +
@@ -1177,13 +1153,6 @@ public class MainActivity extends AppCompatActivity {
                idle_trigger = true;
            }
 
-        }else{
-            call_back = 8888;
-            new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
-            iden_dept.setVisibility(View.GONE);
-            logout_float.setVisibility(View.GONE);
-            idle_trigger = false;
-        }
 
     }//1
     public void to_dept(){
@@ -1271,11 +1240,14 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
-        reusable_variables.setStation_code(null);
-        reusable_variables.setStation_code(null);
-        reusable_variables.setUser_firstname(null);
-        request_name_holder = null;
-        request_area_holder = null;
+        user.setFirstname(null);
+        user.setLastname(null);
+        user.setUsername(null);
+        user.setOps_area(null);
+        user.setEmpcode(null);
+        user.setEmpdept(null);
+        user.setAdmin(null);
+        user.setApprove(null);
         registration = false;
         select_cat.setVisibility(View.GONE);
         for_approval.setVisibility(View.GONE);
@@ -1314,25 +1286,16 @@ public class MainActivity extends AppCompatActivity {
             get_emp_code_layout.setVisibility(View.GONE);
 
             String srf_status;
-            if(getStatus_for_Srf().equals("8888")){
-                srf_status = "FOR AM APPROVAL";
-            }else{
-                srf_status = "PENDING";
-            }
+
+            srf_status = "PENDING";
+
             // user trigger
 
-
-            if (getUser_Trigger() == true) {
-                user_check.setText(Html.fromHtml("USERNAME: <font color='blue'>"+request_name_holder.trim()+"</font>"), TextView.BufferType.SPANNABLE);
+                user_check.setText(Html.fromHtml("USERNAME: <font color='blue'>"+user.getFirstname().trim()+"</font>"), TextView.BufferType.SPANNABLE);
                 stn_check.setText(Html.fromHtml("STATION NAME: <font color='blue'>"+station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") "+"</font>"), TextView.BufferType.SPANNABLE);
                 cat.setText(Html.fromHtml("CATEGORY: <font color='blue'>"+cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") "+"</font>" + "<br><br>STATUS:  <font color='blue'>"+srf_status+ ") "+"</font>"), TextView.BufferType.SPANNABLE);
                 req.setText(Html.fromHtml("REQUEST: <br><br> <font color='blue'>"+editreq.getText()+"</font><br>" ), TextView.BufferType.SPANNABLE);
-            } else if (getUser_Trigger() == false) {
-                user_check.setText(Html.fromHtml("USERNAME: <font color='blue'>"+reusable_variables.getUser_firstname().trim()+"</font>"), TextView.BufferType.SPANNABLE);
-                stn_check.setText(Html.fromHtml("STATION NAME: <font color='blue'>"+reusable_variables.getStation_name().trim() + " (" + reusable_variables.getStation_code().trim()+ ") "+"</font>"), TextView.BufferType.SPANNABLE);
-                cat.setText(Html.fromHtml("CATEGORY: <font color='blue'>"+cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") "+"</font>" + "<br><br>STATUS:  <font color='blue'>"+srf_status+ ") "+"</font>"), TextView.BufferType.SPANNABLE);
-                req.setText(Html.fromHtml("REQUEST: <br><br> <font color='blue'>"+editreq.getText()+"</font><br>" ), TextView.BufferType.SPANNABLE);
-            }
+
             noimage_attach.setVisibility(View.VISIBLE);
             review_images.setVisibility(View.GONE);
             if (img_locList != null) {
@@ -1354,7 +1317,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (getMenutrigger() == false) {
-            call_back = 10;
+            if (status_holder.trim().equals("8888")){
+                call_back = 7;
+            }else{
+                call_back = 10;
+            }
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
             srf_station_form.setVisibility(View.GONE);
@@ -1390,7 +1357,7 @@ public class MainActivity extends AppCompatActivity {
                 tech_replace = "NO DATA";
             }
             stn_check.setText(Html.fromHtml(
-                    "<br>TO UPDATE BY: <font color='blue'>"+request_name_holder.trim()+"</font><br>"+
+                    "<br>TO UPDATE BY: <font color='blue'>"+user.getFirstname().trim()+"</font><br>"+
                     "<br>UPDATE STATUS TO: <font color='blue'>" + status_class_adapter.getStatus_desc()+ "</font><br>"+
                     "<br>TECHNICIAN: <font color='blue'>"+tech_replace+"</font>"), TextView.BufferType.SPANNABLE);
             cat.setText("ACTION TAKEN:" );
@@ -1405,17 +1372,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_catselect()
     {
-        if (getUser_Trigger() == true) {
-            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
-
-            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
-
-        } else if (getUser_Trigger() == false) {
-            cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + reusable_variables.getStation_name().trim());
-
-            image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + reusable_variables.getStation_name().trim() + "\n note: no image attachments? click confirm to continue");
-
-        }
+        cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
         actmenu.setVisibility(View.VISIBLE);
         call_back = 16;
         new getcat_method(MainActivity.this).execute(Domain + "cat_method");
@@ -1465,32 +1422,20 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
 
-        if (getUser_Trigger() == true) {
-            headcheck.setText("USERNAME: " + request_name_holder.trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
-        } else if (getUser_Trigger() == false) {
-            headcheck.setText("USERNAME: " + reusable_variables.getUser_firstname().trim() + "\n" + "STATION NAME: " + reusable_variables.getStation_name().trim() + " (" + reusable_variables.getStation_code().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
-        }
+
+            headcheck.setText("USERNAME: " + user.getFirstname().trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
+
     } // 8
 
     public void to_srflist() {
         actmenu.setVisibility(View.VISIBLE);
         call_back = 10;
         idle_trigger = true;
-            srfrec.setVisibility(View.GONE);
-            no_records.setVisibility(View.GONE);
-        if (getUser_Trigger() == true) {
-            srflist_branch_notifier.setText(station_adapter.getUni_stnname().trim() + "'S SERVICE REQUEST FORMS\n" + getStatus_holder_name().trim()+"("+getDept_desc()+")");
-        } else if (getUser_Trigger() == false) {
-            srflist_branch_notifier.setText(reusable_variables.getStation_name().trim() + "'S SERVICE REQUEST FORMS\n"+ getStatus_holder_name().trim()+"("+getDept_desc()+")");
-        }
-        if (getUser_Trigger() == true) {
-            srfList = null;
-
-            new getretrieve_method(MainActivity.this).execute(Domain.concat("retrivestnsrf/" + station_adapter.getUni_stncode().trim()+"/"+getStatus_holder().trim()).trim()+"/"+getDept().trim());
-        } else if (getUser_Trigger() == false) {
-            srfList = null;
-            new getretrieve_method(MainActivity.this).execute(Domain.concat("retrivestnsrf/" + reusable_variables.getStation_code().trim()+"/"+getStatus_holder().trim()).trim()+"/"+getDept().trim());
-        }
+        srfrec.setVisibility(View.GONE);
+        no_records.setVisibility(View.GONE);
+        srflist_branch_notifier.setText(station_adapter.getUni_stnname().trim() + "'S SERVICE REQUEST FORMS\n" + getStatus_holder_name().trim()+"("+getDept_desc()+")");
+        srfList = null;
+        new getretrieve_method(MainActivity.this).execute(Domain.concat("retrivestnsrf/" + station_adapter.getUni_stncode().trim()+"/"+getStatus_holder().trim()).trim()+"/"+getDept().trim());
 
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1602,6 +1547,7 @@ public class MainActivity extends AppCompatActivity {
     }// 7
 
     public void to_upload_img() {
+        image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
         actmenu.setVisibility(View.VISIBLE);
         call_back = 8;
         idle_trigger = false;
@@ -1684,22 +1630,21 @@ public class MainActivity extends AppCompatActivity {
             view_action.setVisibility(View.VISIBLE);
         }
 
-        if (getUser_Trigger().equals(false)){
+
+
+        if(getStatus_holder().equals("0001")) {
             add_action.setVisibility(View.GONE);
-        }else{
-            if(getStatus_holder().equals("0001")) {
+        }else if (getStatus_holder().trim().equals("8888")){
+            if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
                 add_action.setVisibility(View.GONE);
-            }else if (getStatus_holder().trim().equals("8888")){
-                if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
-                    add_action.setVisibility(View.GONE);
-                }else{
-                    add_action.setVisibility(View.VISIBLE);
-                }
             }else{
                 add_action.setVisibility(View.VISIBLE);
             }
-
+        }else{
+            add_action.setVisibility(View.VISIBLE);
         }
+
+
 
 
     }// 5
@@ -1753,6 +1698,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void to_get_empcode(){
+        call_back = 8888;
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1808,11 +1754,8 @@ public class MainActivity extends AppCompatActivity {
     public void image_refresh() {
 
         if (getMenutrigger() == true) {
-            if (getUser_Trigger() == true) {
-                new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + station_adapter.getUni_stncode().trim() + "/" + img_stn_code.trim());
-            } else if (getUser_Trigger() == false) {
-                new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + reusable_variables.getStation_code().trim() + "/" + img_stn_code.trim());
-            }
+            new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + station_adapter.getUni_stncode().trim() + "/" + img_stn_code.trim());
+
         } else if (getMenutrigger() == false) {
             new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + srf_adapter.getUni_stncode().trim() + "/" + srf_adapter.getUni_srfcode().trim());
         }
@@ -1827,13 +1770,8 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 if (getMenutrigger() == true) {
-                    if (getUser_Trigger() == true) {
                         new deleteimages(MainActivity.this).execute(Domain + "FileDelete/" + station_adapter.getUni_stncode().trim() + "/" + img_loc_adapter.getFile_name().trim());
                         new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + station_adapter.getUni_stncode().trim() + "/" + img_stn_code.trim());
-                    } else if (getUser_Trigger() == false) {
-                        new deleteimages(MainActivity.this).execute(Domain + "FileDelete/" + reusable_variables.getStation_code().trim() + "/" + img_loc_adapter.getFile_name().trim());
-                        new get_imagelist(MainActivity.this).execute(Domain + "imageret/" + reusable_variables.getStation_code().trim() + "/" + img_stn_code.trim());
-                    }
 
                 } else if (getMenutrigger() == false) {
                     new deleteimages(MainActivity.this).execute(Domain + "FileDelete/" + srf_adapter.getUni_stncode().trim() + "/" + img_loc_adapter.getFile_name().trim());
@@ -1941,14 +1879,12 @@ public class MainActivity extends AppCompatActivity {
                         con_details.setEnabled(false);
                         if (getMenutrigger() == true) {
                             //addd
-                            if (getUser_Trigger() == true) {
-                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + request_name_holder+"/"+getStatus_for_Srf().trim()));
-                            } else if (getUser_Trigger() == false) {
-                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + reusable_variables.getStation_code() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" + reusable_variables.getUser_firstname().trim()+"/"+getStatus_for_Srf().trim()));
-                            }
+
+                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" +user.getFirstname()+"/9999".trim()));
+
                         } else {
                             /// action
-                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+request_name_holder.trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
+                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
                         }
                         break;
                 }
@@ -2344,19 +2280,22 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        request_name_holder = object.getString("Firstname").trim();
-                        request_lname_holder = object.getString("Lastname").trim();
-                        request_area_holder = object.getString("Ops_area").trim();
+                        user.setFirstname(object.getString("Firstname").trim());
+                        user.setLastname(object.getString("Lastname").trim());
+                        user.setUsername(object.getString("Username").trim());
+                        user.setOps_area(object.getString("Ops_area").trim());
+                        user.setEmpcode(object.getString("Empcode").trim());
+                        user.setEmpdept(object.getString("Empdept").trim());
+                        user.setAdmin(object.getString("Admin").trim());
+                        user.setApprove(object.getString("Approve").trim());
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                dialog("WELCOME : " + request_name_holder);
 
                 srf_login.setEnabled(true);
                 log_in_prog.setVisibility(View.GONE);
-                setUser_Trigger(true);
                 to_menuform();
 
             }else if(result != null && result.equals("SS")){
@@ -2748,84 +2687,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class branch_login extends AsyncTask<String, Void, String> {
-        String status = null;
-        Activity context;
-
-        public branch_login(Activity context) {
-            this.context = context;
-
-        }
-
-        @Override
-        protected String doInBackground(String... connUrl) {
-
-            BufferedReader reader;
-            try {
-                final URL url = new URL(connUrl[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
-                conn.setRequestMethod("GET");
-                int result = conn.getResponseCode();
-
-                if (result == 200) {
-                    InputStream in = new BufferedInputStream(conn.getInputStream());
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-
-                    while ((line = reader.readLine()) != null) {
-                        status = line;
-                    }
-                    }else{
-                        status = "SS";
-
-                }
-                conn.disconnect();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                status = "SS";
-            }
-            return status;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null && !result.equals("SS")) {
-                try {
-                    JSONArray jsonArray = new JSONArray(result);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        reusable_variables.setUser_firstname(object.getString("User_firstname").trim());
-                        reusable_variables.setStation_name(object.getString("Stn_name").trim());
-                        reusable_variables.setStation_code(object.getString("Stn_code").trim());
-                    }
-                    dialog("WELCOME : " + reusable_variables.getUser_firstname().trim());
-                    login_as_branch_oic.setEnabled(true);
-                    log_in_prog.setVisibility(View.GONE);
-                    setUser_Trigger(false);
-                    to_menuform();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else if(result != null && result.equals("SS")){
-                dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
-                login_as_branch_oic.setEnabled(true);
-                log_in_prog.setVisibility(View.GONE);
-            } else {
-                dialog("THIS ANDROID DEVICE IS NOT YET REGISTERED TO THE SYSTEM PLEASE SETUP AN ACCOUNT FOR IT");
-
-                setRegistration(true);
-                to_station();
-                login_as_branch_oic.setEnabled(true);
-                log_in_prog.setVisibility(View.GONE);
-                hidebutton.setVisibility(View.VISIBLE);
-
-            }
-        }
-    }
-
+// ADD ACC
     class add_acc extends AsyncTask<String, Void, String> {
         String status = null;
         Activity context;
@@ -2870,12 +2732,10 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "");
                 if (result.trim().equals("TRUE")) {
-                    Toast.makeText(MainActivity.this, "ACCOUNT REGISTERED", Toast.LENGTH_LONG).show();
-                    new branch_login(MainActivity.this).execute(Domain + "oic_login/" + getAndroid_id().trim());
-                    stnList.removeAll(stnList);
-                    stnList = null;
+                    Toast.makeText(MainActivity.this, "ACCOUNT REGISTERED, PLEASE TRY TO LOGIN YOUR NEW ACCOUNT", Toast.LENGTH_LONG).show();
+
                 } else if (result.trim().equals("FALSE")) {
-                    dialog("THIS BRANCH IS ALREADY HAVE AN ACCOUNT EXISTING");
+                    dialog("THIS USERNAME ALREADY EXIST");
 
                 }
 
@@ -2887,6 +2747,82 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+   // GET TECHCODE
+
+    class get_techinfo extends AsyncTask<String, Void, String> {
+        String status = null;
+        Activity context;
+
+        public get_techinfo(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }else{
+                    status = "SS";
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                status = "SS";
+                ex.printStackTrace();
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null && !result.equals("SS")) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        regemp = object.getString("Empcode").trim();
+                        regfname = object.getString("Empfname").trim();
+                        reglname =  object.getString("Emplname").trim();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                emp_number.setText("");
+                emp_next.setEnabled(true);
+                acc_details.setText("EMPLOYEE NO: " + regemp);
+                acc_firstname.setText(regfname);
+                acc_surname.setText(reglname);
+                to_newacc();
+
+            }else if(result != null && result.equals("SS")){
+                dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
+                emp_next.setEnabled(true);
+            } else {
+                emp_number.setText("");
+                dialog("UNKNOWN EMPLOYEE NO. \nOR EMPLOYEE NO. IS ALREADY BOUND TO AN ACCOUNT");
+            }
+        }
+    }
     class view_images extends AsyncTask<String, Void, String> {
         String status = null;
         Activity context;
@@ -3297,10 +3233,11 @@ public class MainActivity extends AppCompatActivity {
     {
 
         Legend legend = pieChart.getLegend();
-        legend.setFormSize(12f);
+        legend.setFormSize(10);
         legend.setDrawInside(false);
-        legend.setStackSpace(30f);
+        legend.setStackSpace(100);
         legend.setWordWrapEnabled(true);
+
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
