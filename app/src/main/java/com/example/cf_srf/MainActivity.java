@@ -3604,5 +3604,8 @@ public class MainActivity extends AppCompatActivity {
         me.setVisibility(View.GONE);
         it.setVisibility(View.GONE);
     }
+    public static void biometric(){
+
+    }
 
 }
