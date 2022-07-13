@@ -48,6 +48,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -1006,6 +1007,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog_to_exit("LOG OUT NOW?", 3);
             }
         });
+
     }
 
 
@@ -3604,5 +3606,7 @@ public class MainActivity extends AppCompatActivity {
         me.setVisibility(View.GONE);
         it.setVisibility(View.GONE);
     }
+
+
 
 }
