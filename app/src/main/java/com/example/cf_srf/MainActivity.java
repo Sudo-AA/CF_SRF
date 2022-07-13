@@ -76,6 +76,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
+    private static final int PROFILE_UP = 7777;
     private static final String version = "1.0.2";
     private static String versioncontrol ;
     // for in active handler
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
-    private static TextView goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
+    private static Button uprofile,emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static TextView user_textnav,goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
     private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,new_registration, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private static String reglname;
     // init for info holder variables--------------------------
     private static String img_stn_code;
+    private static Boolean discard_work;
     private static Boolean menutrigger = null;
     private static Boolean triger = null;
     private static Boolean registration = null;
@@ -143,7 +146,10 @@ public class MainActivity extends AppCompatActivity {
     private static Boolean enabler = true;
     private static View actview;
     private static Boolean actionbartrigger = false;
+    private static Boolean regist_trigger = false;
     private static PieChart pieChart;
+    private static Bitmap profilebmp = null;
+    private static CircleImageView new_profile_image, profile_image_nav;
 
 
     public static String getDept() {
@@ -338,11 +344,15 @@ public class MainActivity extends AppCompatActivity {
         acc_firstname = findViewById(R.id.firstname);
         acc_surname = findViewById(R.id.surname);
         back_to_login = findViewById(R.id.back_to_login);
+        new_profile_image = findViewById(R.id.new_profile_image);
+        profile_image_nav =findViewById(R.id.profile_image_nav);
+
         // relative layout
         get_emp_code_layout = findViewById(R.id.get_emp_code_layout);
         //buttons
         emp_back = findViewById(R.id.emp_back);
         emp_next = findViewById(R.id.emp_next);
+        uprofile = findViewById(R.id.uprofile);
         // textboxes
         emp_number = findViewById(R.id.emp_number);
         new_username = findViewById(R.id.new_username);
@@ -388,7 +398,8 @@ public class MainActivity extends AppCompatActivity {
         prog_details = (ProgressBar) findViewById(R.id.prog_for_details);
         statrec = findViewById(R.id.station_list);
         status_header = findViewById(R.id.status_header);
-
+        // NAV
+        user_textnav = findViewById(R.id.user_textnav);
         // for cat select
         select_cat = (RelativeLayout) findViewById(R.id.select_cat) ;
         it = (Button) findViewById(R.id.it) ;
@@ -429,13 +440,17 @@ public class MainActivity extends AppCompatActivity {
         searchbar.setOnFocusChangeListener(ofcListener);
         acc_firstname.setOnFocusChangeListener(ofcListener);
         acc_surname.setOnFocusChangeListener(ofcListener);
-
-
+        emp_number.setOnFocusChangeListener(ofcListener);
+        new_username.setOnFocusChangeListener(ofcListener);
+        con_password.setOnFocusChangeListener(ofcListener);
+        new_password.setOnFocusChangeListener(ofcListener);
         OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
                 switch (call_back) {
-
+                    case 7777:
+                        dialog_to_exit("LOG OUT NOW? ", 3);
+                        break;
                     case 8888:
                         to_login();
                         break;
@@ -444,6 +459,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 0:
                         dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+
                         break;
                     case 1:
                         to_station();
@@ -678,6 +694,21 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        uprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upload_trigger = false;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+                        startActivityForResult(pickIntent, PROFILE_UP);
+
+                    }
+
+                });
+            }
+        });
         back_req_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -736,6 +767,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // to_new acc as first login
+                regist_trigger = true;
                 to_get_empcode();
             }
         });
@@ -824,14 +856,6 @@ public class MainActivity extends AppCompatActivity {
                 to_station();
             }
         });
-
-        logout_float.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
-            }
-        });
-
 // menu action bar show ---------------------------------------------------------------------------------------------------
         // close menu anywhere ----------------------------------------------------------------------------------------------
 
@@ -855,57 +879,79 @@ public class MainActivity extends AppCompatActivity {
         acthome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                to_menuform();
-                nav_closer();
-                acthome.setEnabled(false);
-                srf_add.setEnabled(true);
-                srf_edit.setEnabled(true);
-
-                acthome.setBackgroundResource(R.color.white);
-                srf_add.setBackgroundResource(R.color.cf);
-                srf_edit.setBackgroundResource(R.color.cf);
-                acthome.setTextColor(Color.BLACK);
-                srf_add.setTextColor(Color.WHITE);
-                srf_edit.setTextColor(Color.WHITE);
-                acttitle.setText("SERVICE REQUEST FORM");
+                if (discard_work == true){
+                    dialog_to_exit("DISCARD YOUR WORK ?", 7);
+                    discard_work = false;
+                }else {
+                    to_menuform();
+                    nav_closer();
+                    acthome.setEnabled(false);
+                    srf_add.setEnabled(true);
+                    srf_edit.setEnabled(true);
+                    acthome.setBackgroundResource(R.color.white);
+                    srf_add.setBackgroundResource(R.color.cf);
+                    srf_edit.setBackgroundResource(R.color.cf);
+                    acthome.setTextColor(Color.BLACK);
+                    srf_add.setTextColor(Color.WHITE);
+                    srf_edit.setTextColor(Color.WHITE);
+                    acttitle.setText("SERVICE REQUEST FORM");
+                }
             }
         });
         srf_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nav_closer();
-                menutrigger = true;
-                to_station();
-                acthome.setEnabled(true);
-                srf_add.setEnabled(false);
-                srf_edit.setEnabled(true);
-                acthome.setBackgroundResource(R.color.cf);
-                srf_add.setBackgroundResource(R.color.white);
-                srf_edit.setBackgroundResource(R.color.cf);
-                acthome.setTextColor(Color.WHITE);
-                srf_add.setTextColor(Color.BLACK);
-                srf_edit.setTextColor(Color.WHITE);
-                acttitle.setText("ADD SRF");
+                if (discard_work == true){
+                    dialog_to_exit("DISCARD YOUR WORK ?", 5);
+                    discard_work = false;
+                }else{
+                    nav_closer();
+                    menutrigger = true;
+                    to_station();
+                    acthome.setEnabled(true);
+                    srf_add.setEnabled(false);
+                    srf_edit.setEnabled(true);
+                    acthome.setBackgroundResource(R.color.cf);
+                    srf_add.setBackgroundResource(R.color.white);
+                    srf_edit.setBackgroundResource(R.color.cf);
+                    acthome.setTextColor(Color.WHITE);
+                    srf_add.setTextColor(Color.BLACK);
+                    srf_edit.setTextColor(Color.WHITE);
+                    acttitle.setText("ADD SRF");
+                }
+
             }
         });
         srf_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nav_closer();
-                menutrigger = false;
-                to_station();
-                acthome.setEnabled(true);
-                srf_add.setEnabled(true);
-                srf_edit.setEnabled(false);
-                acthome.setBackgroundResource(R.color.cf);
-                srf_add.setBackgroundResource(R.color.cf);
-                srf_edit.setBackgroundResource(R.color.white);
-                acthome.setTextColor(Color.WHITE);
-                srf_add.setTextColor(Color.WHITE);
-                srf_edit.setTextColor(Color.BLACK);
-                acttitle.setText("VIEW SRF");
+                if (discard_work == true){
+                    dialog_to_exit("DISCARD YOUR WORK ?", 6);
+                    discard_work = false;
+                }else {
+                    nav_closer();
+                    menutrigger = false;
+                    to_station();
+                    acthome.setEnabled(true);
+                    srf_add.setEnabled(true);
+                    srf_edit.setEnabled(false);
+                    acthome.setBackgroundResource(R.color.cf);
+                    srf_add.setBackgroundResource(R.color.cf);
+                    srf_edit.setBackgroundResource(R.color.white);
+                    acthome.setTextColor(Color.WHITE);
+                    srf_add.setTextColor(Color.WHITE);
+                    srf_edit.setTextColor(Color.BLACK);
+                    acttitle.setText("VIEW SRF");
+                }
             }
         });
+        logout_float.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+            }
+        });
+
 // menu action bar show ---------------------------------------------------------------------------------------------------
 // for registration
 
@@ -942,19 +988,24 @@ public class MainActivity extends AppCompatActivity {
                 String conpass = con_password.getText().toString();
 
                 if (isEmpty(usern) || isEmpty(newpass) || isEmpty(conpass)) {
+                    dialog("PLEASE FILL EMPTY TEXT BOXES");
+                }else{
+
                     if (conpass.equals(newpass)){
-                        new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/"+regemp.trim()+"/"+regfname.trim()+"/"+reglname.trim()+"/"+usern+"/"+ newpass ));
+                        new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/"+regemp.trim()+"/"+regfname.trim()+"/"+reglname.trim()+"/"+usern+"/"+ md5(newpass)));
                     }else{
                         dialog("TWO PASSWORDS DOES NOT MATCH, PLEASE CHECK AND RETYPE");
                     }
-                }else{
-                    dialog("PLEASE FILL EMPTY TEXT BOXES");
                 }
-
-
             }
         });
-
+// for approval
+        goto_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_to_exit("LOG OUT NOW?", 3);
+            }
+        });
     }
 
 
@@ -1031,6 +1082,11 @@ public class MainActivity extends AppCompatActivity {
                     new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
 
             }
+        }else if (requestCode == PROFILE_UP && resultCode == RESULT_OK){
+            Uri selectedImage = data.getData();
+            String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
+            currentPhotoPath = path;
+            new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
         }
     }
 
@@ -1072,12 +1128,41 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     if (getMenutrigger() == true) {
 
-                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
-
+                        new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
 
                     }
                 }
             });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void upprofile() {
+
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("image/jpg");
+            RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
+            Request request = new Request.Builder()
+                    .url(Domain+"ProfileUpload")
+                    .method("POST", body)
+                    .addHeader("Content-Type", "image/jpg")
+                    .build();
+            Response response = client.newCall(request).execute();
+            Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+            if (upload_trigger.equals(true)) {
+                File file = new File(currentPhotoPath);
+                file.delete();
+            }
+            Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/"+regemp+".jpg");
+            profilebmp = pathName;
+            new_profile_image.setImageBitmap(profilebmp);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1091,6 +1176,7 @@ public class MainActivity extends AppCompatActivity {
     // radio button
 
     public void to_newacc() {
+        discard_work = false;
         call_back = 17;
         idle_trigger = false;
         srf_login_form.setVisibility(View.GONE);
@@ -1114,6 +1200,7 @@ public class MainActivity extends AppCompatActivity {
     } //12
 
     public void to_station() {
+        discard_work = false;
         statrec.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         search_prog.setVisibility(View.VISIBLE);
@@ -1156,6 +1243,7 @@ public class MainActivity extends AppCompatActivity {
 
     }//1
     public void to_dept(){
+        discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 1;
         idle_trigger = true;
@@ -1179,10 +1267,12 @@ public class MainActivity extends AppCompatActivity {
 
     } //3
     public void to_status_class() {
+
         actmenu.setVisibility(View.VISIBLE);
         idle_trigger = true;
 
             if(getStatus_trigger().equals(false)){
+                discard_work = false;
                 call_back = 3;
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
 
@@ -1196,6 +1286,7 @@ public class MainActivity extends AppCompatActivity {
                     status_header.setText("NO DATA");
                 }
             }else{
+                discard_work = true;
                 call_back = 7;
                 status_header.setText("SELECT STATUS TO BE APPLIED");
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/0000/0000"));
@@ -1222,6 +1313,13 @@ public class MainActivity extends AppCompatActivity {
 
     }// 10
     public void to_login() {
+        discard_work = false;
+        profilebmp = null;
+        profile_image_nav.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.user));
+        new_profile_image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.upload_image));
+        new_password.setText("");
+        new_username.setText("");
+        con_password.setText("");
         menulayout.setVisibility(View.GONE);
         getSupportActionBar().hide();
         actmenu.setVisibility(View.GONE);
@@ -1253,12 +1351,10 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
-
-
-
     } // 8888
 
     public void to_details() {
+        discard_work = true;
         actmenu.setVisibility(View.VISIBLE);
         image_viewer_form.setVisibility(View.GONE);
         idle_trigger = true;
@@ -1372,6 +1468,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_catselect()
     {
+        discard_work = true;
         cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
         actmenu.setVisibility(View.VISIBLE);
         call_back = 16;
@@ -1400,6 +1497,7 @@ public class MainActivity extends AppCompatActivity {
     } // 11
 
     public void to_request() {
+        discard_work = true;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 11;
         idle_trigger = true;
@@ -1428,6 +1526,7 @@ public class MainActivity extends AppCompatActivity {
     } // 8
 
     public void to_srflist() {
+        discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 10;
         idle_trigger = true;
@@ -1459,6 +1558,7 @@ public class MainActivity extends AppCompatActivity {
     }// 4
 
     public void to_menuform() {
+        discard_work = false;
         new pie_data_getter(MainActivity.this).execute(Domain.concat("totals"));
         getSupportActionBar().show();
         menulayout.setVisibility(View.GONE);
@@ -1518,6 +1618,7 @@ public class MainActivity extends AppCompatActivity {
     } // 2
 
     public void to_editform() {
+        discard_work = true;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 15;
         idle_trigger = false;
@@ -1547,6 +1648,7 @@ public class MainActivity extends AppCompatActivity {
     }// 7
 
     public void to_upload_img() {
+        discard_work = true;
         image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
         actmenu.setVisibility(View.VISIBLE);
         call_back = 8;
@@ -1574,6 +1676,7 @@ public class MainActivity extends AppCompatActivity {
     }// 9
 
     public void to_viewing() {
+        discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 4;
         idle_trigger = false;
@@ -1650,6 +1753,7 @@ public class MainActivity extends AppCompatActivity {
     }// 5
 
     public void to_view_actions() {
+        discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 5;
         idle_trigger = false;
@@ -1677,6 +1781,8 @@ public class MainActivity extends AppCompatActivity {
     }// 6
 
     public void to_be_approved(){
+        discard_work = false;
+        call_back = 7777;
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1698,6 +1804,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void to_get_empcode(){
+        discard_work = false;
         call_back = 8888;
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
@@ -1825,8 +1932,8 @@ public class MainActivity extends AppCompatActivity {
             connection.disconnect();
             return myBitmap;
         } catch (IOException e) {
-
-            return null;
+            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.no_images_available);
+            return myBitmap;
         }
     }
 
@@ -1886,6 +1993,56 @@ public class MainActivity extends AppCompatActivity {
                             /// action
                             new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
                         }
+                        break;
+                    case 5:
+                        nav_closer();
+                        menutrigger = true;
+                        to_station();
+                        acthome.setEnabled(true);
+                        srf_add.setEnabled(false);
+                        srf_edit.setEnabled(true);
+                        acthome.setBackgroundResource(R.color.cf);
+                        srf_add.setBackgroundResource(R.color.white);
+                        srf_edit.setBackgroundResource(R.color.cf);
+                        acthome.setTextColor(Color.WHITE);
+                        srf_add.setTextColor(Color.BLACK);
+                        srf_edit.setTextColor(Color.WHITE);
+                        acttitle.setText("ADD SRF");
+                        setStatus_trigger(false);
+                        edit_srf.setText("");
+                        editreq.setText("");
+                        break;
+                    case 6:
+                        nav_closer();
+                        menutrigger = false;
+                        to_station();
+                        acthome.setEnabled(true);
+                        srf_add.setEnabled(true);
+                        srf_edit.setEnabled(false);
+                        acthome.setBackgroundResource(R.color.cf);
+                        srf_add.setBackgroundResource(R.color.cf);
+                        srf_edit.setBackgroundResource(R.color.white);
+                        acthome.setTextColor(Color.WHITE);
+                        srf_add.setTextColor(Color.WHITE);
+                        srf_edit.setTextColor(Color.BLACK);
+                        acttitle.setText("VIEW SRF");
+                        setStatus_trigger(false);
+                        edit_srf.setText("");
+                        editreq.setText("");
+                        break;
+                    case 7 :
+                        to_menuform();
+                        nav_closer();
+                        acthome.setEnabled(false);
+                        srf_add.setEnabled(true);
+                        srf_edit.setEnabled(true);
+                        acthome.setBackgroundResource(R.color.white);
+                        srf_add.setBackgroundResource(R.color.cf);
+                        srf_edit.setBackgroundResource(R.color.cf);
+                        acthome.setTextColor(Color.BLACK);
+                        srf_add.setTextColor(Color.WHITE);
+                        srf_edit.setTextColor(Color.WHITE);
+                        acttitle.setText("SERVICE REQUEST FORM");
                         break;
                 }
             }
@@ -2293,10 +2450,33 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 srf_login.setEnabled(true);
                 log_in_prog.setVisibility(View.GONE);
-                to_menuform();
+                if (user.getApprove().equals("Y")){
+                    regist_trigger = false;
+                    user_textnav.setText(user.getLastname().trim() +", "+ user.getFirstname().trim() +"\nEmp No: #"+user.getEmpcode().trim()+"\n"+"@"+user.getUsername());
+                    Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/"+user.getEmpcode().trim()+".jpg");
+                    profilebmp = pathName;
+                    profile_image_nav.setImageBitmap(profilebmp);
+                    to_menuform();
+                    if (user.getAdmin().trim().equals("Y")){
+                        admin();
+                    }else{
+                        if (user.getEmpdept().trim().equals("MIS")){
+                            ITinter();
+                        }else if (user.getEmpdept().trim().equals("ENGR")) {
+                            engr();
+                        }else{
+                            if (!user.getOps_area().equals("9999")){
+                                ops();
+                            }else{
+                                genericuser();
+                            }
+                        }
+                    }
+                }else if (user.getApprove().equals("N")){
+                    to_be_approved();
+                }
 
             }else if(result != null && result.equals("SS")){
                 dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
@@ -2371,6 +2551,7 @@ public class MainActivity extends AppCompatActivity {
                 attach_d.setVisibility(View.GONE);
                 gg.setText(result + "\n" + "THANKYOU");
                 con_details.setEnabled(true);
+                discard_work = false;
                 call_back = 2;
             } else {
                 con_details.setEnabled(true);
@@ -2438,6 +2619,7 @@ public class MainActivity extends AppCompatActivity {
                 gg.setText(result + "\n" + "THANKYOU");
                 con_details.setEnabled(true);
                 call_back = 2;
+                discard_work = false;
             } else {
                 con_details.setEnabled(true);
                 dialog("ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
@@ -2571,7 +2753,59 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    class up_profilename extends AsyncTask<String, Void, String> {
 
+        String status = null;
+        Activity context;
+
+
+        public up_profilename(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                result = result.replaceAll("^\"|\"$", "").trim();
+                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE DONE ", Toast.LENGTH_LONG).show();
+                upprofile();
+            } else {
+                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE FAILED", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
     class get_imagelist extends AsyncTask<String, Void, String> {
         String status = null;
         Activity context;
@@ -2733,7 +2967,7 @@ public class MainActivity extends AppCompatActivity {
                 result = result.replaceAll("^\"|\"$", "");
                 if (result.trim().equals("TRUE")) {
                     Toast.makeText(MainActivity.this, "ACCOUNT REGISTERED, PLEASE TRY TO LOGIN YOUR NEW ACCOUNT", Toast.LENGTH_LONG).show();
-
+                    to_login();
                 } else if (result.trim().equals("FALSE")) {
                     dialog("THIS USERNAME ALREADY EXIST");
 
@@ -3335,5 +3569,40 @@ public class MainActivity extends AppCompatActivity {
         PARENT.setVisibility(View.VISIBLE);
     }
 
+    // ALL ACCESS
+    public static void admin(){
+        srf_edit.setVisibility(View.VISIBLE);
+        mt.setVisibility(View.VISIBLE);
+        me.setVisibility(View.VISIBLE);
+        it.setVisibility(View.VISIBLE);
+    }
+    //ops area manager
+    public static void ops(){
+        srf_edit.setVisibility(View.VISIBLE);
+        mt.setVisibility(View.VISIBLE);
+        me.setVisibility(View.VISIBLE);
+        it.setVisibility(View.VISIBLE);
+    }
+    //IT
+    public static void ITinter(){
+        srf_edit.setVisibility(View.VISIBLE);
+        mt.setVisibility(View.GONE);
+        me.setVisibility(View.GONE);
+        it.setVisibility(View.VISIBLE);
+    }
+    //MT and ME
+    public static void engr(){
+        srf_edit.setVisibility(View.VISIBLE);
+        mt.setVisibility(View.VISIBLE);
+        me.setVisibility(View.VISIBLE);
+        it.setVisibility(View.GONE);
+    }
+    // GENERIC USER NO SRF VIEWING JUST ADD
+    public static void genericuser(){
+        srf_edit.setVisibility(View.GONE);
+        mt.setVisibility(View.GONE);
+        me.setVisibility(View.GONE);
+        it.setVisibility(View.GONE);
+    }
 
 }

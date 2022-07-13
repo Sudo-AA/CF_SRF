@@ -203,7 +203,6 @@
 
 
     </RelativeLayout>
-
     <!--station list-->
     <RelativeLayout
         android:id="@+id/station_form"
@@ -1374,7 +1373,7 @@
                             app:civ_border_width="3dp" />
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/uprofile"
                             android:layout_width="120dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
@@ -2241,6 +2240,7 @@
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
+    <!-- EDIT ACCOUNT-->
 
 <!--navigaion with parent-->
     <RelativeLayout
@@ -2292,7 +2292,7 @@
                     android:paddingLeft="5dp"
                     android:text="LASTNAME,FIRSTNAME\nsamplesample23@gmail.com"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
