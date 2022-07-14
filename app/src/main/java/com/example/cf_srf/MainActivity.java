@@ -62,11 +62,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -151,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
     private static PieChart pieChart;
     private static Bitmap profilebmp = null;
     private static CircleImageView new_profile_image, profile_image_nav;
+    // init signature
+    private static SignaturePad signature_pad;
+    private static Button sig_clear, sig_next;
+
 
 
     public static String getDept() {
@@ -260,7 +268,10 @@ public class MainActivity extends AppCompatActivity {
         };
         startHandler();
         new update_checker(MainActivity.this).execute("https://raw.githubusercontent.com/V-for-velascoDMY23/CLEAN-FUEL-SRF-APPLICATION-RELEASE/main/updater_caller.json");
-
+// signaturepad -----------------------------------------------------------------------------------------
+        signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
+        sig_next =  findViewById(R.id.sig_next);
+        sig_clear =findViewById(R.id.sig_clear);
         // ACTIONBAR--------------------------------------------------------------------------------
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -276,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
         actmenu.setBackgroundResource(R.drawable.new_menu);
         menulayout = (NavigationView) findViewById(R.id.menulayout);
         logout_float = (Button) findViewById(R.id.new_log_in);
-
         srf_edit = (Button) findViewById(R.id.new_edit_srf);
         srf_add = (Button) findViewById(R.id.new_add_srf);
         acthome = (Button) findViewById(R.id.new_home);
@@ -449,9 +459,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 switch (call_back) {
-                    case 7777:
-                        dialog_to_exit("LOG OUT NOW? ", 3);
-                        break;
                     case 8888:
                         to_login();
                         break;
@@ -459,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case 0:
-                        dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+                        dialog_to_exit("LOG OUT NOW? ", 3);
 
                         break;
                     case 1:
@@ -949,7 +956,7 @@ public class MainActivity extends AppCompatActivity {
         logout_float.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog_to_exit("YOUR WORK WILL BE DISCARDED, LOG OUT NOW?", 3);
+                dialog_to_exit("LOG OUT NOW? ", 3);
             }
         });
 
@@ -966,8 +973,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String emp = emp_number.getText().toString();
+                emp_next.setEnabled(false);
                 if (isEmpty(emp)){
                     dialog("PLEASE ENTER YOUR EMPLOYEE NUMBER ");
+                    emp_next.setEnabled(true);
                 }else{
                     new get_techinfo(MainActivity.this).execute(Domain.concat("get_emp/"+emp.trim()));
                 }
@@ -1007,7 +1016,21 @@ public class MainActivity extends AppCompatActivity {
                 dialog_to_exit("LOG OUT NOW?", 3);
             }
         });
+// signature
+        sig_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signature_pad.clear();
+            }
+        });
+        sig_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signature_pad.getTransparentSignatureBitmap();
+                upsignature(signature_pad.getTransparentSignatureBitmap());
 
+            }
+        });
     }
 
 
@@ -1165,6 +1188,38 @@ public class MainActivity extends AppCompatActivity {
             Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/"+regemp+".jpg");
             profilebmp = pathName;
             new_profile_image.setImageBitmap(profilebmp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void upsignature(Bitmap bitmap) {
+
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+
+
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(createImageFile()));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+            os.close();
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("image/png");
+            RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
+            Request request = new Request.Builder()
+                    .url(Domain+"Up_signature")
+                    .method("POST", body)
+                    .addHeader("Content-Type", "image/png")
+                    .build();
+            Response response = client.newCall(request).execute();
+
+                File file = new File(currentPhotoPath);
+                file.delete();
+
+            Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1784,7 +1839,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_be_approved(){
         discard_work = false;
-        call_back = 7777;
+        call_back = 0;
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1806,6 +1861,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void to_get_empcode(){
+        new_username.setText("");
+        con_password.setText("");
+        new_password.setText("");
         discard_work = false;
         call_back = 8888;
         actmenu.setVisibility(View.GONE);
@@ -2970,6 +3028,9 @@ public class MainActivity extends AppCompatActivity {
                 if (result.trim().equals("TRUE")) {
                     Toast.makeText(MainActivity.this, "ACCOUNT REGISTERED, PLEASE TRY TO LOGIN YOUR NEW ACCOUNT", Toast.LENGTH_LONG).show();
                     to_login();
+                   new_username.setText("");
+                   con_password.setText("");
+                   new_password.setText("");
                 } else if (result.trim().equals("FALSE")) {
                     dialog("THIS USERNAME ALREADY EXIST");
 
@@ -3049,13 +3110,15 @@ public class MainActivity extends AppCompatActivity {
                 acc_firstname.setText(regfname);
                 acc_surname.setText(reglname);
                 to_newacc();
+                emp_next.setEnabled(true);
 
             }else if(result != null && result.equals("SS")){
                 dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
                 emp_next.setEnabled(true);
             } else {
                 emp_number.setText("");
-                dialog("UNKNOWN EMPLOYEE NO. \nOR EMPLOYEE NO. IS ALREADY BOUND TO AN ACCOUNT");
+                dialog("UNKNOWN EMPLOYEE NUMBER \nOR THIS EMPLOYEE NUMBER IS ALREADY BOUND TO AN ACCOUNT");
+                emp_next.setEnabled(true);
             }
         }
     }
