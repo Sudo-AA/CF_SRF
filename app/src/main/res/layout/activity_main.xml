@@ -561,7 +561,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="20dp"
+        android:padding="10dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -648,7 +648,7 @@
                         android:id="@+id/req"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="0dp"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="left"
                         android:padding="5dp"
@@ -689,6 +689,11 @@
                         android:textColor="@color/black"
                         android:textSize="12dp"
                         android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/sig_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
 
                     <ProgressBar
                         android:id="@+id/prog_for_details"
@@ -2242,6 +2247,129 @@
     </RelativeLayout>
     <!-- EDIT ACCOUNT-->
 
+
+    <!-- signaturelayout-->
+    <RelativeLayout
+        android:id="@+id/signature"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cf"
+        android:backgroundTint="@color/cf"
+        android:gravity="center_vertical"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                app:cardCornerRadius="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/cf"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="SIGNATURE"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <com.github.gcacace.signaturepad.views.SignaturePad xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/signature_pad"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginBottom="10dp"
+                        app:penColor="@android:color/black"
+                        app:penMaxWidth="3dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/cf"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="TO CONFIRM PLEASE SIGN"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <Button
+                            android:id="@+id/sig_clear"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="CLEAR"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/sig_next"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="NEXT"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+    </RelativeLayout>
 <!--navigaion with parent-->
     <RelativeLayout
         android:id="@+id/parent"
@@ -2375,125 +2503,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <RelativeLayout
-        android:id="@+id/signature"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cf"
-        android:backgroundTint="@color/cf"
-        android:gravity="center_vertical"
 
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5dp">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/white"
-                android:padding="5dp"
-                app:cardCornerRadius="15dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingBottom="10dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080"
-                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:background="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:text="SIGNATURE"
-                        android:textColor="@color/white"
-                        android:textSize="18dp" />
-                    <com.github.gcacace.signaturepad.views.SignaturePad
-                        xmlns:android="http://schemas.android.com/apk/res/android"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/signature_pad"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        app:penMaxWidth="3dp"
-                        android:layout_marginBottom="10dp"
-                        app:penColor="@android:color/black"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:background="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:text="TO CONFIRM PLEASE SIGN"
-                        android:textColor="@color/white"
-                        android:textSize="18dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-                        <Button
-                            android:id="@+id/sig_clear"
-                            style="@style/Widget.AppCompat.Button.Colored"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/cf"
-                            android:backgroundTint="@color/cf"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="CLEAR"
-                            android:textColor="@color/white"
-                            android:textSize="15dp" />
-                        <Button
-                            android:id="@+id/sig_next"
-                            style="@style/Widget.AppCompat.Button.Colored"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/cf"
-                            android:backgroundTint="@color/cf"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="NEXT"
-                            android:textColor="@color/white"
-                            android:textSize="15dp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-        </ScrollView>
-    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

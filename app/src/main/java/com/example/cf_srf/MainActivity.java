@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     private static TextView user_textnav,goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
     private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,new_registration, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
-    private static RelativeLayout for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
+    private static RelativeLayout signature,for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
     private static ProgressBar log_in_prog, prog_details, search_prog;
@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     // init signature
     private static SignaturePad signature_pad;
     private static Button sig_clear, sig_next;
+    private static ImageView sig_holder;
 
 
 
@@ -272,6 +273,8 @@ public class MainActivity extends AppCompatActivity {
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
         sig_next =  findViewById(R.id.sig_next);
         sig_clear =findViewById(R.id.sig_clear);
+        signature =findViewById(R.id.signature);
+        sig_holder = findViewById(R.id.sig_holder);
         // ACTIONBAR--------------------------------------------------------------------------------
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -459,6 +462,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 switch (call_back) {
+                    case 9090:
+                        to_signature();
+                        break;
                     case 8888:
                         to_login();
                         break;
@@ -594,8 +600,14 @@ public class MainActivity extends AppCompatActivity {
                 } else if (getMenutrigger() == false) {
                     if (status_holder.trim().equals("8888")){
                         to_editform();
+
+                    }else{
+                    if (status_class_adapter.getStatus_code().equals("0001")) {
+                        to_signature();
                     }else{
                         to_status_class();
+                    }
+
                     }
                 }
 
@@ -1027,7 +1039,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signature_pad.getTransparentSignatureBitmap();
-                upsignature(signature_pad.getTransparentSignatureBitmap());
+                new up_sigfile(MainActivity.this).execute(Domain.concat("sigfile/"+srf_adapter.getUni_stncode()+"/"+srf_adapter.getUni_srfcode()+"/"+user.getUsername()));
 
             }
         });
@@ -1143,21 +1155,23 @@ public class MainActivity extends AppCompatActivity {
                     .addHeader("Content-Type", "image/jpg")
                     .build();
             Response response = client.newCall(request).execute();
-            Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
-            if (upload_trigger.equals(true)) {
-                File file = new File(currentPhotoPath);
-                file.delete();
-            }
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (getMenutrigger() == true) {
-
-                        new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
-
-                    }
+            if (response.isSuccessful()) {
+                Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+                if (upload_trigger.equals(true)) {
+                    File file = new File(currentPhotoPath);
+                    file.delete();
                 }
-            });
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (getMenutrigger() == true) {
+
+                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
+
+                        }
+                    }
+                });
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1180,14 +1194,16 @@ public class MainActivity extends AppCompatActivity {
                     .addHeader("Content-Type", "image/jpg")
                     .build();
             Response response = client.newCall(request).execute();
-            Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
-            if (upload_trigger.equals(true)) {
-                File file = new File(currentPhotoPath);
-                file.delete();
+            if (response.isSuccessful()) {
+                Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+                if (upload_trigger.equals(true)) {
+                    File file = new File(currentPhotoPath);
+                    file.delete();
+                }
+                Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + regemp + ".jpg");
+                profilebmp = pathName;
+                new_profile_image.setImageBitmap(profilebmp);
             }
-            Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/"+regemp+".jpg");
-            profilebmp = pathName;
-            new_profile_image.setImageBitmap(profilebmp);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1215,11 +1231,16 @@ public class MainActivity extends AppCompatActivity {
                     .addHeader("Content-Type", "image/png")
                     .build();
             Response response = client.newCall(request).execute();
-
+            if (response.isSuccessful()){
                 File file = new File(currentPhotoPath);
                 file.delete();
+                signature_pad.clear();
+                Bitmap signatureholder = getBitmapFromURL(Domain+"Signaturegetter/"+srf_adapter.getUni_stncode().trim()+srf_adapter.getUni_srfcode().trim()+".png");
+                sig_holder.setImageBitmap(signatureholder);
+                to_details();
+                Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+            }
 
-            Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1236,6 +1257,7 @@ public class MainActivity extends AppCompatActivity {
         discard_work = false;
         call_back = 17;
         idle_trigger = false;
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1258,6 +1280,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_station() {
         discard_work = false;
+        signature.setVisibility(View.GONE);
         statrec.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         search_prog.setVisibility(View.VISIBLE);
@@ -1301,6 +1324,7 @@ public class MainActivity extends AppCompatActivity {
     }//1
     public void to_dept(){
         discard_work = false;
+        signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         call_back = 1;
         idle_trigger = true;
@@ -1348,7 +1372,7 @@ public class MainActivity extends AppCompatActivity {
                 status_header.setText("SELECT STATUS TO BE APPLIED");
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/0000/0000"));
             }
-
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1382,6 +1406,7 @@ public class MainActivity extends AppCompatActivity {
         actmenu.setVisibility(View.GONE);
         call_back = 9999;
         idle_trigger = false;
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.VISIBLE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1411,13 +1436,16 @@ public class MainActivity extends AppCompatActivity {
     } // 8888
 
     public void to_details() {
+        sig_holder.setVisibility(View.GONE);
         discard_work = true;
+        signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         image_viewer_form.setVisibility(View.GONE);
         idle_trigger = true;
         req.setTextSize(18);
         if (getMenutrigger() == true) {
             call_back = 9;
+
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
             srf_station_form.setVisibility(View.GONE);
@@ -1470,10 +1498,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (getMenutrigger() == false) {
-            if (status_holder.trim().equals("8888")){
+            if (status_holder.trim().equals("8888")) {
                 call_back = 7;
+            }else if (status_class_adapter.getStatus_code().trim().equals("0001")){
+                call_back = 9090;
+                sig_holder.setVisibility(View.VISIBLE);
             }else{
                 call_back = 10;
+                sig_holder.setVisibility(View.GONE);
             }
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
@@ -1525,6 +1557,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_catselect()
     {
+        signature.setVisibility(View.GONE);
         discard_work = true;
         cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
         actmenu.setVisibility(View.VISIBLE);
@@ -1554,6 +1587,7 @@ public class MainActivity extends AppCompatActivity {
     } // 11
 
     public void to_request() {
+        signature.setVisibility(View.GONE);
         discard_work = true;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 11;
@@ -1583,6 +1617,7 @@ public class MainActivity extends AppCompatActivity {
     } // 8
 
     public void to_srflist() {
+
         discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 10;
@@ -1592,7 +1627,7 @@ public class MainActivity extends AppCompatActivity {
         srflist_branch_notifier.setText(station_adapter.getUni_stnname().trim() + "'S SERVICE REQUEST FORMS\n" + getStatus_holder_name().trim()+"("+getDept_desc()+")");
         srfList = null;
         new getretrieve_method(MainActivity.this).execute(Domain.concat("retrivestnsrf/" + station_adapter.getUni_stncode().trim()+"/"+getStatus_holder().trim()).trim()+"/"+getDept().trim());
-
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1642,7 +1677,7 @@ public class MainActivity extends AppCompatActivity {
             img_locList = null;
         }
 
-
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1676,9 +1711,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_editform() {
         discard_work = true;
+
         actmenu.setVisibility(View.VISIBLE);
         call_back = 15;
         idle_trigger = false;
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1710,6 +1747,7 @@ public class MainActivity extends AppCompatActivity {
         actmenu.setVisibility(View.VISIBLE);
         call_back = 8;
         idle_trigger = false;
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1738,6 +1776,7 @@ public class MainActivity extends AppCompatActivity {
         call_back = 4;
         idle_trigger = false;
         setDetails_viewing_trigger(true);
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
@@ -1815,6 +1854,7 @@ public class MainActivity extends AppCompatActivity {
         call_back = 5;
         idle_trigger = false;
         new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());
+        signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
         detailscon.setVisibility(View.GONE);
@@ -1840,6 +1880,7 @@ public class MainActivity extends AppCompatActivity {
     public void to_be_approved(){
         discard_work = false;
         call_back = 0;
+        signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1866,6 +1907,7 @@ public class MainActivity extends AppCompatActivity {
         new_password.setText("");
         discard_work = false;
         call_back = 8888;
+        signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
@@ -1884,6 +1926,29 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.VISIBLE);
+
+    }
+    public void to_signature(){
+        call_back = 10 ;
+        signature.setVisibility(View.VISIBLE);
+        actmenu.setVisibility(View.GONE);
+        srf_login_form.setVisibility(View.GONE);
+        srf_station_form.setVisibility(View.GONE);
+        detailscon.setVisibility(View.GONE);
+        selectcat.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
+        menu_form.setVisibility(View.GONE);
+        srf_list_form.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_img_form.setVisibility(View.GONE);
+        view_srf_details_form.setVisibility(View.GONE);
+        status_class_form.setVisibility(View.GONE);
+        actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
 
     }
 
@@ -2805,10 +2870,10 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "").trim();
                 img_stn_code = result;
-                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE DONE " + img_stn_code, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "UPLOADING FILE PLEASE WAIT.......", Toast.LENGTH_LONG).show();
                 upload();
             } else {
-                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE FAILED", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "UPLOAD FILE FAILED", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -2858,10 +2923,63 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "").trim();
-                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE DONE ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "UPLOADING FILE PLEASE WAIT.......", Toast.LENGTH_LONG).show();
                 upprofile();
             } else {
-                Toast.makeText(MainActivity.this, "UPLOAD FILE FIRST PHASE FAILED", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "UPLOAD FILE FAILED", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+    class up_sigfile extends AsyncTask<String, Void, String> {
+
+        String status = null;
+        Activity context;
+
+
+        public up_sigfile(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                result = result.replaceAll("^\"|\"$", "").trim();
+                Toast.makeText(MainActivity.this, "UPLOADING FILE PLEASE WAIT.......", Toast.LENGTH_LONG).show();
+                upsignature(signature_pad.getTransparentSignatureBitmap());
+            } else {
+                Toast.makeText(MainActivity.this, "UPLOAD FILE FAILED", Toast.LENGTH_LONG).show();
 
             }
         }

@@ -101,7 +101,12 @@ public class status_class_adapter extends RecyclerView.Adapter<status_class_adap
                 ma.to_srflist();
 
             }else if (MainActivity.getStatus_trigger().equals(true)){
-                ma.to_details();
+                if (sta.getStatus_code().trim().equals("0001")){
+                    ma.to_signature();
+                }else{
+                    ma.to_details();
+                }
+
             }
         }
     }
