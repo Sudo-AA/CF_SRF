@@ -673,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             File photofile = null;
                             try {
-                                photofile = createImageFile();
+                                photofile = createImageFile("jpg");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -1082,11 +1082,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
+    private File createImageFile(String extention) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        File image = File.createTempFile(imageFileName, "."+extention, storageDir);
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -1202,7 +1202,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            OutputStream os = new BufferedOutputStream(new FileOutputStream(createImageFile()));
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(createImageFile("png")));
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             OkHttpClient client = new OkHttpClient().newBuilder()
