@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
@@ -34,6 +35,10 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
     private static String uni_srfupdate_date;
     private static String uni_srfaction;
     private static String uni_srfclosed;
+
+    public srf_adapter() {
+
+    }
 
     public static String getUni_srfclosed() {
         return uni_srfclosed;
@@ -94,8 +99,8 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
 
     private static Context context;
     private static MainActivity ma;
-    private List<srf> srf_list;
-    public srf_adapter(Context context, List<srf> srf_list) {
+    private static ArrayList<srf> srf_list;
+    public srf_adapter(Context context, ArrayList<srf> srf_list) {
         this.context = context;
         this.srf_list = srf_list;
     }
@@ -201,5 +206,9 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             });
         }
 
+    }
+    public void filterList(ArrayList<srf> filteredList){
+        srf_list = filteredList;
+        notifyDataSetChanged();
     }
 }

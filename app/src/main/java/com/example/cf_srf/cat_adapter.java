@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyView>{
@@ -18,15 +19,19 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyView>{
 
     private static String uni_catcode;
     private static Context context;
-    private List<cat> cat_list;
+    private static ArrayList<cat> cat_list;
     private static MainActivity ma;
-    public cat_adapter(Context context, List<cat> cat_list) {
+    public cat_adapter(Context context, ArrayList<cat> cat_list) {
         this.cat_list = cat_list;
         this.context = context;
 
     }
 
     private static String uni_catname;
+
+    public cat_adapter() {
+
+    }
 
     public static String getUni_catname() {
         return uni_catname;
@@ -83,5 +88,9 @@ public class cat_adapter extends RecyclerView.Adapter<cat_adapter.MyView>{
             ma = new MainActivity();
             ma.to_request();
         }
+    }
+    public void filterList(ArrayList<cat> filteredList){
+        cat_list = filteredList;
+        notifyDataSetChanged();
     }
 }

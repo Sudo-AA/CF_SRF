@@ -391,37 +391,36 @@
                     android:textColor="@color/black"
                     android:textSize="20dp" />
 
+
+                <EditText
+                    android:id="@+id/cat_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:backgroundTint="@color/white"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="left"
+                    android:hint="Search for Category ...."
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:padding="4dp"
+                    android:shadowColor="@color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/cf"
+                    android:textSize="15dp"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/requestor_list"
                     android:layout_width="match_parent"
-                    android:layout_height="357dp"
+                    android:layout_height="match_parent"
                     android:layout_margin="20dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-
-                    <Button
-                        android:id="@+id/cat_back"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@color/cf"
-                        android:backgroundTint="@color/cf"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="BACK"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        app:iconPadding="1dp" />
-
-                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -858,7 +857,7 @@
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -899,6 +898,27 @@
                     android:textColor="@color/black"
                     android:textSize="14dp" />
 
+                <EditText
+                    android:id="@+id/srf_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:backgroundTint="@color/white"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:gravity="left"
+                    android:hint="Search for Category ...."
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:padding="4dp"
+                    android:shadowColor="@color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/cf"
+                    android:textSize="15dp"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -907,6 +927,7 @@
                         android:orientation="horizontal"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp">
+
 
                         <TextView
                             android:id="@+id/norecord"
@@ -2246,7 +2267,6 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
     <!-- EDIT ACCOUNT-->
-
 
     <!-- signaturelayout-->
     <RelativeLayout
