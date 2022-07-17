@@ -32,11 +32,14 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -102,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
     private static Handler idle_handler;
     private static Runnable idle_runnable;
     private static int sec_for_idle = 300;
+    // category search
+    private static TextView cat_search;
+    private static TextView srf_search;
     private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
     private static ImageView actmenu;
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button uprofile,emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, cat_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static Button uprofile,emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView user_textnav,goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
     private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,new_registration, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
@@ -117,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
     private static ProgressBar log_in_prog, prog_details, search_prog;
-    private static RecyclerView.Adapter mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter;
+    private static RecyclerView.Adapter srfadapter,mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter;
     private static RecyclerView.LayoutManager layoutManager;
     private static ArrayList<station> stnList;
     private static ArrayList<status_class> status_list;
-    private static List<cat> catList;
-    private static List<srf> srfList;
+    private static ArrayList<cat> catList;
+    private static ArrayList<srf> srfList;
     private static List<sra> sraList;
     private static ArrayList<technician> tech_list;
     private static ArrayList<img_loc> img_locList;
@@ -275,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
         sig_clear =findViewById(R.id.sig_clear);
         signature =findViewById(R.id.signature);
         sig_holder = findViewById(R.id.sig_holder);
+        // searchbar for cat list
+        cat_search = findViewById(R.id.cat_search);
+        srf_search = findViewById(R.id.srf_search);
         // ACTIONBAR--------------------------------------------------------------------------------
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -303,7 +312,6 @@ public class MainActivity extends AppCompatActivity {
         con_back = findViewById(R.id.back_confirm);
         req_con = findViewById(R.id.confirm_request);
         req_back = findViewById(R.id.back_request);
-        cat_back = findViewById(R.id.cat_back);
         back_add_menu = findViewById(R.id.add_back_menu);
 
         // button for edit srf
@@ -501,6 +509,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 9:
                         to_upload_img();
+                        if (img_locList != null) {
+                            addsrfimages_adapter();
+                        }
                         break;
                     case 10:
                         to_status_class();
@@ -558,12 +569,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cat_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog_to_exit("DISCARD YOUR WORK ?", 2);;
-            }
-        });
 
         req_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -657,16 +662,64 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+// search textboxes --------------------------------------------------------------------------------------------
         searchbar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                adaptergetter();
+
+                if (stnList != null){
+                    adaptergetter();
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());
+                if (stnList != null){
+                    filter(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        cat_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(catList != null){
+                    cat_adaptergetter();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(catList != null){
+                    cat_filter(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        srf_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(srfList != null){
+                    srfadaptergetter();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(srfList  != null){
+                    srf_filter(s.toString());
+                }
+
             }
 
             @Override
@@ -1130,12 +1183,32 @@ public class MainActivity extends AppCompatActivity {
     void filter(String text) {
         ArrayList<station> temp = new ArrayList<>();
         for (station items : stnList) {
-            if (items.getStn_name().contains(text.toUpperCase(Locale.ROOT))) {
+            if (items.getStn_name().contains(text.toUpperCase(Locale.ROOT)) || items.getStn_code().contains(text.toUpperCase(Locale.ROOT))) {
                 temp.add(items);
             }
         }
         station_adapter stn = new station_adapter();
         stn.filterList(temp);
+    }
+    void cat_filter(String text) {
+        ArrayList<cat> temp = new ArrayList<>();
+        for (cat items : catList) {
+            if (items.getCat_name().contains(text.toUpperCase(Locale.ROOT)) ||items.getCat_code().contains(text.toUpperCase(Locale.ROOT))  ) {
+                temp.add(items);
+            }
+        }
+        cat_adapter cat = new cat_adapter();
+        cat.filterList(temp);
+    }
+    void srf_filter(String text) {
+        ArrayList<srf> temp = new ArrayList<>();
+        for (srf items : srfList) {
+            if (items.getSRF_Problem().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_No().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_Date().contains(text.toUpperCase(Locale.ROOT))  ) {
+                temp.add(items);
+            }
+        }
+       srf_adapter srf = new srf_adapter();
+        srf.filterList(temp);
     }
 
     public void upload() {
@@ -1507,6 +1580,7 @@ public class MainActivity extends AppCompatActivity {
                 call_back = 10;
                 sig_holder.setVisibility(View.GONE);
             }
+            
             srf_login_form.setVisibility(View.GONE);
             attach_img_form.setVisibility(View.GONE);
             srf_station_form.setVisibility(View.GONE);
@@ -1557,6 +1631,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void to_catselect()
     {
+
+
+
         signature.setVisibility(View.GONE);
         discard_work = true;
         cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
@@ -2427,9 +2504,7 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 try {
 
-                    catrec.setHasFixedSize(true);
-                    layoutManager = new LinearLayoutManager(MainActivity.this);
-                    catrec.setLayoutManager(layoutManager);
+
                     catList = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -2438,8 +2513,7 @@ public class MainActivity extends AppCompatActivity {
                         String cat_name = object.getString("Catdesc");
                         catList.add(new cat(cat_code.trim(), cat_name.trim()));
                     }
-                    mAdapter = new cat_adapter(MainActivity.this, catList);
-                    catrec.setAdapter(mAdapter);
+                    cat_adaptergetter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -2447,6 +2521,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "CONNECTION LOST", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public void cat_adaptergetter(){
+            catrec.setVisibility(View.VISIBLE);
+            catrec.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(MainActivity.this);
+            catrec.setLayoutManager(layoutManager);
+            mAdapter = new cat_adapter(MainActivity.this, catList);
+            catrec.setAdapter(mAdapter);
+
     }
     class getstatus_class extends AsyncTask<String, Void, String> {
         String status = null;
@@ -2798,17 +2881,13 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 try {
 
-                    srfrec.setHasFixedSize(true);
-                    layoutManager = new LinearLayoutManager(MainActivity.this);
-                    srfrec.setLayoutManager(layoutManager);
                     srfList = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         srfList.add(new srf(object.getString("SRF_Stn"), object.getString("SRF_StnCode"), object.getString("SRF_No"), object.getString("SRF_Date"), object.getString("SRF_CatCode"), object.getString("SRF_CatDesc"), object.getString("SRF_Problem"), object.getString("SRF_User"), object.getString("SRF_Status"), object.getString("Images_status"), object.getString("Updated_by"),object.getString("Updated_date"),object.getString("Action"), object.getString("Closed_date")));
                     }
-                    mAdapter = new srf_adapter(MainActivity.this, srfList);
-                    srfrec.setAdapter(mAdapter);
+                    srfadaptergetter();
                     srfrec.setVisibility(View.VISIBLE);
                     no_records.setVisibility(View.GONE);
                     if (srfList.size() == 0) {
@@ -2823,7 +2902,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+public void srfadaptergetter(){
+    srfrec.setHasFixedSize(true);
+    layoutManager = new LinearLayoutManager(MainActivity.this);
+    srfrec.setLayoutManager(layoutManager);
+    srfadapter = new srf_adapter(MainActivity.this, srfList);
+    srfrec.setAdapter(srfadapter);
+}
     class upimagename extends AsyncTask<String, Void, String> {
 
         String status = null;
@@ -3787,7 +3872,6 @@ public class MainActivity extends AppCompatActivity {
         me.setVisibility(View.GONE);
         it.setVisibility(View.GONE);
     }
-
 
 
 }
