@@ -466,6 +466,8 @@ public class MainActivity extends AppCompatActivity {
         new_username.setOnFocusChangeListener(ofcListener);
         con_password.setOnFocusChangeListener(ofcListener);
         new_password.setOnFocusChangeListener(ofcListener);
+        srf_search.setOnFocusChangeListener(ofcListener);
+        cat_search.setOnFocusChangeListener(ofcListener);
         OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
@@ -1203,7 +1205,7 @@ public class MainActivity extends AppCompatActivity {
     void srf_filter(String text) {
         ArrayList<srf> temp = new ArrayList<>();
         for (srf items : srfList) {
-            if (items.getSRF_Problem().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_No().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_Date().contains(text.toUpperCase(Locale.ROOT))  ) {
+            if (items.getSRF_Problem().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_User().contains(text.toUpperCase(Locale.ROOT)) || items.getSRF_Desc().contains(text.toUpperCase(Locale.ROOT))  ) {
                 temp.add(items);
             }
         }

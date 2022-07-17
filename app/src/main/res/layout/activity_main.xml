@@ -908,7 +908,7 @@
                     android:ems="10"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:gravity="left"
-                    android:hint="Search for Category ...."
+                    android:hint="Search for Branch Requests ...."
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:outlineSpotShadowColor="@color/black"
