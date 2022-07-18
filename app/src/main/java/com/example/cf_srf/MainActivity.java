@@ -110,6 +110,16 @@ public class MainActivity extends AppCompatActivity {
     private static TextView srf_search;
     private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
     //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+
+    // account settings ------------------------------------------------------
+    private static RelativeLayout account_settings;
+    private static LinearLayout to_hide_set, to_show_set;
+    private static TextView edit_user, old_pass, acc_newpass, acc_con_newpass, acc_set_details;
+    private static Button edit_accout, acc_cancel_changes, acc_save_changes, Change_profile, to_myaccount;
+    private static CircleImageView acc_profile_image;
+
+
+    // ---------------------------------------------
     private static ImageView actmenu;
     private static Button acthome;
     private static TextView acttitle;
@@ -275,6 +285,23 @@ public class MainActivity extends AppCompatActivity {
         };
         startHandler();
         new update_checker(MainActivity.this).execute("https://raw.githubusercontent.com/V-for-velascoDMY23/CLEAN-FUEL-SRF-APPLICATION-RELEASE/main/updater_caller.json");
+
+        // account setting ----------------------------------------------------------------------------------------
+        account_settings =  findViewById(R.id.account_settings);
+        acc_profile_image =  findViewById(R.id.acc_profile_image);
+        Change_profile =  findViewById(R.id.Change_profile);
+        acc_set_details =  findViewById(R.id.acc_set_details);
+        edit_user =  findViewById(R.id.edit_user);
+        old_pass =  findViewById(R.id.old_pass);
+        acc_newpass =  findViewById(R.id.acc_newpass);
+        acc_con_newpass =  findViewById(R.id.acc_con_newpass);
+        to_hide_set =  findViewById(R.id.to_hide_set);
+        acc_cancel_changes =  findViewById(R.id.acc_cancel_changes);
+        acc_save_changes =  findViewById(R.id.acc_save_changes);
+        to_show_set =  findViewById(R.id.to_show_set);
+        edit_accout =  findViewById(R.id.edit_accout);
+        to_myaccount =  findViewById(R.id.to_myaccount) ;
+
 // signaturepad -----------------------------------------------------------------------------------------
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
         sig_next =  findViewById(R.id.sig_next);
@@ -439,19 +466,7 @@ public class MainActivity extends AppCompatActivity {
         String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         setAndroid_id(android_id);
 
-        srf_login_form.setVisibility(View.VISIBLE);
-        srf_station_form.setVisibility(View.GONE);
-        detailscon.setVisibility(View.GONE);
-        selectcat.setVisibility(View.GONE);
-        request.setVisibility(View.GONE);
-        menu_form.setVisibility(View.GONE);
-        srf_list_form.setVisibility(View.GONE);
-        srf_editform.setVisibility(View.GONE);
-        attach_img_form.setVisibility(View.GONE);
-        add_androidID.setVisibility(View.GONE);
-        view_srf_details_form.setVisibility(View.GONE);
-        status_class_form.setVisibility(View.GONE);
-        actions_for_srf.setVisibility(View.GONE);
+        to_login();
 
         View.OnFocusChangeListener ofcListener = new MyFocusChangeListener();
 
@@ -538,6 +553,55 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 17:
                         to_get_empcode();
+                        break;
+                    case 18:
+                        to_account_setting();
+                        break;
+                    case 19:
+
+                        if (getDetails_viewing_trigger().equals(false)) {
+                            attach_img_form.setVisibility(View.VISIBLE);
+                            signature.setVisibility(View.GONE);
+                            srf_login_form.setVisibility(View.GONE);
+                            srf_station_form.setVisibility(View.GONE);
+                            detailscon.setVisibility(View.GONE);
+                            selectcat.setVisibility(View.GONE);
+                            request.setVisibility(View.GONE);
+                            menu_form.setVisibility(View.GONE);
+                            srf_list_form.setVisibility(View.GONE);
+                            srf_editform.setVisibility(View.GONE);
+                            view_srf_details_form.setVisibility(View.GONE);
+                            status_class_form.setVisibility(View.GONE);
+                            actions_for_srf.setVisibility(View.GONE);
+                            image_viewer_form.setVisibility(View.GONE);
+                            select_cat.setVisibility(View.GONE);
+                            for_approval.setVisibility(View.GONE);
+                            add_androidID.setVisibility(View.GONE);
+                            get_emp_code_layout.setVisibility(View.GONE);
+                            account_settings.setVisibility(View.GONE);
+
+                        } else if (getDetails_viewing_trigger().equals(true)) {
+                            attach_img_form.setVisibility(View.GONE);
+                            signature.setVisibility(View.GONE);
+                            srf_login_form.setVisibility(View.GONE);
+                            srf_station_form.setVisibility(View.GONE);
+                            detailscon.setVisibility(View.GONE);
+                            selectcat.setVisibility(View.GONE);
+                            request.setVisibility(View.GONE);
+                            menu_form.setVisibility(View.GONE);
+                            srf_list_form.setVisibility(View.GONE);
+                            srf_editform.setVisibility(View.GONE);
+                            view_srf_details_form.setVisibility(View.GONE);
+                            status_class_form.setVisibility(View.GONE);
+                            actions_for_srf.setVisibility(View.GONE);
+                            image_viewer_form.setVisibility(View.GONE);
+                            select_cat.setVisibility(View.GONE);
+                            for_approval.setVisibility(View.GONE);
+                            add_androidID.setVisibility(View.GONE);
+                            get_emp_code_layout.setVisibility(View.GONE);
+                            account_settings.setVisibility(View.GONE);
+                            view_srf_details_form.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
             }
@@ -808,6 +872,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (getDetails_viewing_trigger().equals(false)) {
+                    attach_img_form.setVisibility(View.VISIBLE);
+                    signature.setVisibility(View.GONE);
                     srf_login_form.setVisibility(View.GONE);
                     srf_station_form.setVisibility(View.GONE);
                     detailscon.setVisibility(View.GONE);
@@ -816,12 +882,21 @@ public class MainActivity extends AppCompatActivity {
                     menu_form.setVisibility(View.GONE);
                     srf_list_form.setVisibility(View.GONE);
                     srf_editform.setVisibility(View.GONE);
-                    attach_img_form.setVisibility(View.VISIBLE);
-                    image_viewer_form.setVisibility(View.GONE);
                     view_srf_details_form.setVisibility(View.GONE);
+                    status_class_form.setVisibility(View.GONE);
+                    actions_for_srf.setVisibility(View.GONE);
+                    image_viewer_form.setVisibility(View.GONE);
+                    select_cat.setVisibility(View.GONE);
+                    for_approval.setVisibility(View.GONE);
+                    add_androidID.setVisibility(View.GONE);
+                    get_emp_code_layout.setVisibility(View.GONE);
+                    account_settings.setVisibility(View.GONE);
+
 
 
                 } else if (getDetails_viewing_trigger().equals(true)) {
+                    attach_img_form.setVisibility(View.GONE);
+                    signature.setVisibility(View.GONE);
                     srf_login_form.setVisibility(View.GONE);
                     srf_station_form.setVisibility(View.GONE);
                     detailscon.setVisibility(View.GONE);
@@ -830,8 +905,15 @@ public class MainActivity extends AppCompatActivity {
                     menu_form.setVisibility(View.GONE);
                     srf_list_form.setVisibility(View.GONE);
                     srf_editform.setVisibility(View.GONE);
-                    attach_img_form.setVisibility(View.GONE);
+                    view_srf_details_form.setVisibility(View.GONE);
+                    status_class_form.setVisibility(View.GONE);
+                    actions_for_srf.setVisibility(View.GONE);
                     image_viewer_form.setVisibility(View.GONE);
+                    select_cat.setVisibility(View.GONE);
+                    for_approval.setVisibility(View.GONE);
+                    add_androidID.setVisibility(View.GONE);
+                    get_emp_code_layout.setVisibility(View.GONE);
+                    account_settings.setVisibility(View.GONE);
                     view_srf_details_form.setVisibility(View.VISIBLE);
                 }
 
@@ -963,12 +1045,15 @@ public class MainActivity extends AppCompatActivity {
                     acthome.setEnabled(false);
                     srf_add.setEnabled(true);
                     srf_edit.setEnabled(true);
+                    to_myaccount.setEnabled(true);
                     acthome.setBackgroundResource(R.color.white);
                     srf_add.setBackgroundResource(R.color.cf);
                     srf_edit.setBackgroundResource(R.color.cf);
+                    to_myaccount.setBackgroundResource(R.color.cf);
                     acthome.setTextColor(Color.BLACK);
                     srf_add.setTextColor(Color.WHITE);
                     srf_edit.setTextColor(Color.WHITE);
+                    to_myaccount.setTextColor(Color.WHITE);
                     acttitle.setText("SERVICE REQUEST FORM");
                 }
             }
@@ -986,12 +1071,15 @@ public class MainActivity extends AppCompatActivity {
                     acthome.setEnabled(true);
                     srf_add.setEnabled(false);
                     srf_edit.setEnabled(true);
+                    to_myaccount.setEnabled(true);
                     acthome.setBackgroundResource(R.color.cf);
                     srf_add.setBackgroundResource(R.color.white);
                     srf_edit.setBackgroundResource(R.color.cf);
+                    to_myaccount.setBackgroundResource(R.color.cf);
                     acthome.setTextColor(Color.WHITE);
                     srf_add.setTextColor(Color.BLACK);
                     srf_edit.setTextColor(Color.WHITE);
+                    to_myaccount.setTextColor(Color.WHITE);
                     acttitle.setText("ADD SRF");
                 }
 
@@ -1010,20 +1098,49 @@ public class MainActivity extends AppCompatActivity {
                     acthome.setEnabled(true);
                     srf_add.setEnabled(true);
                     srf_edit.setEnabled(false);
+                    to_myaccount.setEnabled(true);
                     acthome.setBackgroundResource(R.color.cf);
                     srf_add.setBackgroundResource(R.color.cf);
                     srf_edit.setBackgroundResource(R.color.white);
+                    to_myaccount.setBackgroundResource(R.color.cf);
                     acthome.setTextColor(Color.WHITE);
                     srf_add.setTextColor(Color.WHITE);
                     srf_edit.setTextColor(Color.BLACK);
+                    to_myaccount.setTextColor(Color.WHITE);
                     acttitle.setText("VIEW SRF");
                 }
+            }
+        });
+        to_myaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nav_closer();
+                to_account_setting();
+                acthome.setEnabled(true);
+                srf_add.setEnabled(true);
+                srf_edit.setEnabled(true);
+                to_myaccount.setEnabled(false);
+                acthome.setBackgroundResource(R.color.cf);
+                srf_add.setBackgroundResource(R.color.cf);
+                srf_edit.setBackgroundResource(R.color.cf);
+                to_myaccount.setBackgroundResource(R.color.white);
+                acthome.setTextColor(Color.WHITE);
+                srf_add.setTextColor(Color.WHITE);
+                srf_edit.setTextColor(Color.WHITE);
+                to_myaccount.setTextColor(Color.BLACK);
+                acttitle.setText("MY ACCOUNT");
             }
         });
         logout_float.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog_to_exit("LOG OUT NOW? ", 3);
+            }
+        });
+        to_myaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -1098,6 +1215,56 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        // account settings ______________________________________________________________________
+
+        Change_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upload_trigger = false;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+                        startActivityForResult(pickIntent, PROFILE_UP);
+
+                    }
+
+                });
+            }
+        });
+        edit_accout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_profile();
+            }
+        });
+        acc_cancel_changes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view_profile();
+            }
+        });
+        acc_save_changes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String users = edit_user.getText().toString();
+                String old = old_pass.getText().toString();
+                String newpass = acc_newpass.getText().toString();
+                String conpass = acc_con_newpass.getText().toString();
+
+                if (isEmpty(users) || isEmpty(old) || isEmpty(newpass)|| isEmpty(conpass)){
+                    dialog("PLEASE FILL OUT THE EMPTY TEXT BOXES");
+
+                }else{
+                    if(newpass == old){
+                        new update_acc(MainActivity.this).execute(Domain.concat("UpdateAcc/"+user.getEmpcode()+"/"+md5(old)+"/"+md5(newpass)+"/"+users));
+                    }else{
+                        dialog("BOTH NEW PASSWORDS DOES NOT MATCH");
+                    }
+                }
+            }
+        });
+
     }
 
 
@@ -1178,7 +1345,12 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
             currentPhotoPath = path;
-            new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
+            if (regist_trigger =  false){
+                new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+user.getEmpcode().trim()));
+            }else{
+                new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
+            }
+
         }
     }
 
@@ -1275,9 +1447,16 @@ public class MainActivity extends AppCompatActivity {
                     File file = new File(currentPhotoPath);
                     file.delete();
                 }
-                Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + regemp + ".jpg");
-                profilebmp = pathName;
-                new_profile_image.setImageBitmap(profilebmp);
+                if (!regist_trigger){
+                    Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + user.getEmpcode().trim()+ ".jpg");
+                    profilebmp = pathName;
+                    acc_profile_image.setImageBitmap(profilebmp);
+                }else{
+                    Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + regemp + ".jpg");
+                    profilebmp = pathName;
+                    new_profile_image.setImageBitmap(profilebmp);
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1350,6 +1529,8 @@ public class MainActivity extends AppCompatActivity {
         select_cat.setVisibility(View.GONE);
         for_approval.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
+
 
     } //12
 
@@ -1376,6 +1557,8 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
+
 
 
            if( getMenutrigger().equals(false)){
@@ -1420,6 +1603,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
     } //3
     public void to_status_class() {
@@ -1465,6 +1649,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
 
     }// 10
@@ -1495,6 +1680,7 @@ public class MainActivity extends AppCompatActivity {
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
         user.setFirstname(null);
         user.setLastname(null);
         user.setUsername(null);
@@ -1511,6 +1697,7 @@ public class MainActivity extends AppCompatActivity {
     } // 8888
 
     public void to_details() {
+        account_settings.setVisibility(View.GONE);
         sig_holder.setVisibility(View.GONE);
         discard_work = true;
         signature.setVisibility(View.GONE);
@@ -1635,7 +1822,7 @@ public class MainActivity extends AppCompatActivity {
     {
 
 
-
+        account_settings.setVisibility(View.GONE);
         signature.setVisibility(View.GONE);
         discard_work = true;
         cat_branch_notifier.setText("SELECT SRF CATEGORY\nBRANCH: " + station_adapter.getUni_stnname().trim());
@@ -1666,6 +1853,7 @@ public class MainActivity extends AppCompatActivity {
     } // 11
 
     public void to_request() {
+        account_settings.setVisibility(View.GONE);
         signature.setVisibility(View.GONE);
         discard_work = true;
         actmenu.setVisibility(View.VISIBLE);
@@ -1725,6 +1913,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
     }// 4
 
@@ -1737,13 +1926,17 @@ public class MainActivity extends AppCompatActivity {
         acthome.setEnabled(false);
         srf_add.setEnabled(true);
         srf_edit.setEnabled(true);
+        to_myaccount.setEnabled(true);
+
 
         acthome.setBackgroundResource(R.color.white);
         srf_add.setBackgroundResource(R.color.cf);
         srf_edit.setBackgroundResource(R.color.cf);
+        to_myaccount.setBackgroundResource(R.color.cf);
         acthome.setTextColor(Color.BLACK);
         srf_add.setTextColor(Color.WHITE);
         srf_edit.setTextColor(Color.WHITE);
+        to_myaccount.setTextColor(Color.WHITE);
         acttitle.setText("SERVICE REQUEST FORM");
         actmenu.setVisibility(View.VISIBLE);
         call_back = 0;
@@ -1784,7 +1977,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
-
+        account_settings.setVisibility(View.GONE);
 
     } // 2
 
@@ -1813,6 +2006,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
         editheader.setTextColor(Color.parseColor("#0000FF"));
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
@@ -1846,6 +2040,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
     }// 9
 
@@ -1875,6 +2070,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
         edit_srf.setText("");
         String att = "";
@@ -1953,6 +2149,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
     }// 6
 
@@ -1978,6 +2175,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.VISIBLE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
 
     }
     public void to_get_empcode(){
@@ -2006,6 +2204,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.VISIBLE);
+        account_settings.setVisibility(View.GONE);
 
     }
     public void to_signature(){
@@ -2029,6 +2228,32 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
+
+    }
+    public void to_account_setting(){
+        call_back = 2;
+        view_profile();
+        signature.setVisibility(View.GONE);
+        actmenu.setVisibility(View.VISIBLE);
+        srf_login_form.setVisibility(View.GONE);
+        srf_station_form.setVisibility(View.GONE);
+        detailscon.setVisibility(View.GONE);
+        selectcat.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
+        menu_form.setVisibility(View.GONE);
+        srf_list_form.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_img_form.setVisibility(View.GONE);
+        view_srf_details_form.setVisibility(View.GONE);
+        status_class_form.setVisibility(View.GONE);
+        actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.VISIBLE);
 
     }
 
@@ -2096,7 +2321,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dialog_imageviewer() {
-
+        call_back = 19;
         if (getMenutrigger() == true) {
             Bitmap pathName = getBitmapFromURL(Domain + "GetImage/" + img_loc_adapter.getUni_stn().trim() + "/" + img_loc_adapter.getFile_name().trim());
             image_viewer_img.setImageBitmap(pathName);
@@ -2668,7 +2893,7 @@ public class MainActivity extends AppCompatActivity {
                     user_textnav.setText(user.getLastname().trim() +", "+ user.getFirstname().trim() +"\nEmp No: #"+user.getEmpcode().trim()+"\n"+"@"+user.getUsername());
                     Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/"+user.getEmpcode().trim()+".jpg");
                     profilebmp = pathName;
-                    profile_image_nav.setImageBitmap(profilebmp);
+
                     to_menuform();
                     if (user.getAdmin().trim().equals("Y")){
                         admin();
@@ -3245,6 +3470,64 @@ public void srfadaptergetter(){
             } else {
                 dialog("ERROR OCCUR PLEASE RESTART THE APP");
 
+
+            }
+        }
+    }
+
+    // update acc
+
+    class update_acc extends AsyncTask<String, Void, String> {
+        String status = null;
+        Activity context;
+
+        public update_acc(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                result = result.replaceAll("^\"|\"$", "");
+                if (result.trim().equals("TRUE")) {
+                    dialog_idle("ACCOUNT HAS BEEN UPDATED, TO TAKE EFFECT YOU NEED TO RE-LOGIN FIRST", true);
+                } else if (result.trim().equals("FALSE")) {
+                    dialog("THE OLD PASSWORD YOU INPUTTED DID NOT MATCH TO YOUR OLD PASSWORD");
+                }
+
+            } else {
+                dialog("NO INTERNET CONNECTION, TRY AGAIN LATER");
 
             }
         }
@@ -3834,6 +4117,7 @@ public void srfadaptergetter(){
 
     }
     public static void nav_opener(){
+        profile_image_nav.setImageBitmap(profilebmp);
         menulayout.setVisibility(View.VISIBLE);
         actionbartrigger =  true;
         actmenu.setBackgroundResource(R.drawable.new_back);
@@ -3876,5 +4160,21 @@ public void srfadaptergetter(){
         it.setVisibility(View.GONE);
     }
 
-
+    public static void edit_profile(){
+        call_back = 18;
+        to_hide_set.setVisibility(View.VISIBLE);
+        to_show_set.setVisibility(View.GONE);
+        Change_profile.setVisibility(View.VISIBLE);
+        edit_user.setText(user.getUsername().trim());
+    }
+    public static void view_profile(){
+        acc_set_details.setText(Html.fromHtml("<font color='#808080'>"+user.getFirstname()+" "+ user.getLastname()+"</font><br><font color='#808080'>#"+user.getEmpcode()+"</font><br>"), TextView.BufferType.SPANNABLE);
+        to_hide_set.setVisibility(View.GONE);
+        to_show_set.setVisibility(View.VISIBLE);
+        Change_profile.setVisibility(View.GONE);
+        edit_user.setText("");
+        old_pass.setText("");
+        acc_newpass.setText("");
+        acc_con_newpass.setText("");
+    }
 }

@@ -1336,7 +1336,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -2266,7 +2266,263 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
     <!-- EDIT ACCOUNT-->
+    <RelativeLayout
+        android:id="@+id/account_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cf"
+        android:backgroundTint="@color/cf"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                app:cardCornerRadius="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        app:srcCompat="@drawable/new_logo3_06_border_1080"
+                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="MY ACCOUNT"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/acc_profile_image"
+                            android:layout_width="186dp"
+                            android:layout_height="176dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/upload_image"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="3dp" />
+
+                        <Button
+                            android:id="@+id/Change_profile"
+                            android:layout_width="120dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="2dp"
+                            android:background="@color/cf"
+                            android:fontFamily="monospace"
+                            android:gravity="center"
+                            android:padding="0dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="CHANGE PROFILE"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
+                    <!--basic info inreplacable-->
+                    <TextView
+                        android:id="@+id/acc_set_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:text="EMPLOYEEE NO: 99999999"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+                    <!--replacable awts sakit-->
+                    <EditText
+                        android:id="@+id/edit_user"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:capitalize="characters"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Username"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPersonName"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp"
+                        tools:ignore="Deprecated" />
+                    <!--USERNAME AND PASSWORD-->
+
+
+                    <EditText
+                        android:id="@+id/old_pass"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Old Password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/acc_newpass"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Set New Password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/acc_con_newpass"
+                        style="@android:style/Widget.DeviceDefault.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:backgroundTint="@color/cf"
+                        android:ems="10"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:hint="Confirm Password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:outlineSpotShadowColor="@color/black"
+                        android:padding="10dp"
+                        android:shadowColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/cf"
+                        android:textSize="15dp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/to_hide_set"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="0dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/acc_cancel_changes"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="cancel"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/acc_save_changes"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="SAVE CHANGES"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/to_show_set"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="0dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/edit_accout"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+
+                            android:layout_weight="1"
+                            android:background="@color/cf"
+                            android:backgroundTint="@color/cf"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="EDIT PROFILE"
+                            android:textColor="@color/white"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+    </RelativeLayout>
     <!-- signaturelayout-->
     <RelativeLayout
         android:id="@+id/signature"
@@ -2394,7 +2650,7 @@
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -2405,7 +2661,7 @@
         android:id="@+id/menulayout"
         android:layout_width="250dp"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -2490,6 +2746,19 @@
                 android:background="@color/cf"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="VIEW BRANCH SERVICE REQUESTS"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/to_myaccount"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:background="@color/cf"
+                android:enabled="true"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="MY ACCOUNT"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
 
