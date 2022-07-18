@@ -1336,7 +1336,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -1391,8 +1391,8 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/new_profile_image"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="156dp"
+                            android:layout_height="128dp"
                             android:layout_gravity="center"
                             android:src="@drawable/upload_image"
                             app:civ_border_color="@color/black"
@@ -1415,7 +1415,6 @@
                             android:textSize="10dp" />
 
                     </LinearLayout>
-
 
                     <TextView
                         android:id="@+id/new_acc_details"
