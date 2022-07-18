@@ -1113,7 +1113,7 @@ public class MainActivity extends AppCompatActivity {
         });
         to_myaccount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 nav_closer();
                 to_account_setting();
                 acthome.setEnabled(true);
@@ -1135,12 +1135,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog_to_exit("LOG OUT NOW? ", 3);
-            }
-        });
-        to_myaccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
@@ -1256,7 +1250,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog("PLEASE FILL OUT THE EMPTY TEXT BOXES");
 
                 }else{
-                    if(newpass == old){
+                    if(newpass != old){
                         new update_acc(MainActivity.this).execute(Domain.concat("UpdateAcc/"+user.getEmpcode()+"/"+md5(old)+"/"+md5(newpass)+"/"+users));
                     }else{
                         dialog("BOTH NEW PASSWORDS DOES NOT MATCH");
@@ -2232,6 +2226,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void to_account_setting(){
+        acc_profile_image.setImageBitmap(profilebmp);
         call_back = 2;
         view_profile();
         signature.setVisibility(View.GONE);
@@ -4166,9 +4161,13 @@ public void srfadaptergetter(){
         to_show_set.setVisibility(View.GONE);
         Change_profile.setVisibility(View.VISIBLE);
         edit_user.setText(user.getUsername().trim());
+        edit_user.setVisibility(View.VISIBLE);
+        old_pass.setVisibility(View.VISIBLE);
+        acc_newpass.setVisibility(View.VISIBLE);
+        acc_con_newpass.setVisibility(View.VISIBLE);
     }
     public static void view_profile(){
-        acc_set_details.setText(Html.fromHtml("<font color='#808080'>"+user.getFirstname()+" "+ user.getLastname()+"</font><br><font color='#808080'>#"+user.getEmpcode()+"</font><br>"), TextView.BufferType.SPANNABLE);
+        acc_set_details.setText(Html.fromHtml("<font color='#808080'>"+user.getFirstname()+" "+ user.getLastname()+"</font><br><font color='#808080'>#"+user.getEmpcode()+"</font><br><font color='#808080'>@"+user.getUsername()+"</font>"), TextView.BufferType.SPANNABLE);
         to_hide_set.setVisibility(View.GONE);
         to_show_set.setVisibility(View.VISIBLE);
         Change_profile.setVisibility(View.GONE);
@@ -4176,5 +4175,9 @@ public void srfadaptergetter(){
         old_pass.setText("");
         acc_newpass.setText("");
         acc_con_newpass.setText("");
+        edit_user.setVisibility(View.GONE);
+        old_pass.setVisibility(View.GONE);
+        acc_newpass.setVisibility(View.GONE);
+        acc_con_newpass.setVisibility(View.GONE);
     }
 }
