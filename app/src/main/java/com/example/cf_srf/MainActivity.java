@@ -1986,6 +1986,7 @@ public class MainActivity extends AppCompatActivity {
         new_password.setText("");
         discard_work = false;
         call_back = 8888;
+
         signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
@@ -2010,7 +2011,7 @@ public class MainActivity extends AppCompatActivity {
     public void to_signature(){
         call_back = 10 ;
         signature.setVisibility(View.VISIBLE);
-        actmenu.setVisibility(View.GONE);
+        actmenu.setVisibility(View.VISIBLE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.GONE);
         detailscon.setVisibility(View.GONE);
