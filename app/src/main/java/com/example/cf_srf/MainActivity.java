@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     // admin approval section-----------------------------------------------------------------------------------------------------------
     private static Button to_approve;
     private static RelativeLayout to_approve_layout;
-    private static TextView search_to_approve, norecord_to_approve;
+    private static TextView  norecord_to_approve;
     private static RecyclerView to_approve_list;
     private static ArrayList<approval> applist;
     private static ProgressBar to_approve_prog;
@@ -274,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // PARENT LAYOUT
-        PARENT = (RelativeLayout) findViewById(R.id.parent) ;
+        PARENT = (RelativeLayout) findViewById(R.id.parent);
 
         // PIE CHART -----------------------------------------------------------------------------
         pieChart = findViewById(R.id.piechart);
@@ -293,32 +294,31 @@ public class MainActivity extends AppCompatActivity {
         new update_checker(MainActivity.this).execute("https://raw.githubusercontent.com/V-for-velascoDMY23/CLEAN-FUEL-SRF-APPLICATION-RELEASE/main/updater_caller.json");
 // newly added ADMIN TO APPROVE SECTION ---------------------------------------------------------------------------------
         to_approve_layout = findViewById(R.id.to_approve_layout);
-        search_to_approve = findViewById(R.id.search_to_approve);
         norecord_to_approve = findViewById(R.id.norecord_to_approve);
         to_approve_prog = findViewById(R.id.to_approve_prog);
         to_approve_list = findViewById(R.id.to_approve_list);
-        to_approve =  findViewById(R.id.to_approve); // to continue
+        to_approve = findViewById(R.id.to_approve); // to continue
         // account setting ----------------------------------------------------------------------------------------
-        account_settings =  findViewById(R.id.account_settings);
-        acc_profile_image =  findViewById(R.id.acc_profile_image);
-        Change_profile =  findViewById(R.id.Change_profile);
-        acc_set_details =  findViewById(R.id.acc_set_details);
-        edit_user =  findViewById(R.id.edit_user);
-        old_pass =  findViewById(R.id.old_pass);
-        acc_newpass =  findViewById(R.id.acc_newpass);
-        acc_con_newpass =  findViewById(R.id.acc_con_newpass);
-        to_hide_set =  findViewById(R.id.to_hide_set);
-        acc_cancel_changes =  findViewById(R.id.acc_cancel_changes);
-        acc_save_changes =  findViewById(R.id.acc_save_changes);
-        to_show_set =  findViewById(R.id.to_show_set);
-        edit_accout =  findViewById(R.id.edit_accout);
-        to_myaccount =  findViewById(R.id.to_myaccount) ;
+        account_settings = findViewById(R.id.account_settings);
+        acc_profile_image = findViewById(R.id.acc_profile_image);
+        Change_profile = findViewById(R.id.Change_profile);
+        acc_set_details = findViewById(R.id.acc_set_details);
+        edit_user = findViewById(R.id.edit_user);
+        old_pass = findViewById(R.id.old_pass);
+        acc_newpass = findViewById(R.id.acc_newpass);
+        acc_con_newpass = findViewById(R.id.acc_con_newpass);
+        to_hide_set = findViewById(R.id.to_hide_set);
+        acc_cancel_changes = findViewById(R.id.acc_cancel_changes);
+        acc_save_changes = findViewById(R.id.acc_save_changes);
+        to_show_set = findViewById(R.id.to_show_set);
+        edit_accout = findViewById(R.id.edit_accout);
+        to_myaccount = findViewById(R.id.to_myaccount);
 
 // signaturepad -----------------------------------------------------------------------------------------
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
-        sig_next =  findViewById(R.id.sig_next);
-        sig_clear =findViewById(R.id.sig_clear);
-        signature =findViewById(R.id.signature);
+        sig_next = findViewById(R.id.sig_next);
+        sig_clear = findViewById(R.id.sig_clear);
+        signature = findViewById(R.id.signature);
         sig_holder = findViewById(R.id.sig_holder);
         // searchbar for cat list
         cat_search = findViewById(R.id.cat_search);
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
         // BUTTON HERE--------------------------------------------------------------------------------
         vercode = (TextView) findViewById(R.id.vercode);
-        vercode.setText("Version : "+version);
+        vercode.setText("Version : " + version);
         srf_login = findViewById(R.id.srf_login_button);
         srf_cancel = findViewById(R.id.srf_cancel_button);
         con_details = findViewById(R.id.confirm_details);
@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
         acc_surname = findViewById(R.id.surname);
         back_to_login = findViewById(R.id.back_to_login);
         new_profile_image = findViewById(R.id.new_profile_image);
-        profile_image_nav =findViewById(R.id.profile_image_nav);
+        profile_image_nav = findViewById(R.id.profile_image_nav);
 
         // relative layout
         get_emp_code_layout = findViewById(R.id.get_emp_code_layout);
@@ -433,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
         imagelist_imgform = findViewById(R.id.imagelist);
         statusprog = findViewById(R.id.statusprog);
 
-                // image viewer
+        // image viewer
         image_viewer_img = findViewById(R.id.imageViewer_form_img);
         //PERMISSION STRING
         review_images = findViewById(R.id.reviewimages_list);
@@ -444,33 +444,33 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form = findViewById(R.id.view_full_details);
         view_imagelist = findViewById(R.id.view_imagelist);
         // status_classholder
-        status_class_form =  (RelativeLayout) findViewById(R.id.status_class_form);
+        status_class_form = (RelativeLayout) findViewById(R.id.status_class_form);
         status_classback = (Button) findViewById(R.id.back_to_menu_from_status);
-        status_classlist=(RecyclerView) findViewById(R.id.status_class_list);
+        status_classlist = (RecyclerView) findViewById(R.id.status_class_list);
         catrec = (RecyclerView) findViewById(R.id.requestor_list);
         //action
-        add_action =  (Button) findViewById(R.id.add_action);
+        add_action = (Button) findViewById(R.id.add_action);
         view_action = (Button) findViewById(R.id.view_action);
         view_actions = (RecyclerView) findViewById(R.id.view_actions);
         back_to_view_details = (Button) findViewById(R.id.back_to_view_details);
-        actions_for_srf =(RelativeLayout) findViewById(R.id.actions_for_srf);
+        actions_for_srf = (RelativeLayout) findViewById(R.id.actions_for_srf);
         // for techlist
-        techlist_label =  (TextView) findViewById(R.id.text_for_tech);
+        techlist_label = (TextView) findViewById(R.id.text_for_tech);
         tech_listview = (RecyclerView) findViewById(R.id.tech_list);
-        attach_textdisplay =(TextView) findViewById(R.id.attach_textdisplay);
+        attach_textdisplay = (TextView) findViewById(R.id.attach_textdisplay);
         prog_details = (ProgressBar) findViewById(R.id.prog_for_details);
         statrec = findViewById(R.id.station_list);
         status_header = findViewById(R.id.status_header);
         // NAV
         user_textnav = findViewById(R.id.user_textnav);
         // for cat select
-        select_cat = (RelativeLayout) findViewById(R.id.select_cat) ;
-        it = (Button) findViewById(R.id.it) ;
-        me = (Button) findViewById(R.id.me) ;
-        mt = (Button) findViewById(R.id.mt) ;
+        select_cat = (RelativeLayout) findViewById(R.id.select_cat);
+        it = (Button) findViewById(R.id.it);
+        me = (Button) findViewById(R.id.me);
+        mt = (Button) findViewById(R.id.mt);
         search_prog = (ProgressBar) findViewById(R.id.search_prog);
         iden_dept = (TextView) findViewById(R.id.identifier_dept);
-        cat_return= (Button) findViewById(R.id.cat_return) ;
+        cat_return = (Button) findViewById(R.id.cat_return);
         builder1 = new AlertDialog.Builder(MainActivity.this);
         builder2 = new AlertDialog.Builder(MainActivity.this);
         builder3 = new AlertDialog.Builder(MainActivity.this);
@@ -497,7 +497,6 @@ public class MainActivity extends AppCompatActivity {
         new_password.setOnFocusChangeListener(ofcListener);
         srf_search.setOnFocusChangeListener(ofcListener);
         cat_search.setOnFocusChangeListener(ofcListener);
-        search_to_approve.setOnFocusChangeListener(ofcListener);
         edit_user.setOnFocusChangeListener(ofcListener);
         old_pass.setOnFocusChangeListener(ofcListener);
         acc_con_newpass.setOnFocusChangeListener(ofcListener);
@@ -568,7 +567,8 @@ public class MainActivity extends AppCompatActivity {
                         dialog_to_exit("DISCARD YOUR WORK ?", 1); // to back viewer;
                         break;
                     case 16:
-                        dialog_to_exit("DISCARD YOUR WORK ?", 2);; // for request back to menu from cat;
+                        dialog_to_exit("DISCARD YOUR WORK ?", 2);
+                        ; // for request back to menu from cat;
                         break;
                     case 17:
                         to_get_empcode();
@@ -640,7 +640,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     srf_login.setEnabled(false);
                     log_in_prog.setVisibility(View.VISIBLE);
-                    new getlogin_method(MainActivity.this).execute(Domain.concat("check_login/"+user+"/" + md5(pass.trim()).trim()));
+                    new getlogin_method(MainActivity.this).execute(Domain.concat("check_login/" + user + "/" + md5(pass.trim()).trim()));
                     setRegistration(false);
                 }
             }
@@ -688,15 +688,15 @@ public class MainActivity extends AppCompatActivity {
                         addsrfimages_adapter();
                     }
                 } else if (getMenutrigger() == false) {
-                    if (status_holder.trim().equals("8888")){
+                    if (status_holder.trim().equals("8888")) {
                         to_editform();
 
-                    }else{
-                    if (status_class_adapter.getStatus_code().equals("0001")) {
-                        to_signature();
-                    }else{
-                        to_status_class();
-                    }
+                    } else {
+                        if (status_class_adapter.getStatus_code().equals("0001")) {
+                            to_signature();
+                        } else {
+                            to_status_class();
+                        }
 
                     }
                 }
@@ -735,9 +735,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!isEmpty(edit_srf.getText().toString())) {
                     setStatus_trigger(true);
-                    if (status_holder.trim().equals("8888")){
+                    if (status_holder.trim().equals("8888")) {
                         to_details();
-                    }else{
+                    } else {
                         to_status_class();
                     }
 
@@ -752,14 +752,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (stnList != null){
+                if (stnList != null) {
                     adaptergetter();
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (stnList != null){
+                if (stnList != null) {
                     filter(s.toString());
                 }
 
@@ -773,14 +773,14 @@ public class MainActivity extends AppCompatActivity {
         cat_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(catList != null){
+                if (catList != null) {
                     cat_adaptergetter();
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(catList != null){
+                if (catList != null) {
                     cat_filter(s.toString());
                 }
 
@@ -794,14 +794,14 @@ public class MainActivity extends AppCompatActivity {
         srf_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(srfList != null){
+                if (srfList != null) {
                     srfadaptergetter();
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(srfList  != null){
+                if (srfList != null) {
                     srf_filter(s.toString());
                 }
 
@@ -912,7 +912,6 @@ public class MainActivity extends AppCompatActivity {
                     account_settings.setVisibility(View.GONE);
 
 
-
                 } else if (getDetails_viewing_trigger().equals(true)) {
                     attach_img_form.setVisibility(View.GONE);
                     signature.setVisibility(View.GONE);
@@ -972,9 +971,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(getStatus_trigger() ==  false){
+                if (getStatus_trigger() == false) {
                     to_dept();
-                }else if(getStatus_trigger() == true){
+                } else if (getStatus_trigger() == true) {
                     to_editform();
                 }
 
@@ -990,15 +989,15 @@ public class MainActivity extends AppCompatActivity {
         add_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new get_tech(MainActivity.this).execute(Domain.concat("get_tech/"+ removeAllDigit(srf_adapter.getUni_catcode().trim()).trim()));
+                new get_tech(MainActivity.this).execute(Domain.concat("get_tech/" + removeAllDigit(srf_adapter.getUni_catcode().trim()).trim()));
                 to_editform();
 
             }
         });
-       back_to_view_details.setOnClickListener(new View.OnClickListener() {
+        back_to_view_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            to_viewing();
+                to_viewing();
             }
         });
 // SELECT DEPARTMENT
@@ -1044,9 +1043,9 @@ public class MainActivity extends AppCompatActivity {
         actmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (actionbartrigger.equals(false)){
+                if (actionbartrigger.equals(false)) {
                     nav_opener();
-                }else{
+                } else {
                     nav_closer();
                 }
 
@@ -1055,10 +1054,10 @@ public class MainActivity extends AppCompatActivity {
         acthome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (discard_work == true){
+                if (discard_work == true) {
                     dialog_to_exit("DISCARD YOUR WORK ?", 7);
                     discard_work = false;
-                }else {
+                } else {
                     to_menuform();
                     nav_closer();
 
@@ -1087,10 +1086,10 @@ public class MainActivity extends AppCompatActivity {
         srf_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (discard_work == true){
+                if (discard_work == true) {
                     dialog_to_exit("DISCARD YOUR WORK ?", 5);
                     discard_work = false;
-                }else{
+                } else {
                     nav_closer();
                     menutrigger = true;
                     to_station();
@@ -1121,10 +1120,10 @@ public class MainActivity extends AppCompatActivity {
         srf_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (discard_work == true){
+                if (discard_work == true) {
                     dialog_to_exit("DISCARD YOUR WORK ?", 6);
                     discard_work = false;
-                }else {
+                } else {
                     nav_closer();
                     menutrigger = false;
                     to_station();
@@ -1154,10 +1153,10 @@ public class MainActivity extends AppCompatActivity {
         to_myaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (discard_work == true){
+                if (discard_work == true) {
                     dialog_to_exit("DISCARD YOUR WORK ?", 8);
                     discard_work = false;
-                }else {
+                } else {
                     nav_closer();
                     to_account_setting();
 
@@ -1186,10 +1185,10 @@ public class MainActivity extends AppCompatActivity {
         to_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (discard_work == true){
+                if (discard_work == true) {
                     dialog_to_exit("DISCARD YOUR WORK ?", 9);
                     discard_work = false;
-                }else {
+                } else {
                     nav_closer();
                     to_approval_section();
 
@@ -1236,11 +1235,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String emp = emp_number.getText().toString();
                 emp_next.setEnabled(false);
-                if (isEmpty(emp)){
+                if (isEmpty(emp)) {
                     dialog("PLEASE ENTER YOUR EMPLOYEE NUMBER ");
                     emp_next.setEnabled(true);
-                }else{
-                    new get_techinfo(MainActivity.this).execute(Domain.concat("get_emp/"+emp.trim()));
+                } else {
+                    new get_techinfo(MainActivity.this).execute(Domain.concat("get_emp/" + emp.trim()));
                 }
 
             }
@@ -1255,17 +1254,17 @@ public class MainActivity extends AppCompatActivity {
         add_user_con.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usern =  new_username.getText().toString();
+                String usern = new_username.getText().toString();
                 String newpass = new_password.getText().toString();
                 String conpass = con_password.getText().toString();
 
                 if (isEmpty(usern) || isEmpty(newpass) || isEmpty(conpass)) {
                     dialog("PLEASE FILL EMPTY TEXT BOXES");
-                }else{
+                } else {
 
-                    if (conpass.equals(newpass)){
-                        new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/"+regemp.trim()+"/"+regfname.trim()+"/"+reglname.trim()+"/"+usern+"/"+ md5(newpass)));
-                    }else{
+                    if (conpass.equals(newpass)) {
+                        new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/" + regemp.trim() + "/" + regfname.trim() + "/" + reglname.trim() + "/" + usern + "/" + md5(newpass)));
+                    } else {
                         dialog("TWO PASSWORDS DOES NOT MATCH, PLEASE CHECK AND RETYPE");
                     }
                 }
@@ -1289,7 +1288,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signature_pad.getTransparentSignatureBitmap();
-                new up_sigfile(MainActivity.this).execute(Domain.concat("sigfile/"+srf_adapter.getUni_stncode()+"/"+srf_adapter.getUni_srfcode()+"/"+user.getUsername()));
+                new up_sigfile(MainActivity.this).execute(Domain.concat("sigfile/" + srf_adapter.getUni_stncode() + "/" + srf_adapter.getUni_srfcode() + "/" + user.getUsername()));
 
             }
         });
@@ -1330,43 +1329,21 @@ public class MainActivity extends AppCompatActivity {
                 String newpass = acc_newpass.getText().toString();
                 String conpass = acc_con_newpass.getText().toString();
 
-                if (isEmpty(users) || isEmpty(old) || isEmpty(newpass)|| isEmpty(conpass)){
+                if (isEmpty(users) || isEmpty(old) || isEmpty(newpass) || isEmpty(conpass)) {
                     dialog("PLEASE FILL OUT THE EMPTY TEXT BOXES");
 
-                }else{
-                    if(newpass != old){
-                        new update_acc(MainActivity.this).execute(Domain.concat("UpdateAcc/"+user.getEmpcode()+"/"+md5(old)+"/"+md5(newpass)+"/"+users));
-                    }else{
+                } else {
+                    if (newpass != old) {
+                        new update_acc(MainActivity.this).execute(Domain.concat("UpdateAcc/" + user.getEmpcode() + "/" + md5(old) + "/" + md5(newpass) + "/" + users));
+                    } else {
                         dialog("BOTH NEW PASSWORDS DOES NOT MATCH");
                     }
                 }
             }
         });
 /// admin section ----------------------------------------------------------------------------------------------------------------------------------------------------------
-        search_to_approve.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(applist != null){
-                    // getter adapter
-                    approval_listadapter();
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(applist  != null){
-                    approve_filter(s.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
     }
-
 
     public void checkPermissions(String[] permissionRequests) {
         final ArrayList<String> permissionRequestList = new ArrayList<String>();
@@ -1484,16 +1461,7 @@ public class MainActivity extends AppCompatActivity {
        srf_adapter srf = new srf_adapter();
         srf.filterList(temp);
     }
-    void approve_filter(String text) {
-        ArrayList<approval> temp = new ArrayList<>();
-        for (approval items : applist ){
-            if (items.getFirstname().contains(text.toUpperCase(Locale.ROOT)) || items.getLastname().contains(text.toUpperCase(Locale.ROOT)) || items.getEmpcode().contains(text.toUpperCase(Locale.ROOT)) || items.getUsername().contains(text.toUpperCase(Locale.ROOT))  ) {
-                temp.add(items);
-            }
-        }
-        approval_adapter appr = new approval_adapter();
-        appr.filterList(temp);
-    }
+
 
     public void upload() {
 
@@ -2392,7 +2360,6 @@ public class MainActivity extends AppCompatActivity {
         to_approve_list.setVisibility(View.GONE);
         to_approve_prog.setVisibility(View.VISIBLE);
         norecord_to_approve.setVisibility(View.GONE);
-        search_to_approve.setVisibility(View.GONE);
         call_back = 2;
         new get_approve(MainActivity.this).execute(Domain.concat("admin_approval"));
         signature.setVisibility(View.GONE);
@@ -3681,11 +3648,11 @@ public void srfadaptergetter(){
                     to_approve_prog.setVisibility(View.GONE);
                     to_approve_list.setVisibility(View.VISIBLE);
                     norecord_to_approve.setVisibility(View.GONE);
-                    search_to_approve.setVisibility(View.VISIBLE);
+
                     if (applist.size() == 0) {
                         to_approve_list.setVisibility(View.GONE);
                         norecord_to_approve.setVisibility(View.VISIBLE);
-                        search_to_approve.setVisibility(View.GONE);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -3703,6 +3670,7 @@ public void approval_listadapter(){
     layoutManager = new LinearLayoutManager(MainActivity.this);
     to_approve_list.setLayoutManager(layoutManager);
     adapterforadminapprove= new approval_adapter(MainActivity.this, applist);
+    adapterforadminapprove.notifyDataSetChanged();
     to_approve_list.setAdapter(adapterforadminapprove);
 }
     class approval_action extends AsyncTask<String, Void, String> {

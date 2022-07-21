@@ -119,9 +119,6 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
 
 
     }
-    public void filterList(ArrayList<approval> filteredList){
-        aprovallist = filteredList;
-        notifyDataSetChanged();
-    }
+
 
 }
