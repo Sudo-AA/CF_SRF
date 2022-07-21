@@ -94,6 +94,9 @@ import okhttp3.Response;
 
 // ENCAPSULATE EVERYTHING
 public class MainActivity extends AppCompatActivity {
+    //------------------------------------------------------------------------------------------------------------------- domain -----------------------------------------------------------
+    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
+    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
     private static RelativeLayout PARENT;
     private static String APP_UPDATE_SERVER_URL;
     private static final int CAMERA_REQUEST = 1888;
@@ -109,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
     // category search
     private static TextView cat_search;
     private static TextView srf_search;
-    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
-    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+
+    // universal progressbar
+    private static RelativeLayout prog_layout;
 
     // account settings ------------------------------------------------------
     private static RelativeLayout account_settings;
@@ -119,19 +123,17 @@ public class MainActivity extends AppCompatActivity {
     private static Button edit_accout, acc_cancel_changes, acc_save_changes, Change_profile, to_myaccount;
     private static CircleImageView acc_profile_image;
 
-
     // ---------------------------------------------
     private static ImageView actmenu;
     private static Button acthome;
     private static TextView acttitle;
     private static NavigationView menulayout;
     // init for objects----------------------------------------
-    private static Button uprofile,emp_next,emp_back,cat_return,it, me, mt,back_to_login, srf_login, srf_cancel, con_details, con_back, req_con, req_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
+    private static Button uprofile,emp_next,emp_back,cat_return,it, me, mt, srf_login, srf_cancel, con_details, con_back, req_con, req_back, srf_edit, srf_add, back_add_menu, edit_srfconfirm, edit_srfback, addimage, back_req_img, confirm_imgs, back_imageviewer_button, add_user_back, add_user_con, back_view_details, get_image_from_files, status_classback, add_action, view_action,back_to_view_details ;
     private static TextView user_textnav,goto_login,con_password,new_password,new_username,emp_number,srf_user_id, srf_user_pass, editreq, edit_srf, searchbar, acc_firstname, acc_surname;
     //random nothing labels
     private static TextView status_header,vercode,iden_dept, attach_textdisplay,techlist_label,new_registration, user_check, stn_check, cat, req, headcheck, gg, editheader, noimage_attach, attach_d, no_records, cat_branch_notifier, srflist_branch_notifier, image_branch_notifier, acc_details, view_srf_details;
     private static RelativeLayout signature,for_approval,get_emp_code_layout,add_androidID, srf_login_form, srf_station_form, detailscon, selectcat, request, menu_form, srf_list_form, srf_editform, attach_img_form, image_viewer_form, view_srf_details_form, status_class_form,actions_for_srf , select_cat;
-    private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
     private static ProgressBar statusprog,log_in_prog, prog_details, search_prog;
     private static RecyclerView.Adapter srfadapter,mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter, adapterforadminapprove;
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
     private static String regemp;
     private static String regfname;
     private static String reglname;
+    private static TextView wit_signature;
     // init for info holder variables--------------------------
     private static String img_stn_code;
     private static Boolean discard_work;
@@ -276,6 +279,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // PARENT LAYOUT
         PARENT = (RelativeLayout) findViewById(R.id.parent);
+        prog_layout = (RelativeLayout) findViewById(R.id.prog_layout);
+
 
         // PIE CHART -----------------------------------------------------------------------------
         pieChart = findViewById(R.id.piechart);
@@ -320,9 +325,11 @@ public class MainActivity extends AppCompatActivity {
         sig_clear = findViewById(R.id.sig_clear);
         signature = findViewById(R.id.signature);
         sig_holder = findViewById(R.id.sig_holder);
+        wit_signature = findViewById(R.id.wit_signature);
         // searchbar for cat list
         cat_search = findViewById(R.id.cat_search);
         srf_search = findViewById(R.id.srf_search);
+
         // ACTIONBAR--------------------------------------------------------------------------------
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -383,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
         add_androidID = findViewById(R.id.add_androidID);
 
         //linear
-        hidebutton = findViewById(R.id.hide_button);
         // TEXT VIEW
         user_check = findViewById(R.id.usernamecon);
         stn_check = findViewById(R.id.stn_check);
@@ -404,7 +410,6 @@ public class MainActivity extends AppCompatActivity {
         add_user_con = findViewById(R.id.add_user_con);
         acc_firstname = findViewById(R.id.firstname);
         acc_surname = findViewById(R.id.surname);
-        back_to_login = findViewById(R.id.back_to_login);
         new_profile_image = findViewById(R.id.new_profile_image);
         profile_image_nav = findViewById(R.id.profile_image_nav);
 
@@ -578,48 +583,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 19:
 
-                        if (getDetails_viewing_trigger().equals(false)) {
-                            attach_img_form.setVisibility(View.VISIBLE);
-                            signature.setVisibility(View.GONE);
-                            srf_login_form.setVisibility(View.GONE);
-                            srf_station_form.setVisibility(View.GONE);
-                            detailscon.setVisibility(View.GONE);
-                            selectcat.setVisibility(View.GONE);
-                            request.setVisibility(View.GONE);
-                            menu_form.setVisibility(View.GONE);
-                            srf_list_form.setVisibility(View.GONE);
-                            srf_editform.setVisibility(View.GONE);
-                            view_srf_details_form.setVisibility(View.GONE);
-                            status_class_form.setVisibility(View.GONE);
-                            actions_for_srf.setVisibility(View.GONE);
+                        if (menutrigger.equals(true)) {
+                            to_upload_img();
                             image_viewer_form.setVisibility(View.GONE);
-                            select_cat.setVisibility(View.GONE);
-                            for_approval.setVisibility(View.GONE);
-                            add_androidID.setVisibility(View.GONE);
-                            get_emp_code_layout.setVisibility(View.GONE);
-                            account_settings.setVisibility(View.GONE);
 
-                        } else if (getDetails_viewing_trigger().equals(true)) {
-                            attach_img_form.setVisibility(View.GONE);
-                            signature.setVisibility(View.GONE);
-                            srf_login_form.setVisibility(View.GONE);
-                            srf_station_form.setVisibility(View.GONE);
-                            detailscon.setVisibility(View.GONE);
-                            selectcat.setVisibility(View.GONE);
-                            request.setVisibility(View.GONE);
-                            menu_form.setVisibility(View.GONE);
-                            srf_list_form.setVisibility(View.GONE);
-                            srf_editform.setVisibility(View.GONE);
-                            view_srf_details_form.setVisibility(View.GONE);
-                            status_class_form.setVisibility(View.GONE);
-                            actions_for_srf.setVisibility(View.GONE);
+
+                        } else if (menutrigger.equals(false)) {
+                            to_viewing();
                             image_viewer_form.setVisibility(View.GONE);
-                            select_cat.setVisibility(View.GONE);
-                            for_approval.setVisibility(View.GONE);
-                            add_androidID.setVisibility(View.GONE);
-                            get_emp_code_layout.setVisibility(View.GONE);
-                            account_settings.setVisibility(View.GONE);
-                            view_srf_details_form.setVisibility(View.VISIBLE);
+
                         }
                         break;
                 }
@@ -890,49 +862,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (getDetails_viewing_trigger().equals(false)) {
-                    attach_img_form.setVisibility(View.VISIBLE);
-                    signature.setVisibility(View.GONE);
-                    srf_login_form.setVisibility(View.GONE);
-                    srf_station_form.setVisibility(View.GONE);
-                    detailscon.setVisibility(View.GONE);
-                    selectcat.setVisibility(View.GONE);
-                    request.setVisibility(View.GONE);
-                    menu_form.setVisibility(View.GONE);
-                    srf_list_form.setVisibility(View.GONE);
-                    srf_editform.setVisibility(View.GONE);
-                    view_srf_details_form.setVisibility(View.GONE);
-                    status_class_form.setVisibility(View.GONE);
-                    actions_for_srf.setVisibility(View.GONE);
+                if (menutrigger.equals(true)) {
+                    to_upload_img();
                     image_viewer_form.setVisibility(View.GONE);
-                    select_cat.setVisibility(View.GONE);
-                    for_approval.setVisibility(View.GONE);
-                    add_androidID.setVisibility(View.GONE);
-                    get_emp_code_layout.setVisibility(View.GONE);
-                    account_settings.setVisibility(View.GONE);
 
 
-                } else if (getDetails_viewing_trigger().equals(true)) {
-                    attach_img_form.setVisibility(View.GONE);
-                    signature.setVisibility(View.GONE);
-                    srf_login_form.setVisibility(View.GONE);
-                    srf_station_form.setVisibility(View.GONE);
-                    detailscon.setVisibility(View.GONE);
-                    selectcat.setVisibility(View.GONE);
-                    request.setVisibility(View.GONE);
-                    menu_form.setVisibility(View.GONE);
-                    srf_list_form.setVisibility(View.GONE);
-                    srf_editform.setVisibility(View.GONE);
-                    view_srf_details_form.setVisibility(View.GONE);
-                    status_class_form.setVisibility(View.GONE);
-                    actions_for_srf.setVisibility(View.GONE);
+                } else if (menutrigger.equals(false)) {
+                    to_viewing();
                     image_viewer_form.setVisibility(View.GONE);
-                    select_cat.setVisibility(View.GONE);
-                    for_approval.setVisibility(View.GONE);
-                    add_androidID.setVisibility(View.GONE);
-                    get_emp_code_layout.setVisibility(View.GONE);
-                    account_settings.setVisibility(View.GONE);
-                    view_srf_details_form.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -944,14 +882,6 @@ public class MainActivity extends AppCompatActivity {
                 // to_new acc as first login
                 regist_trigger = true;
                 to_get_empcode();
-            }
-        });
-        back_to_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setRegistration(false);
-                to_login();
-                hidebutton.setVisibility(View.GONE);
             }
         });
         back_view_details.setOnClickListener(new View.OnClickListener() {
@@ -1239,6 +1169,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog("PLEASE ENTER YOUR EMPLOYEE NUMBER ");
                     emp_next.setEnabled(true);
                 } else {
+                    prog_layout.setVisibility(View.VISIBLE);
                     new get_techinfo(MainActivity.this).execute(Domain.concat("get_emp/" + emp.trim()));
                 }
 
@@ -1248,7 +1179,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 to_get_empcode();
-                hidebutton.setVisibility(View.VISIBLE);
             }
         });
         add_user_con.setOnClickListener(new View.OnClickListener() {
@@ -1261,8 +1191,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isEmpty(usern) || isEmpty(newpass) || isEmpty(conpass)) {
                     dialog("PLEASE FILL EMPTY TEXT BOXES");
                 } else {
-
                     if (conpass.equals(newpass)) {
+                        prog_layout.setVisibility(View.VISIBLE);
                         new add_acc(MainActivity.this).execute(Domain.concat("add_new_user/" + regemp.trim() + "/" + regfname.trim() + "/" + reglname.trim() + "/" + usern + "/" + md5(newpass)));
                     } else {
                         dialog("TWO PASSWORDS DOES NOT MATCH, PLEASE CHECK AND RETYPE");
@@ -1287,6 +1217,7 @@ public class MainActivity extends AppCompatActivity {
         sig_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                prog_layout.setVisibility(View.VISIBLE);
                 signature_pad.getTransparentSignatureBitmap();
                 new up_sigfile(MainActivity.this).execute(Domain.concat("sigfile/" + srf_adapter.getUni_stncode() + "/" + srf_adapter.getUni_srfcode() + "/" + user.getUsername()));
 
@@ -1333,7 +1264,8 @@ public class MainActivity extends AppCompatActivity {
                     dialog("PLEASE FILL OUT THE EMPTY TEXT BOXES");
 
                 } else {
-                    if (newpass != old) {
+                    if (newpass.equals(conpass)) {
+                        prog_layout.setVisibility(View.VISIBLE);
                         new update_acc(MainActivity.this).execute(Domain.concat("UpdateAcc/" + user.getEmpcode() + "/" + md5(old) + "/" + md5(newpass) + "/" + users));
                     } else {
                         dialog("BOTH NEW PASSWORDS DOES NOT MATCH");
@@ -1642,6 +1574,8 @@ public class MainActivity extends AppCompatActivity {
 
 
            if( getMenutrigger().equals(false)){
+               img_locList = new ArrayList<img_loc>();
+               img_locList.isEmpty();
                new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + user.getOps_area().trim()));
                iden_dept.setText(Html.fromHtml("WITH PENDING : " +
                        "<font color='#1100FF'> (IT) </font>" +
@@ -1652,6 +1586,8 @@ public class MainActivity extends AppCompatActivity {
 
                idle_trigger = true;
            }else{
+               img_locList = new ArrayList<img_loc>();
+               img_locList.isEmpty();
                new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/8888"));
                iden_dept.setVisibility(View.GONE);
                call_back = 2;
@@ -1776,8 +1712,10 @@ public class MainActivity extends AppCompatActivity {
     } // 8888
 
     public void to_details() {
+        prog_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
         sig_holder.setVisibility(View.GONE);
+        wit_signature.setVisibility(View.GONE);
         discard_work = true;
         signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
@@ -1845,10 +1783,13 @@ public class MainActivity extends AppCompatActivity {
                 call_back = 7;
             }else if (status_class_adapter.getStatus_code().trim().equals("0001")){
                 call_back = 9090;
+                prog_layout.setVisibility(View.GONE);
                 sig_holder.setVisibility(View.VISIBLE);
+                wit_signature.setVisibility(View.VISIBLE);
             }else{
                 call_back = 10;
                 sig_holder.setVisibility(View.GONE);
+                wit_signature.setVisibility(View.GONE);
             }
             
             srf_login_form.setVisibility(View.GONE);
@@ -2055,7 +1996,6 @@ public class MainActivity extends AppCompatActivity {
         back_add_menu.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_d.setVisibility(View.VISIBLE);
-        hidebutton.setVisibility(View.GONE);
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
@@ -2108,6 +2048,7 @@ public class MainActivity extends AppCompatActivity {
         discard_work = true;
         image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
         actmenu.setVisibility(View.VISIBLE);
+        imagelist_imgform.setVisibility(View.GONE);
         call_back = 8;
         idle_trigger = false;
         signature.setVisibility(View.GONE);
@@ -3288,6 +3229,8 @@ public class MainActivity extends AppCompatActivity {
                 noimage_attach.setVisibility(View.GONE);
                 prog_details.setVisibility(View.GONE);
                 attach_d.setVisibility(View.GONE);
+                sig_holder.setVisibility(View.GONE);
+                wit_signature.setVisibility(View.GONE);
                 gg.setText(result + "\n" + "THANKYOU");
                 con_details.setEnabled(true);
                 call_back = 2;
@@ -3826,6 +3769,7 @@ public void approval_listadapter(){
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "");
                 if (result.trim().equals("TRUE")) {
+                    prog_layout.setVisibility(View.GONE);
                     Toast.makeText(MainActivity.this, "ACCOUNT REGISTERED, PLEASE TRY TO LOGIN YOUR NEW ACCOUNT", Toast.LENGTH_LONG).show();
                     to_login();
                    new_username.setText("");
@@ -3833,11 +3777,13 @@ public void approval_listadapter(){
                    new_password.setText("");
                 } else if (result.trim().equals("FALSE")) {
                     dialog("THIS USERNAME ALREADY EXIST");
+                    prog_layout.setVisibility(View.GONE);
 
                 }
 
             } else {
                 dialog("ERROR OCCUR PLEASE RESTART THE APP");
+                prog_layout.setVisibility(View.GONE);
 
 
             }
@@ -3890,12 +3836,15 @@ public void approval_listadapter(){
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "");
                 if (result.trim().equals("TRUE")) {
+                    prog_layout.setVisibility(View.GONE);
                     dialog_idle("ACCOUNT HAS BEEN UPDATED, TO TAKE EFFECT YOU NEED TO RE-LOGIN FIRST", true);
                 } else if (result.trim().equals("FALSE")) {
+                    prog_layout.setVisibility(View.GONE);
                     dialog("THE OLD PASSWORD YOU INPUTTED DID NOT MATCH TO YOUR OLD PASSWORD");
                 }
 
             } else {
+                prog_layout.setVisibility(View.GONE);
                 dialog("NO INTERNET CONNECTION, TRY AGAIN LATER");
 
             }
@@ -3961,7 +3910,7 @@ public void approval_listadapter(){
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                prog_layout.setVisibility(View.GONE);
                 emp_number.setText("");
                 emp_next.setEnabled(true);
                 acc_details.setText("EMPLOYEE NO: " + regemp);
@@ -3971,10 +3920,12 @@ public void approval_listadapter(){
                 emp_next.setEnabled(true);
 
             }else if(result != null && result.equals("SS")){
+                prog_layout.setVisibility(View.GONE);
                 dialog("CONNECTION LOST PLEASE RESTART THE APPLICATION AND CHECK YOUR INTERNET CONNECTION");
                 emp_next.setEnabled(true);
             } else {
                 emp_number.setText("");
+                prog_layout.setVisibility(View.GONE);
                 dialog("UNKNOWN EMPLOYEE NUMBER \nOR THIS EMPLOYEE NUMBER IS ALREADY BOUND TO AN ACCOUNT");
                 emp_next.setEnabled(true);
             }
