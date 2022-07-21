@@ -541,7 +541,7 @@
                             android:background="@color/cf"
                             android:backgroundTint="@color/cf"
                             android:fontFamily="sans-serif-condensed-medium"
-                            android:text="CONFIRM "
+                            android:text="NEXT"
                             android:textColor="@color/white"
                             android:textSize="15dp"
                             app:iconPadding="1dp" />
@@ -1103,7 +1103,7 @@
                         android:background="@color/cf"
                         android:backgroundTint="@color/cf"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:text="CONFIRM "
+                        android:text="NEXT"
                         android:textColor="@color/white"
                         android:textSize="15dp"
                         app:iconPadding="1dp" />
@@ -2661,7 +2661,7 @@
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

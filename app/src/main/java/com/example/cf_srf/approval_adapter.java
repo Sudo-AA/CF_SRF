@@ -98,12 +98,10 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     MainActivity ma = new MainActivity();
-
-
                     approval ap= aprovallist.get(position);
-
-
-
+                    setEmpcodeholder(ap.getEmpcode().trim());
+                    setActionholder("FALSE");
+                    ma.action_approval();
                 }
             });
             approve.setOnClickListener(new View.OnClickListener() {
@@ -111,9 +109,10 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     approval ap = aprovallist.get(position);
-
                     MainActivity ma = new MainActivity();
-                    ma.dialog_imageviewer();
+                    setEmpcodeholder(ap.getEmpcode().trim());
+                    setActionholder("TRUE");
+                    ma.action_approval();
                 }
             });
         }

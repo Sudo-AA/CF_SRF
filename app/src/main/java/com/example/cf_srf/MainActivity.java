@@ -497,6 +497,11 @@ public class MainActivity extends AppCompatActivity {
         new_password.setOnFocusChangeListener(ofcListener);
         srf_search.setOnFocusChangeListener(ofcListener);
         cat_search.setOnFocusChangeListener(ofcListener);
+        search_to_approve.setOnFocusChangeListener(ofcListener);
+        edit_user.setOnFocusChangeListener(ofcListener);
+        old_pass.setOnFocusChangeListener(ofcListener);
+        acc_con_newpass.setOnFocusChangeListener(ofcListener);
+        acc_newpass.setOnFocusChangeListener(ofcListener);
         OnBackPressedCallback callback = new OnBackPressedCallback(enabler /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
@@ -1343,6 +1348,7 @@ public class MainActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if(applist != null){
                     // getter adapter
+                    approval_listadapter();
                 }
             }
 
@@ -2037,16 +2043,20 @@ public class MainActivity extends AppCompatActivity {
         srf_add.setEnabled(true);
         srf_edit.setEnabled(true);
         to_myaccount.setEnabled(true);
-
+        to_approve.setEnabled(true);
 
         acthome.setBackgroundResource(R.color.white);
         srf_add.setBackgroundResource(R.color.cf);
         srf_edit.setBackgroundResource(R.color.cf);
         to_myaccount.setBackgroundResource(R.color.cf);
+        to_approve.setBackgroundResource(R.color.cf);
+
         acthome.setTextColor(Color.BLACK);
         srf_add.setTextColor(Color.WHITE);
         srf_edit.setTextColor(Color.WHITE);
         to_myaccount.setTextColor(Color.WHITE);
+        to_approve.setTextColor(Color.WHITE);
+
         acttitle.setText("SERVICE REQUEST FORM");
         actmenu.setVisibility(View.VISIBLE);
         call_back = 0;
@@ -2382,6 +2392,7 @@ public class MainActivity extends AppCompatActivity {
         to_approve_list.setVisibility(View.GONE);
         to_approve_prog.setVisibility(View.VISIBLE);
         norecord_to_approve.setVisibility(View.GONE);
+        search_to_approve.setVisibility(View.GONE);
         call_back = 2;
         new get_approve(MainActivity.this).execute(Domain.concat("admin_approval"));
         signature.setVisibility(View.GONE);
@@ -3664,36 +3675,22 @@ public void srfadaptergetter(){
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-
-                        applist.add(new approval(object.getString("Fisrtname"),object.getString("Lastname"),object.getString("Username"),object.getString("Empcode"),object.getString("EmpDept"),object.getString("Date")));
+                        applist.add(new approval(object.getString("Firstname"),object.getString("Lastname"),object.getString("Username"),object.getString("Empcode"),object.getString("EmpDept"),object.getString("Date")));
                     }
                     approval_listadapter();
+                    to_approve_prog.setVisibility(View.GONE);
+                    to_approve_list.setVisibility(View.VISIBLE);
+                    norecord_to_approve.setVisibility(View.GONE);
+                    search_to_approve.setVisibility(View.VISIBLE);
+                    if (applist.size() == 0) {
+                        to_approve_list.setVisibility(View.GONE);
+                        norecord_to_approve.setVisibility(View.VISIBLE);
+                        search_to_approve.setVisibility(View.GONE);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
 
-                }
-                if (applist != null) {
-                    if (applist.size()  == 0){
-                        search_to_approve.setVisibility(View.GONE);
-                        norecord_to_approve.setVisibility(View.VISIBLE);
-                        to_approve_list.setVisibility(View.GONE);
-                        to_approve_prog.setVisibility(View.GONE);
-                    }else{
-                        if(applist.size() < 2){
-                            search_to_approve.setVisibility(View.GONE);
-                        }else{
-                            search_to_approve.setVisibility(View.VISIBLE);
-                        }
-                        norecord_to_approve.setVisibility(View.GONE);
-                        to_approve_list.setVisibility(View.VISIBLE);
-                        to_approve_prog.setVisibility(View.GONE);
-                    }
-                }else{
-                    search_to_approve.setVisibility(View.GONE);
-                    norecord_to_approve.setVisibility(View.VISIBLE);
-                    to_approve_list.setVisibility(View.GONE);
-                    to_approve_prog.setVisibility(View.GONE);
-                }
             } else {
                 dialog("ERROR OCCURRED PLEASE RETRY");
 
@@ -3752,7 +3749,6 @@ public void approval_listadapter(){
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "");
                 if (result.trim().equals("TRUE")) {
-                    Toast.makeText(MainActivity.this, "DONE! REFRESHING LIST", Toast.LENGTH_LONG).show();
                     to_approval_section();
                 } else if (result.trim().equals("FALSE")) {
                     dialog("Unknown Problem Occurred");
@@ -4535,6 +4531,7 @@ public void approval_listadapter(){
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
         it.setVisibility(View.VISIBLE);
+        to_approve.setVisibility(View.VISIBLE);
     }
     //ops area manager
     public static void ops(){
@@ -4542,6 +4539,7 @@ public void approval_listadapter(){
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
         it.setVisibility(View.VISIBLE);
+        to_approve.setVisibility(View.GONE);
     }
     //IT
     public static void ITinter(){
@@ -4549,6 +4547,7 @@ public void approval_listadapter(){
         mt.setVisibility(View.GONE);
         me.setVisibility(View.GONE);
         it.setVisibility(View.VISIBLE);
+        to_approve.setVisibility(View.GONE);
     }
     //MT and ME
     public static void engr(){
@@ -4556,6 +4555,7 @@ public void approval_listadapter(){
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
         it.setVisibility(View.GONE);
+        to_approve.setVisibility(View.GONE);
     }
     // GENERIC USER NO SRF VIEWING JUST ADD
     public static void genericuser(){
@@ -4563,6 +4563,7 @@ public void approval_listadapter(){
         mt.setVisibility(View.GONE);
         me.setVisibility(View.GONE);
         it.setVisibility(View.GONE);
+        to_approve.setVisibility(View.GONE);
     }
 
     public static void edit_profile(){

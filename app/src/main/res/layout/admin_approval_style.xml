@@ -30,52 +30,53 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="4dp">
                  <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/user_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="left"
                         android:layout_weight="3"
-                        android:gravity="center_horizontal"
+                        android:gravity="left"
                         android:paddingLeft="3dp"
                         android:text="image_name"
                         android:textColor="@color/white"
-                        android:textSize="14dp" />
+                        android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:layout_gravity="right">
+
 
                         <Button
                             android:id="@+id/approve"
                             style="@style/Widget.AppCompat.Button"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_gravity="right"
                             android:textColor="@color/white"
+                            android:textSize="12dp"
                             android:backgroundTint="#D70078B8"
                             android:text="APPROVE" />
 
                         <Button
                             android:id="@+id/decline"
                             style="@style/Widget.AppCompat.Button"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:textColor="@color/white"
                             android:layout_gravity="right"
                             android:backgroundTint="@color/MT"
+                            android:textSize="12dp"
                             android:text="DECLINE" />
                     </LinearLayout>
 
