@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     private static LinearLayout hidebutton;
     private static RecyclerView statrec, catrec, srfrec, imagelist_imgform, review_images, view_imagelist, status_classlist, view_actions, tech_listview;
     private static ProgressBar statusprog,log_in_prog, prog_details, search_prog;
-    private static RecyclerView.Adapter srfadapter,mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter;
+    private static RecyclerView.Adapter srfadapter,mAdapter, searchadapter, imageadapter, reviewadapter, viewer_adap, status_adapter, actionview_adapter, tech_list_adapter, adapterforadminapprove;
     private static RecyclerView.LayoutManager layoutManager;
     private static ArrayList<station> stnList;
     private static ArrayList<status_class> status_list;
@@ -1056,18 +1056,25 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     to_menuform();
                     nav_closer();
+
                     acthome.setEnabled(false);
                     srf_add.setEnabled(true);
                     srf_edit.setEnabled(true);
                     to_myaccount.setEnabled(true);
+                    to_approve.setEnabled(true);
+
                     acthome.setBackgroundResource(R.color.white);
                     srf_add.setBackgroundResource(R.color.cf);
                     srf_edit.setBackgroundResource(R.color.cf);
                     to_myaccount.setBackgroundResource(R.color.cf);
+                    to_approve.setBackgroundResource(R.color.cf);
+
                     acthome.setTextColor(Color.BLACK);
                     srf_add.setTextColor(Color.WHITE);
                     srf_edit.setTextColor(Color.WHITE);
                     to_myaccount.setTextColor(Color.WHITE);
+                    to_approve.setTextColor(Color.WHITE);
+
                     acttitle.setText("SERVICE REQUEST FORM");
                 }
             }
@@ -1082,18 +1089,25 @@ public class MainActivity extends AppCompatActivity {
                     nav_closer();
                     menutrigger = true;
                     to_station();
+
                     acthome.setEnabled(true);
                     srf_add.setEnabled(false);
                     srf_edit.setEnabled(true);
                     to_myaccount.setEnabled(true);
+                    to_approve.setEnabled(true);
+
                     acthome.setBackgroundResource(R.color.cf);
                     srf_add.setBackgroundResource(R.color.white);
                     srf_edit.setBackgroundResource(R.color.cf);
                     to_myaccount.setBackgroundResource(R.color.cf);
+                    to_approve.setBackgroundResource(R.color.cf);
+
                     acthome.setTextColor(Color.WHITE);
                     srf_add.setTextColor(Color.BLACK);
                     srf_edit.setTextColor(Color.WHITE);
                     to_myaccount.setTextColor(Color.WHITE);
+                    to_approve.setTextColor(Color.WHITE);
+
                     acttitle.setText("ADD SRF");
                 }
 
@@ -1109,18 +1123,25 @@ public class MainActivity extends AppCompatActivity {
                     nav_closer();
                     menutrigger = false;
                     to_station();
+
                     acthome.setEnabled(true);
                     srf_add.setEnabled(true);
                     srf_edit.setEnabled(false);
                     to_myaccount.setEnabled(true);
+                    to_approve.setEnabled(true);
+
                     acthome.setBackgroundResource(R.color.cf);
                     srf_add.setBackgroundResource(R.color.cf);
                     srf_edit.setBackgroundResource(R.color.white);
                     to_myaccount.setBackgroundResource(R.color.cf);
+                    to_approve.setBackgroundResource(R.color.cf);
+
                     acthome.setTextColor(Color.WHITE);
                     srf_add.setTextColor(Color.WHITE);
                     srf_edit.setTextColor(Color.BLACK);
                     to_myaccount.setTextColor(Color.WHITE);
+                    to_approve.setTextColor(Color.WHITE);
+
                     acttitle.setText("VIEW SRF");
                 }
             }
@@ -1134,19 +1155,58 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     nav_closer();
                     to_account_setting();
+
                     acthome.setEnabled(true);
                     srf_add.setEnabled(true);
                     srf_edit.setEnabled(true);
                     to_myaccount.setEnabled(false);
+                    to_approve.setEnabled(true);
+
                     acthome.setBackgroundResource(R.color.cf);
                     srf_add.setBackgroundResource(R.color.cf);
                     srf_edit.setBackgroundResource(R.color.cf);
                     to_myaccount.setBackgroundResource(R.color.white);
+                    to_approve.setBackgroundResource(R.color.cf);
+
                     acthome.setTextColor(Color.WHITE);
                     srf_add.setTextColor(Color.WHITE);
                     srf_edit.setTextColor(Color.WHITE);
                     to_myaccount.setTextColor(Color.BLACK);
+                    to_approve.setTextColor(Color.WHITE);
+
                     acttitle.setText("MY ACCOUNT");
+                }
+            }
+        });
+        to_approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (discard_work == true){
+                    dialog_to_exit("DISCARD YOUR WORK ?", 9);
+                    discard_work = false;
+                }else {
+                    nav_closer();
+                    to_approval_section();
+
+                    acthome.setEnabled(true);
+                    srf_add.setEnabled(true);
+                    srf_edit.setEnabled(true);
+                    to_myaccount.setEnabled(true);
+                    to_approve.setEnabled(false);
+
+                    acthome.setBackgroundResource(R.color.cf);
+                    srf_add.setBackgroundResource(R.color.cf);
+                    srf_edit.setBackgroundResource(R.color.cf);
+                    to_myaccount.setBackgroundResource(R.color.cf);
+                    to_approve.setBackgroundResource(R.color.white);
+
+                    acthome.setTextColor(Color.WHITE);
+                    srf_add.setTextColor(Color.WHITE);
+                    srf_edit.setTextColor(Color.WHITE);
+                    to_myaccount.setTextColor(Color.WHITE);
+                    to_approve.setTextColor(Color.BLACK);
+
+                    acttitle.setText("NEW USERS TO APPROVE");
                 }
             }
         });
@@ -1277,6 +1337,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+/// admin section ----------------------------------------------------------------------------------------------------------------------------------------------------------
+        search_to_approve.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(applist != null){
+                    // getter adapter
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(applist  != null){
+                    approve_filter(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -1396,6 +1477,16 @@ public class MainActivity extends AppCompatActivity {
         }
        srf_adapter srf = new srf_adapter();
         srf.filterList(temp);
+    }
+    void approve_filter(String text) {
+        ArrayList<approval> temp = new ArrayList<>();
+        for (approval items : applist ){
+            if (items.getFirstname().contains(text.toUpperCase(Locale.ROOT)) || items.getLastname().contains(text.toUpperCase(Locale.ROOT)) || items.getEmpcode().contains(text.toUpperCase(Locale.ROOT)) || items.getUsername().contains(text.toUpperCase(Locale.ROOT))  ) {
+                temp.add(items);
+            }
+        }
+        approval_adapter appr = new approval_adapter();
+        appr.filterList(temp);
     }
 
     public void upload() {
@@ -1543,6 +1634,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
 
     } //12
@@ -1571,6 +1663,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
 
 
@@ -1617,6 +1710,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     } //3
     public void to_status_class() {
@@ -1659,6 +1753,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
 
     }// 10
@@ -1690,6 +1785,7 @@ public class MainActivity extends AppCompatActivity {
         actions_for_srf.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
         user.setFirstname(null);
         user.setLastname(null);
         user.setUsername(null);
@@ -1712,6 +1808,7 @@ public class MainActivity extends AppCompatActivity {
         signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
         image_viewer_form.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
         idle_trigger = true;
         req.setTextSize(18);
         if (getMenutrigger() == true) {
@@ -1736,6 +1833,7 @@ public class MainActivity extends AppCompatActivity {
             for_approval.setVisibility(View.GONE);
             add_androidID.setVisibility(View.GONE);
             get_emp_code_layout.setVisibility(View.GONE);
+
 
             String srf_status;
 
@@ -1857,6 +1955,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
 
     } // 11
@@ -1886,6 +1985,7 @@ public class MainActivity extends AppCompatActivity {
         for_approval.setVisibility(View.GONE);
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
 
             headcheck.setText("USERNAME: " + user.getFirstname().trim() + "\n" + "STATION NAME: " + station_adapter.getUni_stnname().trim() + " (" + station_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + cat_adapter.getUni_catname() + " (" + cat_adapter.getUni_catcode() + ") ");
@@ -1923,6 +2023,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }// 4
 
@@ -1987,6 +2088,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     } // 2
 
@@ -2016,6 +2118,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
         editheader.setTextColor(Color.parseColor("#0000FF"));
         editheader.setText("SRF NO : " + srf_adapter.getUni_srfcode() + "\nENCODED BY: " + srf_adapter.getUni_date().trim() + "\n" + "ENCODED BY: " + srf_adapter.getUni_user().trim() + "\n" + "STATION NAME: " + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " + "\n" + "CATERGORY: " + srf_adapter.getUni_catdesc().trim() + " (" + srf_adapter.getUni_catcode().trim() + ") " + "\n" + "CURRENT STATUS: " + srf_adapter.getUni_status().trim() + "\n"+ "REQUEST:\n\n"+srf_adapter.getUni_problem());
@@ -2050,6 +2153,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }// 9
 
@@ -2080,6 +2184,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
         edit_srf.setText("");
         String att = "";
@@ -2159,6 +2264,8 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
+
 
     }// 6
 
@@ -2185,6 +2292,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }
     public void to_get_empcode(){
@@ -2214,6 +2322,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.VISIBLE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }
     public void to_signature(){
@@ -2238,6 +2347,7 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }
     public void to_account_setting(){
@@ -2264,8 +2374,43 @@ public class MainActivity extends AppCompatActivity {
         add_androidID.setVisibility(View.GONE);
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.VISIBLE);
+        to_approve_layout.setVisibility(View.GONE);
 
     }
+
+    public void to_approval_section(){
+        to_approve_list.setVisibility(View.GONE);
+        to_approve_prog.setVisibility(View.VISIBLE);
+        norecord_to_approve.setVisibility(View.GONE);
+        call_back = 2;
+        new get_approve(MainActivity.this).execute(Domain.concat("admin_approval"));
+        signature.setVisibility(View.GONE);
+        actmenu.setVisibility(View.VISIBLE);
+        srf_login_form.setVisibility(View.GONE);
+        srf_station_form.setVisibility(View.GONE);
+        detailscon.setVisibility(View.GONE);
+        selectcat.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
+        menu_form.setVisibility(View.GONE);
+        srf_list_form.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_img_form.setVisibility(View.GONE);
+        view_srf_details_form.setVisibility(View.GONE);
+        status_class_form.setVisibility(View.GONE);
+        actions_for_srf.setVisibility(View.GONE);
+        image_viewer_form.setVisibility(View.GONE);
+        select_cat.setVisibility(View.GONE);
+        for_approval.setVisibility(View.GONE);
+        add_androidID.setVisibility(View.GONE);
+        get_emp_code_layout.setVisibility(View.GONE);
+        account_settings.setVisibility(View.GONE);
+        to_approve_layout.setVisibility(View.VISIBLE);
+
+    }
+    public void action_approval(){
+        new approval_action(MainActivity.this).execute(Domain.concat("admin_action/"+approval_adapter.getEmpcodeholder().trim()+"/"+approval_adapter.getActionholder().trim()));
+    }
+
 
     // end for layout init
 
@@ -2438,18 +2583,25 @@ public class MainActivity extends AppCompatActivity {
                         nav_closer();
                         menutrigger = true;
                         to_station();
+
                         acthome.setEnabled(true);
                         srf_add.setEnabled(false);
                         srf_edit.setEnabled(true);
                         to_myaccount.setEnabled(true);
+                        to_approve.setEnabled(true);
+
                         acthome.setBackgroundResource(R.color.cf);
                         srf_add.setBackgroundResource(R.color.white);
                         srf_edit.setBackgroundResource(R.color.cf);
                         to_myaccount.setBackgroundResource(R.color.cf);
+                        to_approve.setBackgroundResource(R.color.cf);
+
                         acthome.setTextColor(Color.WHITE);
                         srf_add.setTextColor(Color.BLACK);
                         srf_edit.setTextColor(Color.WHITE);
                         to_myaccount.setTextColor(Color.WHITE);
+                        to_approve.setTextColor(Color.WHITE);
+
                         acttitle.setText("ADD SRF");
 
                         edit_srf.setText("");
@@ -2459,18 +2611,25 @@ public class MainActivity extends AppCompatActivity {
                         nav_closer();
                         menutrigger = false;
                         to_station();
+
                         acthome.setEnabled(true);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(false);
                         to_myaccount.setEnabled(true);
+                        to_approve.setEnabled(true);
+
                         acthome.setBackgroundResource(R.color.cf);
                         srf_add.setBackgroundResource(R.color.cf);
                         srf_edit.setBackgroundResource(R.color.white);
                         to_myaccount.setBackgroundResource(R.color.cf);
+                        to_approve.setBackgroundResource(R.color.cf);
+
                         acthome.setTextColor(Color.WHITE);
                         srf_add.setTextColor(Color.WHITE);
                         srf_edit.setTextColor(Color.BLACK);
                         to_myaccount.setTextColor(Color.WHITE);
+                        to_approve.setTextColor(Color.WHITE);
+
                         acttitle.setText("VIEW SRF");
 
                         edit_srf.setText("");
@@ -2479,18 +2638,25 @@ public class MainActivity extends AppCompatActivity {
                     case 7 :
                         to_menuform();
                         nav_closer();
+
                         acthome.setEnabled(false);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(true);
                         to_myaccount.setEnabled(true);
+                        to_approve.setEnabled(true);
+
                         acthome.setBackgroundResource(R.color.white);
                         srf_add.setBackgroundResource(R.color.cf);
                         srf_edit.setBackgroundResource(R.color.cf);
                         to_myaccount.setBackgroundResource(R.color.cf);
+                        to_approve.setBackgroundResource(R.color.cf);
+
                         acthome.setTextColor(Color.BLACK);
                         srf_add.setTextColor(Color.WHITE);
                         srf_edit.setTextColor(Color.WHITE);
                         to_myaccount.setTextColor(Color.WHITE);
+                        to_approve.setTextColor(Color.WHITE);
+
                         acttitle.setText("SERVICE REQUEST FORM");
 
                         edit_srf.setText("");
@@ -2499,19 +2665,53 @@ public class MainActivity extends AppCompatActivity {
                     case 8:
                         nav_closer();
                         to_account_setting();
+
                         acthome.setEnabled(true);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(true);
                         to_myaccount.setEnabled(false);
+                        to_approve.setEnabled(true);
+
                         acthome.setBackgroundResource(R.color.cf);
                         srf_add.setBackgroundResource(R.color.cf);
                         srf_edit.setBackgroundResource(R.color.cf);
                         to_myaccount.setBackgroundResource(R.color.white);
+                        to_approve.setBackgroundResource(R.color.cf);
+
                         acthome.setTextColor(Color.WHITE);
                         srf_add.setTextColor(Color.WHITE);
                         srf_edit.setTextColor(Color.WHITE);
                         to_myaccount.setTextColor(Color.BLACK);
+                        to_approve.setTextColor(Color.WHITE);
+
                         acttitle.setText("MY ACCOUNT");
+
+                        edit_srf.setText("");
+                        editreq.setText("");
+                        break;
+                    case 9:
+                        nav_closer();
+                        to_approval_section();
+
+                        acthome.setEnabled(true);
+                        srf_add.setEnabled(true);
+                        srf_edit.setEnabled(true);
+                        to_myaccount.setEnabled(true);
+                        to_approve.setEnabled(false);
+
+                        acthome.setBackgroundResource(R.color.cf);
+                        srf_add.setBackgroundResource(R.color.cf);
+                        srf_edit.setBackgroundResource(R.color.cf);
+                        to_myaccount.setBackgroundResource(R.color.cf);
+                        to_approve.setBackgroundResource(R.color.white);
+
+                        acthome.setTextColor(Color.WHITE);
+                        srf_add.setTextColor(Color.WHITE);
+                        srf_edit.setTextColor(Color.WHITE);
+                        to_myaccount.setTextColor(Color.WHITE);
+                        to_approve.setTextColor(Color.BLACK);
+
+                        acttitle.setText("NEW USERS TO APPROVE");
 
                         edit_srf.setText("");
                         editreq.setText("");
@@ -3460,27 +3660,110 @@ public void srfadaptergetter(){
             super.onPostExecute(result);
             if (result != null) {
                 try {
-                    img_locList = new ArrayList<>();
+                    applist = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        String stn = object.getString("Stn");
-                        String srfno = object.getString("Srfno");
-                        String page = object.getString("Page");
-                        String file = object.getString("Filename");
-                        img_locList.add(new img_loc(stn.trim(), srfno.trim(), page.trim(), file.trim()));
 
+                        applist.add(new approval(object.getString("Fisrtname"),object.getString("Lastname"),object.getString("Username"),object.getString("Empcode"),object.getString("EmpDept"),object.getString("Date")));
                     }
-                    addsrfimages_adapter();
+                    approval_listadapter();
                 } catch (JSONException e) {
                     e.printStackTrace();
 
                 }
+                if (applist != null) {
+                    if (applist.size()  == 0){
+                        search_to_approve.setVisibility(View.GONE);
+                        norecord_to_approve.setVisibility(View.VISIBLE);
+                        to_approve_list.setVisibility(View.GONE);
+                        to_approve_prog.setVisibility(View.GONE);
+                    }else{
+                        if(applist.size() < 2){
+                            search_to_approve.setVisibility(View.GONE);
+                        }else{
+                            search_to_approve.setVisibility(View.VISIBLE);
+                        }
+                        norecord_to_approve.setVisibility(View.GONE);
+                        to_approve_list.setVisibility(View.VISIBLE);
+                        to_approve_prog.setVisibility(View.GONE);
+                    }
+                }else{
+                    search_to_approve.setVisibility(View.GONE);
+                    norecord_to_approve.setVisibility(View.VISIBLE);
+                    to_approve_list.setVisibility(View.GONE);
+                    to_approve_prog.setVisibility(View.GONE);
+                }
             } else {
-                dialog("UNABLE TO RETRIEVE IMAGES");
+                dialog("ERROR OCCURRED PLEASE RETRY");
 
             }
         }
+    }
+public void approval_listadapter(){
+    to_approve_list.setVisibility(View.VISIBLE);
+    to_approve_list.setHasFixedSize(true);
+    layoutManager = new LinearLayoutManager(MainActivity.this);
+    to_approve_list.setLayoutManager(layoutManager);
+    adapterforadminapprove= new approval_adapter(MainActivity.this, applist);
+    to_approve_list.setAdapter(adapterforadminapprove);
+}
+    class approval_action extends AsyncTask<String, Void, String> {
+        String status = null;
+        Activity context;
+
+        public approval_action(Activity context) {
+            this.context = context;
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... connUrl) {
+            BufferedReader reader;
+            try {
+
+                final URL url = new URL(connUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.addRequestProperty("Content-Type:", "application/json; charset=utf-8");
+                conn.setRequestMethod("GET");
+                int result = conn.getResponseCode();
+
+                if (result == 200) {
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    line = reader.readLine();
+                    status = line;
+
+                }
+                conn.disconnect();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                result = result.replaceAll("^\"|\"$", "");
+                if (result.trim().equals("TRUE")) {
+                    Toast.makeText(MainActivity.this, "DONE! REFRESHING LIST", Toast.LENGTH_LONG).show();
+                    to_approval_section();
+                } else if (result.trim().equals("FALSE")) {
+                    dialog("Unknown Problem Occurred");
+
+                }
+            } else {
+                dialog("Unknown Problem Occurred");
+            }
+        }
+
+
     }
 
     class deleteimages extends AsyncTask<String, Void, String> {

@@ -20,11 +20,34 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
 
 
     private  Context context;
+    private static String empcodeholder;
+    private static String actionholder;
+
+    public static String getEmpcodeholder() {
+        return empcodeholder;
+    }
+
+    public static void setEmpcodeholder(String empcodeholder) {
+        approval_adapter.empcodeholder = empcodeholder;
+    }
+
+    public static String getActionholder() {
+        return actionholder;
+    }
+
+    public static void setActionholder(String actionholder) {
+        approval_adapter.actionholder = actionholder;
+    }
+
     private  ArrayList<approval> aprovallist;
 
     public approval_adapter(Context context, ArrayList<approval> aprovallist) {
         this.context = context;
         this.aprovallist = aprovallist;
+    }
+
+    public approval_adapter() {
+
     }
 
     @NonNull
@@ -76,13 +99,11 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
                     int position = getAdapterPosition();
                     MainActivity ma = new MainActivity();
 
-                    if(aprovallist.size() != 0){
-                        approval ap= aprovallist.get(position);
 
-                        ma.del_image();
-                        ma.image_refresh();
-                        ma.addsrfimages_adapter();
-                    }
+                    approval ap= aprovallist.get(position);
+
+
+
                 }
             });
             approve.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +119,10 @@ public class approval_adapter extends RecyclerView.Adapter<approval_adapter.MyVi
         }
 
 
+    }
+    public void filterList(ArrayList<approval> filteredList){
+        aprovallist = filteredList;
+        notifyDataSetChanged();
     }
 
 }
