@@ -95,15 +95,15 @@ import okhttp3.Response;
 // ENCAPSULATE EVERYTHING
 public class MainActivity extends AppCompatActivity {
     //------------------------------------------------------------------------------------------------------------------- domain -----------------------------------------------------------
-    private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
-    //private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER
+    //private static final String Domain = "http://192.168.1.45:4545/CF_SRF_SERVICE.svc/"; // FOR TESTING
+    private static final String Domain = "http://122.53.122.154:81/srf_app/CF_SRF_SERVICE.svc/"; // ORIGINAL WEB SERVER --------
     private static RelativeLayout PARENT;
     private static String APP_UPDATE_SERVER_URL;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
-    private static final String version = "1.0.2";
+    private static final String version = "1.1.0_BETA_"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
