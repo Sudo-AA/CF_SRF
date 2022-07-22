@@ -103,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
-    private static final String version = "1.1.0_BETA_"; // TO COPY GITHUB
+    private static final int ACC_PROFILE = 8888;
+    private static final String version = "1.1.1_BETA_"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -795,7 +796,7 @@ public class MainActivity extends AppCompatActivity {
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             File photofile = null;
                             try {
-                                photofile = createImageFile("jpg");
+                                photofile = createImageFile();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -1233,12 +1234,13 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         pickIntent.setType("image/*");
-                        startActivityForResult(pickIntent, PROFILE_UP);
+                        startActivityForResult(pickIntent, ACC_PROFILE);
 
                     }
 
                 });
             }
+
         });
         edit_accout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1325,11 +1327,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile(String extention) throws IOException {
+    private File createImageFile() throws IOException {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, "."+extention, storageDir);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    private File sigImageFile() throws IOException {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "IMAGE_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".png", storageDir);
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -1354,13 +1372,15 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
             currentPhotoPath = path;
-            if (regist_trigger =  false){
-                new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+user.getEmpcode().trim()));
-            }else{
-                new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
-            }
+            new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
+        }else if (requestCode == ACC_PROFILE && resultCode == RESULT_OK){
+            Uri selectedImage = data.getData();
+            String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
+            currentPhotoPath = path;
+            new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+user.getEmpcode().trim()));
 
         }
+
     }
 
     void filter(String text) {
@@ -1482,7 +1502,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            OutputStream os = new BufferedOutputStream(new FileOutputStream(createImageFile("png")));
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(sigImageFile()));
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             OkHttpClient client = new OkHttpClient().newBuilder()
