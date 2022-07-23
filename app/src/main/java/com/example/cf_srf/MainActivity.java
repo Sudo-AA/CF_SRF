@@ -3257,28 +3257,38 @@ public class MainActivity extends AppCompatActivity {
             if (result != null) {
                 result = result.replaceAll("^\"|\"$", "");
                 Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
-                user_check.setVisibility(View.GONE);
-                stn_check.setVisibility(View.GONE);
-                cat.setVisibility(View.GONE);
-                req.setVisibility(View.GONE);
-                con_back.setVisibility(View.GONE);
-                con_details.setVisibility(View.GONE);
-                back_add_menu.setVisibility(View.VISIBLE);
-                edit_srf.setText("");
-                review_images.setVisibility(View.GONE);
-                noimage_attach.setVisibility(View.GONE);
-                prog_details.setVisibility(View.GONE);
-                attach_d.setVisibility(View.GONE);
-                sig_holder.setVisibility(View.GONE);
-                wit_signature.setVisibility(View.GONE);
-                gg.setText(result + "\n" + "THANKYOU");
-                con_details.setEnabled(true);
-                call_back = 2;
-                discard_work = false;
+                if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
+                    dialog(result + "\n" + "THANKYOU!!!");
+                    to_srflist();
+                }else {
+                    user_check.setVisibility(View.GONE);
+                    stn_check.setVisibility(View.GONE);
+                    cat.setVisibility(View.GONE);
+                    req.setVisibility(View.GONE);
+                    con_back.setVisibility(View.GONE);
+                    con_details.setVisibility(View.GONE);
+                    back_add_menu.setVisibility(View.VISIBLE);
+                    edit_srf.setText("");
+                    review_images.setVisibility(View.GONE);
+                    noimage_attach.setVisibility(View.GONE);
+                    prog_details.setVisibility(View.GONE);
+                    attach_d.setVisibility(View.GONE);
+                    sig_holder.setVisibility(View.GONE);
+                    wit_signature.setVisibility(View.GONE);
+                    gg.setText(result + "\n" + "THANKYOU");
+                    con_details.setEnabled(true);
+                    call_back = 2;
+                    discard_work = false;
+                }
             } else {
-                con_details.setEnabled(true);
-                dialog("ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
-                prog_details.setVisibility(View.GONE);
+                if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
+                    dialog("AN ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION");
+                }else {
+                    con_details.setEnabled(true);
+                    dialog("AN ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
+                    prog_details.setVisibility(View.GONE);
+                }
+
             }
         }
     }
