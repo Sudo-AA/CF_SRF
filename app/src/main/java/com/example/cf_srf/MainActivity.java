@@ -920,8 +920,13 @@ public class MainActivity extends AppCompatActivity {
         add_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new get_tech(MainActivity.this).execute(Domain.concat("get_tech/" + removeAllDigit(srf_adapter.getUni_catcode().trim()).trim()));
-                to_editform();
+                if (srf_adapter.getUni_status().trim().equals("8888")){
+
+
+                }else{
+                    new get_tech(MainActivity.this).execute(Domain.concat("get_tech/" + removeAllDigit(srf_adapter.getUni_catcode().trim()).trim()));
+                    to_editform();
+                }
 
             }
         });
@@ -2165,9 +2170,11 @@ public class MainActivity extends AppCompatActivity {
             if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
                 add_action.setVisibility(View.GONE);
             }else{
+                add_action.setText("APPROVE AND CLOSE");
                 add_action.setVisibility(View.VISIBLE);
             }
         }else{
+            add_action.setText("ADD ACTION");
             add_action.setVisibility(View.VISIBLE);
         }
 
@@ -2655,6 +2662,11 @@ public class MainActivity extends AppCompatActivity {
                         edit_srf.setText("");
                         editreq.setText("");
                         break;
+
+                    case 10: // FOR AM APPROVAL CLOSING
+                        new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/8888"));
+                        break;
+
                 }
             }
         });
