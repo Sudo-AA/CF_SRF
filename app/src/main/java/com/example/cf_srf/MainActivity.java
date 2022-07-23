@@ -921,8 +921,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (srf_adapter.getUni_status().trim().equals("8888")){
-
-
+                    dialog_to_exit("APPROVE THIS SRF ?" +
+                            "\n STATION: "+srf_adapter.getUni_stn().trim() +"("+srf_adapter.getUni_stncode().trim()+")" +
+                            "\n SRF NO: "+srf_adapter.getUni_srfcode().trim() +
+                            "\n REPORTED PROBLEM: " + srf_adapter.getUni_problem().trim(), 10);
                 }else{
                     new get_tech(MainActivity.this).execute(Domain.concat("get_tech/" + removeAllDigit(srf_adapter.getUni_catcode().trim()).trim()));
                     to_editform();
@@ -2485,7 +2487,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder2.setTitle("SRF notification");
         builder2.setMessage(msg);
-        builder2.setPositiveButton("OKAY", new DialogInterface.OnClickListener() {
+        builder2.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 switch (holder){
                     case 1:
@@ -2522,8 +2524,14 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
                             /// action
-                            new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()));
+                            if (status_class_adapter.getStatus_code().trim().equals("0001")){
+                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/TRUE"));
+
+                            }else{
+                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/FALSE"));
+                            }
                         }
+
                         break;
                     case 5:
                         nav_closer();
@@ -2664,7 +2672,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 10: // FOR AM APPROVAL CLOSING
-                        new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/8888"));
+                        new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/8888/TRUE"));
                         break;
 
                 }
