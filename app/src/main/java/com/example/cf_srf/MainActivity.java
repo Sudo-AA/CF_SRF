@@ -920,7 +920,7 @@ public class MainActivity extends AppCompatActivity {
         add_action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (srf_adapter.getUni_status().trim().equals("8888")){
+                if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
                     dialog_to_exit("APPROVE THIS SRF ?" +
                             "\n STATION: "+srf_adapter.getUni_stn().trim() +"("+srf_adapter.getUni_stncode().trim()+")" +
                             "\n SRF NO: "+srf_adapter.getUni_srfcode().trim() +
