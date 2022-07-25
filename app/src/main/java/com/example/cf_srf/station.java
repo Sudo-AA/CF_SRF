@@ -19,6 +19,8 @@ public class station{
         this.penTOTAL = penTOTAL;
     }
 
+
+
     public String getPenIT() {
         return penIT;
     }

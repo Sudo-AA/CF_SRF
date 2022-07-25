@@ -58,31 +58,67 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
         holder.stn_code.setText(station.getStn_code());
         holder.stn_name.setText(station.getStn_name());
 
-        if (MainActivity.getRegistration().equals(true)){
+        if (MainActivity.getMenutrigger().equals(true)){
             holder.IT.setVisibility(View.GONE);
             holder.ME.setVisibility(View.GONE);
             holder.MT.setVisibility(View.GONE);
-        }else{
+        }else if (MainActivity.getMenutrigger().equals(false)){
             holder.IT.setVisibility(View.VISIBLE);
             holder.ME.setVisibility(View.VISIBLE);
             holder.MT.setVisibility(View.VISIBLE);
             holder.text_it.setText(station.getPenIT());
             holder.text_me.setText(station.getPenME());
             holder.text_mt.setText(station.getPenMT());
-            if(station.getPenIT().equals("")){
+
+            if (MainActivity.getUsertype() == 1){
+                if(station.getPenIT().equals("") ||station.getPenIT().equals("0") ){
+                    holder.IT.setVisibility(View.GONE);
+                }else{
+                    holder.IT.setVisibility(View.VISIBLE);
+                }
+
+                if(station.getPenME().equals("") || station.getPenME().equals("0") ){
+                    holder.ME.setVisibility(View.GONE);
+                }else {
+                    holder.ME.setVisibility(View.VISIBLE);
+                }
+
+                if(station.getPenMT().equals("") || station.getPenMT().equals("0") ){
+                    holder.MT.setVisibility(View.GONE);
+                }else{
+                    holder.MT.setVisibility(View.VISIBLE);
+                }
+            }else if (MainActivity.getUsertype() == 2){
+
+                if(station.getPenIT().equals("") ||station.getPenIT().equals("0") ){
+                    holder.IT.setVisibility(View.GONE);
+                }else{
+                    holder.IT.setVisibility(View.VISIBLE);
+                }
+                    holder.ME.setVisibility(View.GONE);
+                    holder.MT.setVisibility(View.GONE);
+
+            }else if(MainActivity.getUsertype() == 3){
+
+                    holder.IT.setVisibility(View.GONE);
+
+                if(station.getPenME().equals("") || station.getPenME().equals("0") ){
+                    holder.ME.setVisibility(View.GONE);
+                }else {
+                    holder.ME.setVisibility(View.VISIBLE);
+                }
+
+                if(station.getPenMT().equals("") || station.getPenMT().equals("0") ){
+                    holder.MT.setVisibility(View.GONE);
+                }else{
+                    holder.MT.setVisibility(View.VISIBLE);
+                }
+            }else{
                 holder.IT.setVisibility(View.GONE);
-            }else{
-                holder.IT.setVisibility(View.VISIBLE);
-            }
-            if(station.getPenME().equals("")){
                 holder.ME.setVisibility(View.GONE);
-            }else{
-                holder.ME.setVisibility(View.VISIBLE);
-            }if(station.getPenMT().equals("")){
                 holder.MT.setVisibility(View.GONE);
-            }else{
-                holder.MT.setVisibility(View.VISIBLE);
             }
+
         }
 
     }
@@ -125,7 +161,7 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
         String name = station.getStn_name();
         uni_stncode = code;
         uni_stnname = name;
-        if(MainActivity.getRegistration().equals(false)){
+
             if(MainActivity.getMenutrigger().equals(true)){
                 ma = new MainActivity();
                 ma.to_catselect();
@@ -136,12 +172,6 @@ public class station_adapter extends RecyclerView.Adapter<station_adapter.MyView
                 ma.emptysearchbar();
             }
 
-        }else if(MainActivity.getRegistration().equals(true))
-        {
-            ma = new MainActivity();
-            ma.to_newacc();
-            ma.emptysearchbar();
-        }
 
         }
     }

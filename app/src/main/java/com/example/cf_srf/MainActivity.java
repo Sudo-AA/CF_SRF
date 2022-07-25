@@ -1,5 +1,7 @@
 package com.example.cf_srf;
 
+import static java.lang.Integer.parseInt;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -81,6 +83,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
     private static final int ACC_PROFILE = 8888;
-    private static final String version = "1.1.1_BETA_"; // TO COPY GITHUB
+    private static final String version = "1.1.3_BETA_"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -187,7 +192,16 @@ public class MainActivity extends AppCompatActivity {
     private static RecyclerView to_approve_list;
     private static ArrayList<approval> applist;
     private static ProgressBar to_approve_prog;
+    private static Boolean ops_trigger = false;
+    private static int usertype = 0;
 
+    public static int getUsertype() {
+        return usertype;
+    }
+
+    public static void setUsertype(int usertype) {
+        MainActivity.usertype = usertype;
+    }
 
     public static String getDept() {
         return dept;
@@ -1604,13 +1618,21 @@ public class MainActivity extends AppCompatActivity {
                img_locList = new ArrayList<img_loc>();
                img_locList.isEmpty();
                new getstation_method(MainActivity.this).execute(Domain.concat("getstation_method/" + user.getOps_area().trim()));
-               iden_dept.setText(Html.fromHtml("WITH PENDING : " +
-                       "<font color='#1100FF'> (IT) </font>" +
-                       "<font color='#FF9F12'> (ME) </font>" +
-                       "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+               if (getUsertype() == 1){
+                   iden_dept.setText(Html.fromHtml("WITH PENDING : " +
+                           "<font color='#1100FF'> (IT) </font>" +
+                           "<font color='#FF9F12'> (ME) </font>" +
+                           "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+               }else if (getUsertype() == 2){
+                   iden_dept.setText(Html.fromHtml("WITH PENDING : " +
+                           "<font color='#1100FF'> (IT) </font>"), TextView.BufferType.SPANNABLE);
+               }else if (getUsertype() == 3){
+                   iden_dept.setText(Html.fromHtml("WITH PENDING : " +
+                           "<font color='#FF9F12'> (ME) </font>" +
+                           "<font color='#FF0000'> (MT) </font>"), TextView.BufferType.SPANNABLE);
+               }
                call_back = 2;
                iden_dept.setVisibility(View.VISIBLE);
-
                idle_trigger = true;
            }else{
                img_locList = new ArrayList<img_loc>();
@@ -2172,8 +2194,12 @@ public class MainActivity extends AppCompatActivity {
             if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
                 add_action.setVisibility(View.GONE);
             }else{
-                add_action.setText("APPROVE AND CLOSE");
-                add_action.setVisibility(View.VISIBLE);
+                if(ops_trigger.equals(false)){
+                    add_action.setVisibility(View.GONE);
+                }else {
+                    add_action.setText("APPROVE AND CLOSE");
+                    add_action.setVisibility(View.VISIBLE);
+                }
             }
         }else{
             add_action.setText("ADD ACTION");
@@ -2364,6 +2390,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void adaptergetter() {
 
+        if (getUsertype() == 2){
+            Collections.sort(stnList, new Comparator<station>() {
+                @Override
+                public int compare(station o1, station o2) {
+                    return o1.getPenIT().compareTo(o2.getPenIT());
+                }
+            });
+            Collections.reverse(stnList);
+        }
+        else if (getUsertype() == 3){
+            Collections.sort(stnList, new Comparator<station>() {
+                @Override
+                public int compare(station o1, station o2) {
+                    return o1.getPenMT().compareTo(o2.getPenMT());
+                }
+            });
+            Collections.reverse(stnList);
+        }
 
         statrec.setVisibility(View.VISIBLE);
         statrec.setHasFixedSize(true);
@@ -4496,6 +4540,8 @@ public void approval_listadapter(){
 
     // ALL ACCESS
     public static void admin(){
+        setUsertype(1);
+        ops_trigger = true;
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
@@ -4504,6 +4550,8 @@ public void approval_listadapter(){
     }
     //ops area manager
     public static void ops(){
+        ops_trigger = true;
+        setUsertype(1);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
@@ -4512,6 +4560,8 @@ public void approval_listadapter(){
     }
     //IT
     public static void ITinter(){
+        ops_trigger = false;
+        setUsertype(2);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.GONE);
         me.setVisibility(View.GONE);
@@ -4520,6 +4570,8 @@ public void approval_listadapter(){
     }
     //MT and ME
     public static void engr(){
+        ops_trigger = false;
+        setUsertype(3);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
@@ -4528,6 +4580,8 @@ public void approval_listadapter(){
     }
     // GENERIC USER NO SRF VIEWING JUST ADD
     public static void genericuser(){
+        setUsertype(0);
+        ops_trigger = false;
         srf_edit.setVisibility(View.GONE);
         mt.setVisibility(View.GONE);
         me.setVisibility(View.GONE);
