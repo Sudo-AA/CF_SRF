@@ -816,7 +816,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
