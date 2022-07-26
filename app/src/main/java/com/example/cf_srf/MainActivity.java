@@ -4485,15 +4485,17 @@ public void approval_listadapter(){
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
         pieDataSet.setHighlightEnabled(true);
-        pieDataSet.setSliceSpace(0.5f);
-
-        //providing color list for coloring different entries
+        pieDataSet.setSliceSpace(0.01f);
+        pieDataSet.setValueLinePart1OffsetPercentage(66f);
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueLinePart1Length(0.37f);
+        pieDataSet.setValueLinePart2Length(0.1f);
         pieDataSet.setColors(colors);
-        pieDataSet.setValueLinePart1OffsetPercentage(1f);
         pieChart.getDescription().setText("PENDING AND ONGOING");
         pieChart.setExtraBottomOffset(5f);
         pieChart.setEntryLabelTextSize(8f);
         pieChart.setDrawEntryLabels(false);
+        pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setCenterText("SERVICE REQUEST FORM");
         //grouping the data set from entry to chartW
         PieData pieData = new PieData(pieDataSet);

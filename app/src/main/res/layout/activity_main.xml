@@ -736,8 +736,8 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="20dp"
-        android:visibility="gone"
+        android:padding="10dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -779,7 +779,7 @@
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="TOTAL PENDINGS AND ONPROCESS"
+                        android:text="TOTAL PENDINGS AND ONGOING"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
