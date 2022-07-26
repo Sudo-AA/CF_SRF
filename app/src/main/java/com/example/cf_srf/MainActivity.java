@@ -1993,6 +1993,17 @@ public class MainActivity extends AppCompatActivity {
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
         to_approve_layout.setVisibility(View.GONE);
+// for adding action and return
+        setStatus_trigger(false);
+        user_check.setVisibility(View.VISIBLE);
+        stn_check.setVisibility(View.VISIBLE);
+        cat.setVisibility(View.VISIBLE);
+        req.setVisibility(View.VISIBLE);
+        con_back.setVisibility(View.VISIBLE);
+        con_details.setVisibility(View.VISIBLE);
+        back_add_menu.setVisibility(View.GONE);
+        srf_editform.setVisibility(View.GONE);
+        attach_d.setVisibility(View.VISIBLE);
 
     }// 4
 
@@ -2041,6 +2052,7 @@ public class MainActivity extends AppCompatActivity {
         attach_img_form.setVisibility(View.GONE);
         menu_form.setVisibility(View.VISIBLE);
         srf_list_form.setVisibility(View.GONE);
+
         user_check.setVisibility(View.VISIBLE);
         stn_check.setVisibility(View.VISIBLE);
         cat.setVisibility(View.VISIBLE);
@@ -2050,10 +2062,10 @@ public class MainActivity extends AppCompatActivity {
         back_add_menu.setVisibility(View.GONE);
         srf_editform.setVisibility(View.GONE);
         attach_d.setVisibility(View.VISIBLE);
+
         view_srf_details_form.setVisibility(View.GONE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
-        select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
         for_approval.setVisibility(View.GONE);
@@ -3330,6 +3342,8 @@ public class MainActivity extends AppCompatActivity {
                     call_back = 4;
                     discard_work = false;
                     back_add_menu.setText("BACK TO SRF LIST");
+
+
                 }
             } else {
                 if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
@@ -4492,7 +4506,7 @@ public void approval_listadapter(){
         pieDataSet.setValueLinePart2Length(0.1f);
         pieDataSet.setColors(colors);
         pieChart.getDescription().setText("PENDING AND ONGOING");
-        pieChart.setExtraBottomOffset(5f);
+        pieChart.setExtraBottomOffset(10f);
         pieChart.setEntryLabelTextSize(8f);
         pieChart.setDrawEntryLabels(false);
         pieChart.setEntryLabelColor(Color.BLACK);
