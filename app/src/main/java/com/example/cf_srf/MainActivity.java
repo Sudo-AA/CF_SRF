@@ -704,7 +704,12 @@ public class MainActivity extends AppCompatActivity {
         back_add_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                to_menuform();
+                if (menutrigger.equals(true)){
+                    to_menuform();
+                }else{
+                    to_srflist();
+                }
+
             }
         });
 
@@ -3250,6 +3255,7 @@ public class MainActivity extends AppCompatActivity {
                 con_details.setEnabled(true);
                 discard_work = false;
                 call_back = 2;
+                back_add_menu.setText("BACK TO HOME");
             } else {
                 con_details.setEnabled(true);
                 dialog("ERROR OCCUR, PLEASE CHECK YOUR INTERNET CONNECTION AND CLICK CONFIRM AGAIN");
@@ -3321,8 +3327,9 @@ public class MainActivity extends AppCompatActivity {
                     wit_signature.setVisibility(View.GONE);
                     gg.setText(result + "\n" + "THANKYOU");
                     con_details.setEnabled(true);
-                    call_back = 2;
+                    call_back = 4;
                     discard_work = false;
+                    back_add_menu.setText("BACK TO SRF LIST");
                 }
             } else {
                 if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
