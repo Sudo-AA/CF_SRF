@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
     private static final int ACC_PROFILE = 8888;
-    private static final String version = "1.1.3_BETA_"; // TO COPY GITHUB
+    private static final String version = "1.1.4"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -4501,17 +4501,20 @@ public void approval_listadapter(){
         pieDataSet.setValueTextSize(12f);
         pieDataSet.setHighlightEnabled(true);
         pieDataSet.setSliceSpace(0.01f);
-        pieDataSet.setValueLinePart1OffsetPercentage(66f);
+        pieDataSet.setValueLinePart1OffsetPercentage(60f);
         pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        pieDataSet.setValueLinePart1Length(0.37f);
+        pieDataSet.setValueLinePart1Length(0.35f);
         pieDataSet.setValueLinePart2Length(0.1f);
         pieDataSet.setColors(colors);
         pieChart.getDescription().setText("PENDING AND ONGOING");
-        pieChart.setExtraBottomOffset(10f);
+        pieChart.setExtraBottomOffset(5f);
+        pieChart.setExtraLeftOffset(5f);
+        pieChart.setExtraRightOffset(5f);
         pieChart.setEntryLabelTextSize(8f);
         pieChart.setDrawEntryLabels(false);
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setCenterText("SERVICE REQUEST FORM");
+        pieChart.setDrawSlicesUnderHole(true);
         //grouping the data set from entry to chartW
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set
