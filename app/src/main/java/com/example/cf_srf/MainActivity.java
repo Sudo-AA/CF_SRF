@@ -2598,7 +2598,7 @@ public class MainActivity extends AppCompatActivity {
                         nav_closer();
                         menutrigger = true;
                         to_station();
-
+                        setStatus_trigger(false);
                         acthome.setEnabled(true);
                         srf_add.setEnabled(false);
                         srf_edit.setEnabled(true);
@@ -2626,7 +2626,7 @@ public class MainActivity extends AppCompatActivity {
                         nav_closer();
                         menutrigger = false;
                         to_station();
-
+                        setStatus_trigger(false);
                         acthome.setEnabled(true);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(false);
@@ -2653,7 +2653,7 @@ public class MainActivity extends AppCompatActivity {
                     case 7 :
                         to_menuform();
                         nav_closer();
-
+                        setStatus_trigger(false);
                         acthome.setEnabled(false);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(true);
@@ -2680,7 +2680,7 @@ public class MainActivity extends AppCompatActivity {
                     case 8:
                         nav_closer();
                         to_account_setting();
-
+                        setStatus_trigger(false);
                         acthome.setEnabled(true);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(true);
@@ -2707,7 +2707,7 @@ public class MainActivity extends AppCompatActivity {
                     case 9:
                         nav_closer();
                         to_approval_section();
-
+                        setStatus_trigger(false);
                         acthome.setEnabled(true);
                         srf_add.setEnabled(true);
                         srf_edit.setEnabled(true);
@@ -2733,6 +2733,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 10: // FOR AM APPROVAL CLOSING
+                        setStatus_trigger(false);
                         new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/8888/TRUE"));
                         break;
 
