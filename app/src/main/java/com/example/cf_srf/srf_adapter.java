@@ -35,6 +35,9 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
     private static String uni_srfupdate_date;
     private static String uni_srfaction;
     private static String uni_srfclosed;
+    private static String uni_age;
+
+
 
     public srf_adapter() {
 
@@ -97,6 +100,10 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         return uni_status;
     }
 
+    public static String getUni_age() {
+        return uni_age;
+    }
+
     private static Context context;
     private static MainActivity ma;
     private static ArrayList<srf> srf_list;
@@ -120,6 +127,9 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         String status = null;
         srf srf =  srf_list.get(position);
         holder.itemView.setTag(srf.get(position));
+        // newly add
+        holder.srf_age.setText(srf.getSRF_Date().trim()+" Day(s)");
+
         holder.srfdate.setText(Html.fromHtml("SRF DATE:  <font color='#323332'>"+srf.getSRF_Date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.srfuser.setText(Html.fromHtml("ENCODED BY:  <font color='#323332'>"+srf.getSRF_User().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.srfstn.setText(Html.fromHtml("BRANCH:  <font color='#323332'>"+srf.getSRF_Stn().trim()+" ("+srf.getSRF_StnCode().trim()+") "+"</font>"), TextView.BufferType.SPANNABLE);
@@ -152,9 +162,9 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
     }
 
     public class MyView extends RecyclerView.ViewHolder{
-        TextView srfdate, srfuser, srfstn, srfcat, srf_prob,srfstatus,srfattach,srfupdateby, srfaction, closed_date;
+        TextView srfdate, srfuser, srfstn, srfcat, srf_prob,srfstatus,srfattach,srfupdateby, srfaction, closed_date, srf_age;
         CardView srf_Card;
-        LinearLayout hideimage;
+        LinearLayout hideimage, header;
         public MyView(@NonNull View itemView) {
             super(itemView);
             srf_Card = itemView.findViewById(R.id.srfcard);
@@ -169,12 +179,16 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             srfaction = (TextView) itemView.findViewById(R.id.sr_action);
             closed_date = (TextView) itemView.findViewById(R.id.sr_close_date);
             hideimage = (LinearLayout) itemView.findViewById(R.id.hide_image);
+            // newly add
+            header = (LinearLayout) itemView.findViewById(R.id.header);
+            srf_age = (TextView) itemView.findViewById(R.id.srf_age);
+
             srf_Card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     srf srf = srf_list.get(position);
-
+                    uni_age =  srf.getSRF_age();
                     uni_stn = srf.getSRF_Stn();
                     uni_stncode = srf.getSRF_StnCode().trim();
                     uni_file = srf.getSRF_attach().trim();

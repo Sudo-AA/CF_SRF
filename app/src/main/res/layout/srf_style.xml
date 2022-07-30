@@ -29,25 +29,42 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foreground="@color/cardview_shadow_end_color"
                     android:gravity="center_vertical"
+                    android:background="@color/black"
                     android:orientation="horizontal"
                     tools:layout_editor_absoluteX="1dp"
                     android:paddingBottom="5dp"
+                    android:weightSum="4"
                     tools:layout_editor_absoluteY="1dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.6"
-                        android:background="@color/black"
-                        android:gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
+                        android:gravity="left"
                         android:padding="2dp"
                         android:text="SERVICE REQUEST FORM"
                         android:textColor="@color/white"
                         android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/srf_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="3"
+                        android:gravity="right"
+                        android:padding="2dp"
+                        android:text="99 days"
+                        android:textColor="@color/MT"
+                        android:textSize="16dp" />
+
 
                 </LinearLayout>
 

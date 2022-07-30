@@ -17,8 +17,9 @@ public class srf {
     private String SRF_update_date;
     private String SRF_actions;
     private String SRF_close_date;
+    private String SRF_age;
 
-    public srf(String SRF_Stn, String SRF_StnCode, String SRF_No, String SRF_Date, String SRF_CatCode, String SRF_Desc, String SRF_Problem, String SRF_User, String SRF_Status, String SRF_attach, String SRF_updated_by, String SRF_update_date, String SRF_actions, String SRF_close_date) {
+    public srf(String SRF_Stn, String SRF_StnCode, String SRF_No, String SRF_Date, String SRF_CatCode, String SRF_Desc, String SRF_Problem, String SRF_User, String SRF_Status, String SRF_attach, String SRF_updated_by, String SRF_update_date, String SRF_actions, String SRF_close_date, String SRF_age) {
         this.SRF_Stn = SRF_Stn;
         this.SRF_StnCode = SRF_StnCode;
         this.SRF_No = SRF_No;
@@ -33,6 +34,15 @@ public class srf {
         this.SRF_update_date = SRF_update_date;
         this.SRF_actions = SRF_actions;
         this.SRF_close_date = SRF_close_date;
+        this.SRF_age = SRF_age;
+    }
+
+    public String getSRF_age() {
+        return SRF_age;
+    }
+
+    public void setSRF_age(String SRF_age) {
+        this.SRF_age = SRF_age;
     }
 
     public String getSRF_close_date() {

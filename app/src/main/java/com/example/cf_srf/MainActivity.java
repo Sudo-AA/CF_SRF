@@ -2184,7 +2184,8 @@ public class MainActivity extends AppCompatActivity {
 
             new view_images(MainActivity.this).execute(Domain + "imageret/" + srf_adapter.getUni_stncode().trim() + "/" + srf_adapter.getUni_srfcode().trim());
         }
-        content = "DATE:  <font color='#005eb8'>" + srf_adapter.getUni_date().trim() +"</font>"+
+        content ="AGE:  <font color='#005eb8'>" + srf_adapter.getUni_age() +"DAY(S)</font>"+ // to continue
+                "DATE:  <font color='#005eb8'>" + srf_adapter.getUni_date().trim() +"</font>"+
                 "<br>SRF NO:  <font color='#005eb8'>" + srf_adapter.getUni_srfcode().trim() +"</font>"+
                 "<br>ENCODED BY:  <font color='#005eb8'>" + srf_adapter.getUni_user().trim() +"</font>"+
                 "<br>BRANCH:  <font color='#005eb8'>" + srf_adapter.getUni_stn().trim() + " (" + srf_adapter.getUni_stncode().trim() + ") " +"</font>"+
@@ -3408,7 +3409,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        srfList.add(new srf(object.getString("SRF_Stn"), object.getString("SRF_StnCode"), object.getString("SRF_No"), object.getString("SRF_Date"), object.getString("SRF_CatCode"), object.getString("SRF_CatDesc"), object.getString("SRF_Problem"), object.getString("SRF_User"), object.getString("SRF_Status"), object.getString("Images_status"), object.getString("Updated_by"),object.getString("Updated_date"),object.getString("Action"), object.getString("Closed_date")));
+                        srfList.add(new srf(object.getString("SRF_Stn"), object.getString("SRF_StnCode"), object.getString("SRF_No"), object.getString("SRF_Date"), object.getString("SRF_CatCode"), object.getString("SRF_CatDesc"), object.getString("SRF_Problem"), object.getString("SRF_User"), object.getString("SRF_Status"), object.getString("Images_status"), object.getString("Updated_by"),object.getString("Updated_date"),object.getString("Action"), object.getString("Closed_date"),object.getString("Day_age")));
                     }
                     srfadaptergetter();
                     srfrec.setVisibility(View.VISIBLE);
