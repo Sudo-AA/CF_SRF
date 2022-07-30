@@ -2184,7 +2184,7 @@ public class MainActivity extends AppCompatActivity {
 
             new view_images(MainActivity.this).execute(Domain + "imageret/" + srf_adapter.getUni_stncode().trim() + "/" + srf_adapter.getUni_srfcode().trim());
         }
-        content ="AGE:  <font color='#005eb8'>" + srf_adapter.getUni_age() +" DAY(S)</font>"+ // to continue
+        content ="AGE:  <font color='#005eb8'>" + srf_adapter.getUni_age() +" DAY(S)</font>"+ // age done
                 "<br>DATE:  <font color='#005eb8'>" + srf_adapter.getUni_date().trim() +"</font>"+
                 "<br>SRF NO:  <font color='#005eb8'>" + srf_adapter.getUni_srfcode().trim() +"</font>"+
                 "<br>ENCODED BY:  <font color='#005eb8'>" + srf_adapter.getUni_user().trim() +"</font>"+
