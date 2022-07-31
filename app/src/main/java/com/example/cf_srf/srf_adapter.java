@@ -151,7 +151,7 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         }
 
         if(srf.getSRF_close_date().trim().equals("0")){
-
+            holder.srf_age.setVisibility(View.VISIBLE);
             if (srf.getSRF_age().trim().equals("0")){// newly added
                 holder.srf_age.setText("NEW");
             }else{
