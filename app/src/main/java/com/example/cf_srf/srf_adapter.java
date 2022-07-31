@@ -149,26 +149,20 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             holder.srfaction.setText(Html.fromHtml("ACTION(S):  <font color='#005eb8'>"+"WITH ACTION(S)"+"</font>"), TextView.BufferType.SPANNABLE);
         }
 
-        if(srf.getSRF_close_date().trim().equals("0")){
-            holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='#323332'>"+ "NOT CLOSED YET"+"</font>"), TextView.BufferType.SPANNABLE);
-        }else{
-
-            holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='red'>"+srf.getSRF_close_date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
-        }
-
-        // newly added
-        if(!srf.getSRF_close_date().trim().equals("0")){
-            holder.srf_age.setVisibility(View.GONE);
-        }else{
-
+        if(srf.getSRF_close_date().trim().equals("NOT CLOSED YET")){
+            holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='#323332'>"+srf.getSRF_close_date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
             holder.srf_age.setVisibility(View.VISIBLE);
             if (srf.getSRF_age().trim().equals("0")){// newly added
                 holder.srf_age.setText("NEW");
             }else{
                 holder.srf_age.setText(srf.getSRF_age().trim()+" Day(s)");
             }
+        }else{
 
+            holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='red'>"+srf.getSRF_close_date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
+            holder.srf_age.setVisibility(View.GONE);
         }
+
     }
 
     @Override
