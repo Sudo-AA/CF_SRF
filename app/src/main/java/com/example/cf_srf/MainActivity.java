@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
     private static final int ACC_PROFILE = 8888;
-    private static final String version = "1.1.4"; // TO COPY GITHUB
+    private static final String version = "1.1.5"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
