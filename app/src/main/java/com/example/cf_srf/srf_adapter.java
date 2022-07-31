@@ -128,7 +128,12 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         srf srf =  srf_list.get(position);
         holder.itemView.setTag(srf.get(position));
         // newly add
-        holder.srf_age.setText(srf.getSRF_age().trim()+" Day(s)");
+
+        if (srf.getSRF_age().trim().equals("0")){
+            holder.srf_age.setText("NEW");
+        }else{
+            holder.srf_age.setText(srf.getSRF_age().trim()+" Day(s)");
+        }
 
         holder.srfdate.setText(Html.fromHtml("SRF DATE:  <font color='#323332'>"+srf.getSRF_Date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.srfuser.setText(Html.fromHtml("ENCODED BY:  <font color='#323332'>"+srf.getSRF_User().trim()+"</font>"), TextView.BufferType.SPANNABLE);
