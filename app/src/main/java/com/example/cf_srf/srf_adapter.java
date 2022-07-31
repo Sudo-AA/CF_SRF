@@ -127,7 +127,6 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         String status = null;
         srf srf =  srf_list.get(position);
         holder.itemView.setTag(srf.get(position));
-        // newly add
 
         holder.srf_age.setVisibility(View.VISIBLE);
         if (srf.getSRF_age().trim().equals("0")){// newly added
@@ -135,7 +134,6 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         }else{
             holder.srf_age.setText(srf.getSRF_age().trim()+" Day(s)");
         }
-
 
         holder.srfdate.setText(Html.fromHtml("SRF DATE:  <font color='#323332'>"+srf.getSRF_Date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         holder.srfuser.setText(Html.fromHtml("ENCODED BY:  <font color='#323332'>"+srf.getSRF_User().trim()+"</font>"), TextView.BufferType.SPANNABLE);
@@ -157,7 +155,6 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
         }
 
         if(srf.getSRF_close_date().trim().equals("0")){
-
             holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='#323332'>"+ "NOT CLOSED YET"+"</font>"), TextView.BufferType.SPANNABLE);
         }else{
             holder.srf_age.setVisibility(View.GONE);
