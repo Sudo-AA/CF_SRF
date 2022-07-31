@@ -159,6 +159,7 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             }
             holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='#323332'>"+ "NOT CLOSED YET"+"</font>"), TextView.BufferType.SPANNABLE);
         }else{
+            holder.srf_age.setVisibility(View.GONE);
             holder.closed_date.setText(Html.fromHtml("CLOSED DATE:  <font color='red'>"+srf.getSRF_close_date().trim()+"</font>"), TextView.BufferType.SPANNABLE);
         }
     }
