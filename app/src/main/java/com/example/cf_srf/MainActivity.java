@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     // account settings ------------------------------------------------------
     private static RelativeLayout account_settings;
     private static LinearLayout to_hide_set, to_show_set;
-    private static TextView edit_user, old_pass, acc_newpass, acc_con_newpass, acc_set_details;
+    private static TextView edit_user, old_pass, acc_newpass, acc_con_newpass, acc_set_details, dept_header;
     private static Button edit_accout, acc_cancel_changes, acc_save_changes, Change_profile, to_myaccount;
     private static CircleImageView acc_profile_image;
 
@@ -318,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
         to_approve_prog = findViewById(R.id.to_approve_prog);
         to_approve_list = findViewById(R.id.to_approve_list);
         to_approve = findViewById(R.id.to_approve); // to continue
+        dept_header =  findViewById(R.id.dept_header);
         // account setting ----------------------------------------------------------------------------------------
         account_settings = findViewById(R.id.account_settings);
         acc_profile_image = findViewById(R.id.acc_profile_image);
@@ -1651,6 +1652,8 @@ public class MainActivity extends AppCompatActivity {
 
     }//1
     public void to_dept(){
+        dept_header.setText("SELECT DEPARTMENT\n" +
+                "BRANCH: " +station_adapter.getUni_stnname().trim());
         discard_work = false;
         signature.setVisibility(View.GONE);
         actmenu.setVisibility(View.VISIBLE);
@@ -1687,7 +1690,8 @@ public class MainActivity extends AppCompatActivity {
                 statusprog.setVisibility(View.VISIBLE);
                 discard_work = false;
                 call_back = 3;
-                status_header.setText("SELECT STATUS TO VIEW");
+                status_header.setText("SELECT STATUS TO VIEW\n" +
+                        "BRANCH: " +station_adapter.getUni_stnname().trim()+"\n("+ getDept_desc()+")");
                 new getstatus_class(MainActivity.this).execute(Domain.concat("status/"+station_adapter.getUni_stncode().trim()+"/"+getDept().trim()));
 
             }else{
@@ -2582,15 +2586,15 @@ public class MainActivity extends AppCompatActivity {
                         if (getMenutrigger() == true) {
                             //addd
 
-                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode() + "/" + cat_adapter.getUni_catcode() + "/" + cat_adapter.getUni_catname() + "/" + editreq.getText() + "/" +user.getFirstname()+"/9999".trim()));
+                                new getreq_method(MainActivity.this).execute(Domain.concat("addservicerequest/" + station_adapter.getUni_stncode().trim() + "/" + cat_adapter.getUni_catcode().trim() + "/" + cat_adapter.getUni_catname().trim() + "/" + editreq.getText().toString().trim() + "/" +user.getFirstname().trim()+"/9999").trim());
 
                         } else {
                             /// action
                             if (status_class_adapter.getStatus_code().trim().equals("0001")){
-                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/TRUE"));
+                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/TRUE").trim());
 
                             }else{
-                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/FALSE"));
+                                new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/"+edit_srf.getText().toString().trim()+"/"+user.getFirstname().trim()+"/"+technician_adapter.getEmpcode()+" "+"/"+status_class_adapter.getStatus_code().trim()+"/FALSE").trim());
                             }
                         }
 
@@ -2735,7 +2739,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case 10: // FOR AM APPROVAL CLOSING
                         setStatus_trigger(false);
-                        new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/8888/TRUE"));
+                        new add_action_method(MainActivity.this).execute(Domain.concat("add_action/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim()+"/DONE AND COMPLETE/"+user.getFirstname().trim()+"/"+" "+"/0001/TRUE"));
                         break;
 
                 }
@@ -3324,6 +3328,8 @@ public class MainActivity extends AppCompatActivity {
                 if (srf_adapter.getUni_status().trim().equals("FOR AM APPROVAL")){
                     dialog(result + "\n" + "THANKYOU!!!");
                     to_srflist();
+                    technician_adapter.setEmpcode(null);
+                    technician_adapter.setEmpname(null);
                 }else {
                     user_check.setVisibility(View.GONE);
                     stn_check.setVisibility(View.GONE);
@@ -3344,6 +3350,8 @@ public class MainActivity extends AppCompatActivity {
                     call_back = 4;
                     discard_work = false;
                     back_add_menu.setText("BACK TO SRF LIST");
+                    technician_adapter.setEmpcode(null);
+                    technician_adapter.setEmpname(null);
 
 
                 }
