@@ -26,6 +26,8 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 6666;
     private static final int PROFILE_UP = 7777;
     private static final int ACC_PROFILE = 8888;
-    private static final String version = "1.1.5"; // TO COPY GITHUB
+    private static final String version = "1.1.6"; // TO COPY GITHUB
     private static String versioncontrol ;
     // for in active handler
     private static Handler idle_handler;
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     // category search
     private static TextView cat_search;
     private static TextView srf_search;
-
+    private static String blockCharacterSet = "~#^|$%&*!/";
     // universal progressbar
     private static RelativeLayout prog_layout;
 
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private static ProgressBar to_approve_prog;
     private static Boolean ops_trigger = false;
     private static int usertype = 0;
+    private static Boolean semiAccess = false;
 
     public static int getUsertype() {
         return usertype;
@@ -392,6 +395,8 @@ public class MainActivity extends AppCompatActivity {
         editreq = findViewById(R.id.requestedit);
         edit_srf = findViewById(R.id.srf_edit);
         searchbar = findViewById(R.id.srf_searchstn);
+        edit_srf.setFilters(new InputFilter[] { filter });
+        editreq.setFilters(new InputFilter[] { filter });
         // RELATIVELAYOUT HERE
         srf_login_form = findViewById(R.id.login_form);
         srf_station_form = findViewById(R.id.station_form);
@@ -2210,7 +2215,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if(getStatus_holder().equals("0001")) {
+        if(getStatus_holder().equals("0001") || semiAccess.equals(true) ) {
             add_action.setVisibility(View.GONE);
         }else if (getStatus_holder().trim().equals("8888")){
             if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
@@ -3088,7 +3093,8 @@ public class MainActivity extends AppCompatActivity {
                     if(getStatus_trigger().equals(false)) {
                         if (status_list != null) {
                             if (status_list.size() != 0) {
-                                status_header.setText("SELECT STATUS TO VIEW");
+                                status_header.setText("SELECT STATUS TO VIEW\n" +
+                                        "BRANCH: " +station_adapter.getUni_stnname().trim()+"\n("+ getDept_desc()+")");
                             } else {
                                 status_header.setText("NO DATA YET");
                             }
@@ -3186,6 +3192,8 @@ public class MainActivity extends AppCompatActivity {
                             ITinter();
                         }else if (user.getEmpdept().trim().equals("ENGR")) {
                             engr();
+                        }else if (user.getEmpdept().trim().equals("AUDIT")) {
+                            audit();
                         }else{
                             if (!user.getOps_area().equals("9999")){
                                 ops();
@@ -4578,6 +4586,7 @@ public void approval_listadapter(){
     public static void admin(){
         setUsertype(1);
         ops_trigger = true;
+        semiAccess = false;
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
         me.setVisibility(View.VISIBLE);
@@ -4587,6 +4596,7 @@ public void approval_listadapter(){
     //ops area manager
     public static void ops(){
         ops_trigger = true;
+        semiAccess = false;
         setUsertype(1);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
@@ -4597,6 +4607,7 @@ public void approval_listadapter(){
     //IT
     public static void ITinter(){
         ops_trigger = false;
+        semiAccess = false;
         setUsertype(2);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.GONE);
@@ -4607,6 +4618,7 @@ public void approval_listadapter(){
     //MT and ME
     public static void engr(){
         ops_trigger = false;
+        semiAccess = false;
         setUsertype(3);
         srf_edit.setVisibility(View.VISIBLE);
         mt.setVisibility(View.VISIBLE);
@@ -4614,9 +4626,21 @@ public void approval_listadapter(){
         it.setVisibility(View.GONE);
         to_approve.setVisibility(View.GONE);
     }
+    public static void audit(){
+        ops_trigger = false;
+        semiAccess = true;
+        setUsertype(1);
+        srf_edit.setVisibility(View.VISIBLE);
+        srf_add.setVisibility(View.VISIBLE);
+        mt.setVisibility(View.VISIBLE);
+        me.setVisibility(View.VISIBLE);
+        it.setVisibility(View.VISIBLE);
+        to_approve.setVisibility(View.GONE);
+    }
     // GENERIC USER NO SRF VIEWING JUST ADD
     public static void genericuser(){
         setUsertype(0);
+        semiAccess = false;
         ops_trigger = false;
         srf_edit.setVisibility(View.GONE);
         mt.setVisibility(View.GONE);
@@ -4650,4 +4674,15 @@ public void approval_listadapter(){
         acc_newpass.setVisibility(View.GONE);
         acc_con_newpass.setVisibility(View.GONE);
     }
+    private InputFilter filter = new InputFilter() {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
 }
