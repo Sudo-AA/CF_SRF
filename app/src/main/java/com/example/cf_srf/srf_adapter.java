@@ -138,6 +138,7 @@ public class srf_adapter extends RecyclerView.Adapter<srf_adapter.MyView>{
             //holder.srfattach.setText(Html.fromHtml("IMAGE ATTACHMENT/S:  <font color='#323332'>NO ATTACHMENTS</font>"), TextView.BufferType.SPANNABLE);
             holder.hideimage.setVisibility(View.GONE);
         }else if(srf.getSRF_attach().trim().equals("TRUE")){
+            holder.hideimage.setVisibility(View.VISIBLE);
             holder.srfattach.setText(Html.fromHtml(" <font color='#323332'>WITH IMAGE ATTACHMENT/S</font>"), TextView.BufferType.SPANNABLE);
         }
 

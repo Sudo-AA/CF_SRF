@@ -176,6 +176,15 @@
 
 
     </RelativeLayout>
+    <TextView
+        android:id="@+id/vercode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <!--station list-->
     <RelativeLayout
         android:id="@+id/station_form"
@@ -1798,7 +1807,7 @@
         android:background="@color/cf"
         android:backgroundTint="@color/cf"
         android:gravity="center_vertical"
-        android:padding="20dp"
+        android:padding="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -1812,9 +1821,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:padding="5dp"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="2dp">
 
             <ScrollView
+                style="@android:style/Widget.Holo.ScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -1827,13 +1837,6 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        app:srcCompat="@drawable/new_logo3_06_border_1080"
-                        tools:srcCompat="@drawable/new_logo3_06_border_1080" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -1860,18 +1863,57 @@
                         android:textColor="@color/black"
                         android:textSize="14dp" />
 
+                    <TextView
+                        android:id="@+id/imgheader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:text="UPLOADED IMAGE(S)"
+                        android:textColor="@color/cf"
+                        android:textSize="14dp"
+                        android:visibility="gone" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/view_imagelist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
                         android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/actheader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:text="SERVICE REPORT ACTION"
+                        android:textColor="@color/cf"
+                        android:textSize="14dp"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/view_actions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -1889,7 +1931,7 @@
                             android:textColor="@color/white"
                             android:textSize="15dp"
                             app:iconPadding="1dp" />
-
+                        <!--removed-->
                         <Button
                             android:id="@+id/view_action"
                             style="@style/Widget.AppCompat.Button.Colored"
@@ -1903,6 +1945,7 @@
                             android:text="VIEW ACTION(S)"
                             android:textColor="@color/white"
                             android:textSize="15dp"
+                            android:visibility="gone"
                             app:iconPadding="1dp" />
 
                         <Button
@@ -2016,7 +2059,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
-    <!--ACTION VIEWER PER SRF-->
+    <!--ACTION VIEWER PER SRF_____________________________TEMPORARY REMOVED-->
     <RelativeLayout
         android:id="@+id/actions_for_srf"
         android:layout_width="match_parent"
@@ -2077,13 +2120,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/view_actions"
-                            android:layout_width="match_parent"
-                            android:layout_height="401dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:visibility="gone" />
+
 
                         <ProgressBar
                             android:id="@+id/progressBar3"
@@ -2888,14 +2925,6 @@
     </RelativeLayout>
 
     <!--VERSION INDICATOR-->
-    <TextView
-        android:id="@+id/vercode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

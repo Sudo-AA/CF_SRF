@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     private static String regemp;
     private static String regfname;
     private static String reglname;
-    private static TextView wit_signature;
+    private static TextView wit_signature, actheader, imgheader;
     // init for info holder variables--------------------------
     private static String img_stn_code;
     private static Boolean discard_work;
@@ -329,6 +329,8 @@ public class MainActivity extends AppCompatActivity {
         to_show_set = findViewById(R.id.to_show_set);
         edit_accout = findViewById(R.id.edit_accout);
         to_myaccount = findViewById(R.id.to_myaccount);
+        actheader =findViewById(R.id.actheader);
+        imgheader=findViewById(R.id.imgheader);
 
 // signaturepad -----------------------------------------------------------------------------------------
         signature_pad = (SignaturePad) findViewById(R.id.signature_pad);
@@ -2176,7 +2178,6 @@ public class MainActivity extends AppCompatActivity {
         view_srf_details_form.setVisibility(View.VISIBLE);
         status_class_form.setVisibility(View.GONE);
         actions_for_srf.setVisibility(View.GONE);
-        view_action.setVisibility(View.VISIBLE);
         select_cat.setVisibility(View.GONE);
         select_cat.setVisibility(View.GONE);
         image_viewer_form.setVisibility(View.GONE);
@@ -2185,6 +2186,8 @@ public class MainActivity extends AppCompatActivity {
         get_emp_code_layout.setVisibility(View.GONE);
         account_settings.setVisibility(View.GONE);
         to_approve_layout.setVisibility(View.GONE);
+        // temporally removed
+        view_action.setVisibility(View.GONE);
 
         edit_srf.setText("");
         String att = "";
@@ -2192,10 +2195,12 @@ public class MainActivity extends AppCompatActivity {
         if (srf_adapter.getUni_file().trim().equals("FALSE")) {
             att = "NO ATTACHMENTS";
             view_imagelist.setVisibility(View.GONE);
+            imgheader.setVisibility(View.GONE);
 
         } else if (srf_adapter.getUni_file().trim().equals("TRUE")) {
             att = "WITH ATTACHMENTS";
             view_imagelist.setVisibility(View.VISIBLE);
+            imgheader.setVisibility(View.VISIBLE);
 
             new view_images(MainActivity.this).execute(Domain + "imageret/" + srf_adapter.getUni_stncode().trim() + "/" + srf_adapter.getUni_srfcode().trim());
         }
@@ -2216,9 +2221,13 @@ public class MainActivity extends AppCompatActivity {
 
         // action list shower --------------------------------------------------------------------------------------------------------------
         if (srf_adapter.getUni_srfaction().trim().equals("NO ACTIONS YET") ||srf_adapter.getUni_srfaction().trim() == "NO ACTIONS YET"){
-            view_action.setVisibility(View.GONE);
+            //view_action.setVisibility(View.GONE);
+            view_actions.setVisibility(View.GONE);
+            actheader.setVisibility(View.GONE);
         }else{
-            view_action.setVisibility(View.VISIBLE);
+            new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());
+            //view_action.setVisibility(View.VISIBLE);
+            actheader.setVisibility(View.VISIBLE);
         }
 
 
@@ -2244,13 +2253,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     }// 5
-
+    // temporally removed
     public void to_view_actions() {
         discard_work = false;
         actmenu.setVisibility(View.VISIBLE);
         call_back = 5;
         idle_trigger = false;
-        new getaction_method(MainActivity.this).execute(Domain + "get_action_per_srf/"+srf_adapter.getUni_stncode().trim()+"/"+srf_adapter.getUni_srfcode().trim());
+
         signature.setVisibility(View.GONE);
         srf_login_form.setVisibility(View.GONE);
         srf_station_form.setVisibility(View.VISIBLE);
