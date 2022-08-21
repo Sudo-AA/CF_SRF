@@ -15,16 +15,19 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/cf_logo"
-        android:label="CLEAN FUEL SRF ver 1.1.6"
+        android:label="CLEAN FUEL SRF"
         android:roundIcon="@drawable/cf_logo_new"
-        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="31"
-        android:usesCleartextTraffic= "true">
-        <provider android:authorities="com.example.cf_srf.fileprovider"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <provider android:authorities="com.CLEANFUEL.cf_srf"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

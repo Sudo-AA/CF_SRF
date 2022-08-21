@@ -1,7 +1,5 @@
 package com.example.cf_srf;
 
-import static java.lang.Integer.parseInt;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -32,19 +31,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -72,7 +66,6 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -85,7 +78,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -815,7 +807,9 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 upload_trigger = true;
-                runOnUiThread(new Runnable() {
+
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
                     public void run() {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -826,14 +820,14 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (photofile != null) {
-                                Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.cf_srf.fileprovider", photofile);
+                                Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), "com.CLEANFUEL.cf_srf", photofile);
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                                 startActivityForResult(intent, CAMERA_REQUEST);
                             }
                         }
                     }
-
                 });
+
             }
         });
         get_image_from_files.setOnClickListener(new View.OnClickListener() {
@@ -1388,23 +1382,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            if (getMenutrigger() == true) {
-                new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
-            }
-        } else if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
 
+        } else if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
             currentPhotoPath = path;
-            if (getMenutrigger() == true) {
-                    new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
+            new upimagename(MainActivity.this).execute(Domain.concat("addfile/" + station_adapter.getUni_stncode().trim()));
 
-            }
+
+            //profile picture new user
         }else if (requestCode == PROFILE_UP && resultCode == RESULT_OK){
             Uri selectedImage = data.getData();
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
             currentPhotoPath = path;
             new up_profilename(MainActivity.this).execute(Domain.concat("profilename/"+regemp.trim()));
+            // addprofile old user
         }else if (requestCode == ACC_PROFILE && resultCode == RESULT_OK){
             Uri selectedImage = data.getData();
             String path = ImageFilePath.getPath(MainActivity.this, selectedImage);
@@ -1449,80 +1442,89 @@ public class MainActivity extends AppCompatActivity {
 
     public void upload() {
 
-        try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-            }
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            MediaType mediaType = MediaType.parse("image/jpg");
-            RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
-            Request request = new Request.Builder()
-                    .url(Domain+"FileUpload")
-                    .method("POST", body)
-                    .addHeader("Content-Type", "image/jpg")
-                    .build();
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
-                if (upload_trigger.equals(true)) {
-                    File file = new File(currentPhotoPath);
-                    file.delete();
-                }
+                try {
+                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                    }
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("image/jpg");
+                    RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
+                    Request request = new Request.Builder()
+                            .url(Domain+"FileUpload")
+                            .method("POST", body)
+                            .addHeader("Content-Type", "image/jpg")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+                        if (upload_trigger.equals(true)) {
 
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        if (getMenutrigger() == true) {
-
-                            new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
+                        File file = new File(currentPhotoPath);
+                        file.delete();
 
                         }
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (getMenutrigger() == true) {
+
+                                    new get_imagelist(MainActivity.this).execute(Domain.concat("imageret/" + station_adapter.getUni_stncode() + "/" + img_stn_code.trim()));// basic user
+
+                                }
+                            }
+                        });
+
                     }
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
     }
     public void upprofile() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                    }
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("image/jpg");
+                    RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
+                    Request request = new Request.Builder()
+                            .url(Domain+"ProfileUpload")
+                            .method("POST", body)
+                            .addHeader("Content-Type", "image/jpg")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
+                        if (upload_trigger.equals(true)) {
+                            File file = new File(currentPhotoPath);
+                            file.delete();
+                        }
+                        if (!regist_trigger){
+                            Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + user.getEmpcode().trim()+ ".jpg");
+                            profilebmp = pathName;
+                            acc_profile_image.setImageBitmap(profilebmp);
+                        }else{
+                            Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + regemp + ".jpg");
+                            profilebmp = pathName;
+                            new_profile_image.setImageBitmap(profilebmp);
+                        }
 
-        try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            MediaType mediaType = MediaType.parse("image/jpg");
-            RequestBody body = RequestBody.create(mediaType, new File(currentPhotoPath));
-            Request request = new Request.Builder()
-                    .url(Domain+"ProfileUpload")
-                    .method("POST", body)
-                    .addHeader("Content-Type", "image/jpg")
-                    .build();
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Toast.makeText(MainActivity.this, response.body().toString().trim(), Toast.LENGTH_LONG).show();
-                if (upload_trigger.equals(true)) {
-                    File file = new File(currentPhotoPath);
-                    file.delete();
-                }
-                if (!regist_trigger){
-                    Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + user.getEmpcode().trim()+ ".jpg");
-                    profilebmp = pathName;
-                    acc_profile_image.setImageBitmap(profilebmp);
-                }else{
-                    Bitmap pathName = getBitmapFromURL(Domain + "Profilegeter/" + regemp + ".jpg");
-                    profilebmp = pathName;
-                    new_profile_image.setImageBitmap(profilebmp);
-                }
+        });
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
     }
     public void upsignature(Bitmap bitmap) {
@@ -2120,6 +2122,10 @@ public class MainActivity extends AppCompatActivity {
     }// 7
 
     public void to_upload_img() {
+        if(img_locList.size() != 0){
+           image_refresh();
+           addsrfimages_adapter();
+        }
         discard_work = true;
         image_branch_notifier.setText("ATTACH IMAGE/S" + "\nBRANCH: " + station_adapter.getUni_stnname().trim() + "\n note: no image attachments? click confirm to continue");
         actmenu.setVisibility(View.VISIBLE);
@@ -2203,10 +2209,12 @@ public class MainActivity extends AppCompatActivity {
                 "<br><br>SRF STATUS:  <font color='#005eb8'>" + srf_adapter.getUni_status().trim() +"</font>"+
                 "<br>LAST UPDATE BY:  <font color='#005eb8'>"+srf_adapter.getUni_srfupdateby().trim()+"</font>"+
                 "<br>LAST UPDATE DATE:  <font color='#005eb8'>"+srf_adapter.getUni_srfupdate_date().trim()+"</font>"+
-                "<br>NUMBER OF ACTION(S) TAKEN:  <font color='#005eb8'>" +srf_adapter.getUni_srfaction().trim()+"</font>"+
+                "<br>ACTION(S):  <font color='#005eb8'>" +srf_adapter.getUni_srfaction().trim()+"</font>"+
                 "<br>CLOSED DATE:  <font color='red'>" + srf_adapter.getUni_srfclosed().trim()+"</font>"+
                 "<br>IMAGE ATTACHMENT/S:  <font color='#005eb8'>" + att+"</font>";
         view_srf_details.setText(Html.fromHtml(content), TextView.BufferType.SPANNABLE);
+
+        // action list shower --------------------------------------------------------------------------------------------------------------
         if (srf_adapter.getUni_srfaction().trim().equals("NO ACTIONS YET") ||srf_adapter.getUni_srfaction().trim() == "NO ACTIONS YET"){
             view_action.setVisibility(View.GONE);
         }else{
@@ -2214,8 +2222,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-        if(getStatus_holder().equals("0001") || semiAccess.equals(true) ) {
+        if(getStatus_holder().equals("0001") || semiAccess.equals(true) || getStatus_holder().equals("0016") ) { // newly added rejected
             add_action.setVisibility(View.GONE);
         }else if (getStatus_holder().trim().equals("8888")){
             if (!srf_adapter.getUni_srfclosed().trim().equals("NOT CLOSED YET")){
@@ -3497,11 +3504,16 @@ public void srfadaptergetter(){
                 img_stn_code = result;
                 Toast.makeText(MainActivity.this, "UPLOADING FILE PLEASE WAIT.......", Toast.LENGTH_LONG).show();
                 upload();
+
             } else {
                 Toast.makeText(MainActivity.this, "UPLOAD FILE FAILED", Toast.LENGTH_LONG).show();
 
             }
         }
+
+
+
+
     }
     class up_profilename extends AsyncTask<String, Void, String> {
 

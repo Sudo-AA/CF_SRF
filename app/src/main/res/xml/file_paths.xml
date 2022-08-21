@@ -2,5 +2,5 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <external-path
         name="my_images"
-        path="Android/data/com.example.cf_srf/files/Pictures"/>
+        path="Android/data/com.CLEANFUEL.cf_srf/files/Pictures"/>
 </paths>
